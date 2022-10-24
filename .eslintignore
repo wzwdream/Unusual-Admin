@@ -1,0 +1,4 @@
+# eslint规则忽略这些文件
+node_modules/
+dist/
+index.html
