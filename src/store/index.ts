@@ -9,5 +9,10 @@ export const useMainStore = defineStore("main", {
         };
     },
     getters: {},
-    actions: {}
-});
+    actions: {
+        changeAction(val: string) {
+            this.msg = val
+        }
+    },
+    persist: true
+})

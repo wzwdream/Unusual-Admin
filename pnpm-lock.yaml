@@ -7,6 +7,7 @@ specifiers:
   eslint: ^8.26.0
   eslint-plugin-vue: ^9.6.0
   pinia: ^2.0.23
+  pinia-plugin-persistedstate: ^2.3.0
   sass: ^1.55.0
   typescript: ^4.6.4
   vite: ^3.1.0
@@ -17,6 +18,7 @@ specifiers:
 dependencies:
   '@vitejs/plugin-vue-jsx': registry.npmmirror.com/@vitejs/plugin-vue-jsx/2.0.1_vite@3.1.8+vue@3.2.41
   pinia: registry.npmmirror.com/pinia/2.0.23_l7r24p6nevbtlimqmqcwa3ouhu
+  pinia-plugin-persistedstate: registry.npmmirror.com/pinia-plugin-persistedstate/2.3.0_pinia@2.0.23
   sass: registry.npmmirror.com/sass/1.55.0
   vue: registry.npmmirror.com/vue/3.2.41
   vue-router: registry.npmmirror.com/vue-router/4.1.6_vue@3.2.41
@@ -1947,6 +1949,20 @@ packages:
     name: picomatch
     version: 2.3.1
     engines: {node: '>=8.6'}
+
+  registry.npmmirror.com/pinia-plugin-persistedstate/2.3.0_pinia@2.0.23:
+    resolution: {integrity: sha512-K7vzt68Z3lbMDjb23Ki2vgHVBP2QFvjl7WNwzIwqY/DAkhSt8mi/z6bN/cXTst7fJjXWF0lC9NyxFKHfxWehuw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pinia-plugin-persistedstate/-/pinia-plugin-persistedstate-2.3.0.tgz}
+    id: registry.npmmirror.com/pinia-plugin-persistedstate/2.3.0
+    name: pinia-plugin-persistedstate
+    version: 2.3.0
+    peerDependencies:
+      pinia: ^2.0.0
+    peerDependenciesMeta:
+      pinia:
+        optional: true
+    dependencies:
+      pinia: registry.npmmirror.com/pinia/2.0.23_l7r24p6nevbtlimqmqcwa3ouhu
+    dev: false
 
   registry.npmmirror.com/pinia/2.0.23_l7r24p6nevbtlimqmqcwa3ouhu:
     resolution: {integrity: sha512-N15hFf4o5STrxpNrib1IEb1GOArvPYf1zPvQVRGOO1G1d74Ak0J0lVyalX/SmrzdT4Q0nlEFjbURsmBmIGUR5Q==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pinia/-/pinia-2.0.23.tgz}

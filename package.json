@@ -12,6 +12,7 @@
   "dependencies": {
     "@vitejs/plugin-vue-jsx": "^2.0.1",
     "pinia": "^2.0.23",
+    "pinia-plugin-persistedstate": "^2.3.0",
     "sass": "^1.55.0",
     "vue": "^3.2.37",
     "vue-router": "^4.1.6"
