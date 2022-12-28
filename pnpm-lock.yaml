@@ -14,6 +14,7 @@ specifiers:
   unplugin-auto-import: ^0.11.4
   unplugin-vue-components: ^0.22.9
   vite: ^3.1.0
+  vite-plugin-vue-setup-extend: ^0.4.0
   vue: ^3.2.37
   vue-router: ^4.1.6
   vue-tsc: ^0.40.4
@@ -36,6 +37,7 @@ devDependencies:
   unplugin-auto-import: registry.npmmirror.com/unplugin-auto-import/0.11.4
   unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.22.9_vue@3.2.41
   vite: registry.npmmirror.com/vite/3.1.8_sass@1.55.0
+  vite-plugin-vue-setup-extend: registry.npmmirror.com/vite-plugin-vue-setup-extend/0.4.0_vite@3.1.8
   vue-tsc: registry.npmmirror.com/vue-tsc/0.40.13_typescript@4.8.4
 
 packages:
@@ -2455,6 +2457,7 @@ packages:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz}
     name: sourcemap-codec
     version: 1.4.8
+    deprecated: Please use @jridgewell/sourcemap-codec instead
 
   registry.npmmirror.com/strip-ansi/6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/strip-ansi/-/strip-ansi-6.0.1.tgz}
@@ -2695,6 +2698,19 @@ packages:
     dependencies:
       evtd: registry.npmmirror.com/evtd/0.2.4
       vue: registry.npmmirror.com/vue/3.2.41
+    dev: true
+
+  registry.npmmirror.com/vite-plugin-vue-setup-extend/0.4.0_vite@3.1.8:
+    resolution: {integrity: sha512-WMbjPCui75fboFoUTHhdbXzu4Y/bJMv5N9QT9a7do3wNMNHHqrk+Tn2jrSJU0LS5fGl/EG+FEDBYVUeWIkDqXQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-vue-setup-extend/-/vite-plugin-vue-setup-extend-0.4.0.tgz}
+    id: registry.npmmirror.com/vite-plugin-vue-setup-extend/0.4.0
+    name: vite-plugin-vue-setup-extend
+    version: 0.4.0
+    peerDependencies:
+      vite: '>=2.0.0'
+    dependencies:
+      '@vue/compiler-sfc': registry.npmmirror.com/@vue/compiler-sfc/3.2.41
+      magic-string: registry.npmmirror.com/magic-string/0.25.9
+      vite: registry.npmmirror.com/vite/3.1.8_sass@1.55.0
     dev: true
 
   registry.npmmirror.com/vite/3.1.8_sass@1.55.0:

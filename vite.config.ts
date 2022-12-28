@@ -5,6 +5,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import * as path from 'path';
 
 export default defineConfig({
@@ -17,6 +18,7 @@ export default defineConfig({
     plugins: [
         vue(),
         vueJsx(),
+        VueSetupExtend(), // setup语法糖name增强插件
         // 自动引入APi
         AutoImport({
             imports: [
