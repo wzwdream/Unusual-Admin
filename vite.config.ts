@@ -21,16 +21,27 @@ export default defineConfig({
         VueSetupExtend(), // setup语法糖name增强插件
         // 自动引入APi
         AutoImport({
+            include: [
+                /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+                /\.vue$/, /\.vue\?vue/, // .vue
+                /\.md$/, // .md
+            ],
             imports: [
                 'vue',
                 'vue-router',
-                {'naive-ui': [
-                    'useDialog',
-                    'useMessage',
-                    'useNotification',
-                    'useLoadingBar'
-                ]} // 自动导入naive-ui的api
-            ]
+                {
+                    'naive-ui': [
+                        'useDialog',
+                        'useMessage',
+                        'useNotification',
+                        'useLoadingBar'
+                    ]
+                } // 自动导入naive-ui的api
+            ],
+            // eslint报错处理
+            eslintrc: {
+                enabled: true // 报错undefined
+            }
         }),
         // 自动引入组件
         Components({
