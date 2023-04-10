@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host  0.0.0.0",
     "build": "vue-tsc --noEmit && vite build",
     "dev:docs": "cd site && yarn docs:dev",
     "build:docs": "cd site && yarn docs:build",
@@ -16,6 +16,7 @@
     "pinia": "^2.0.23",
     "pinia-plugin-persistedstate": "^2.3.0",
     "sass": "^1.55.0",
+    "terser": "^5.16.8",
     "vue": "^3.2.37",
     "vue-router": "^4.1.6"
   },

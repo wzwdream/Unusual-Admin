@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
-import drag from '../components/drag.vue'
 import HelloWorld from '../components/HelloWorld.vue'
 const routes: RouteRecordRaw[] = [
     {
@@ -11,8 +10,8 @@ const routes: RouteRecordRaw[] = [
         component: HelloWorld
     },
     {
-        path: '/drag',
-        component: drag
+        path: '/layout',
+        component: () => import('../views/gridLayoutTest.vue')
     }
 ]
 
