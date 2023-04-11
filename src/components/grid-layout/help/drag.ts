@@ -60,7 +60,7 @@ const useDrage = (data: Parameter) => {
         if (isLayoutChanged(newData, newItem)) {
             if (collisionDetection(newData, newItem)) {
                 const collidingIndexes = getCollidingIndexes(newData, newItem)
-                const data = collisionAvoidanceForItems(newData, collidingIndexes)
+                const data = collisionAvoidanceForItems(newData, collidingIndexes, dragData.col)
                 data.forEach(item => {
                     if (item.id !== propsId.value) {
                         const { index } = findIndexById(dragData.data, item.id)

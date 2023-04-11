@@ -96,16 +96,16 @@ export const collisionDetection = (layout: Layout, newItem: LayoutItem): boolean
  * @param itemIndex 做规避的元素
  * @returns 重新计算后的布局数据
  */
-export const collisionAvoidanceForItem = (layout: Layout, itemId: string): Layout => {
+export const collisionAvoidanceForItem = (layout: Layout, itemId: string, col :number): Layout => {
     const { index, data: item } = findIndexById(layout, itemId)
     const { w } = item
     let x = item.x
     let y = item.y
     while (collisionDetection(layout, { ...item, x, y })) {
-        if (x + w < 12) {
+        if (x + w <= col) {
             x++
         } else {
-            x = 0
+            x = 1
             y++
         }
     }
@@ -136,10 +136,10 @@ export const getCollidingIndexes = (layout: Layout, item: LayoutItem): string[] 
  * @param itemIndexs 所有与指定item发生碰撞的布局项的索引
  * @returns 新的布局数据
  */
-export const collisionAvoidanceForItems = (layout: LayoutItem[], itemIds: string[]): LayoutItem[] => {
+export const collisionAvoidanceForItems = (layout: LayoutItem[], itemIds: string[], col: number): LayoutItem[] => {
     let newLayout = [...layout]
     for (const itemId of itemIds) {
-        newLayout = collisionAvoidanceForItem(newLayout, itemId)
+        newLayout = collisionAvoidanceForItem(newLayout, itemId, col)
     }
     return newLayout
 }
