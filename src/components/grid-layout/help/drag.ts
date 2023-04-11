@@ -1,5 +1,5 @@
 import { Parameter, LayoutItem, HandleType } from '../types/index'
-import { calcBoundary, findIndexById } from '../help/utils'
+import { calcBoundary, collisionAvoidanceForItems, collisionDetection, deepClone, findIndexById, getCollidingIndexes, isLayoutChanged } from '../help/utils'
 const useDrage = (data: Parameter) => {
     const isDraging = ref(false) // 是否拖拽中
     const propsId = ref('') // 当前操作的item的id
@@ -49,6 +49,28 @@ const useDrage = (data: Parameter) => {
         if (handleType === 'resize') {
             drageItem.w = (w + moveX) <= 0 ? 1 : (w +moveX)
             drageItem.h = (h + moveY) <= 0 ? 1 : (h + moveY)
+        }
+        const newItem = {
+            ...drageItem,
+            id: propsId.value
+        }
+        const newData = deepClone(dragData.data)
+        const { index } = findIndexById(newData, propsId.value)
+        newData[index] = newItem
+        if (isLayoutChanged(newData, newItem)) {
+            if (collisionDetection(newData, newItem)) {
+                const collidingIndexes = getCollidingIndexes(newData, newItem)
+                const data = collisionAvoidanceForItems(newData, collidingIndexes)
+                data.forEach(item => {
+                    if (item.id !== propsId.value) {
+                        const { index } = findIndexById(dragData.data, item.id)
+                        dragData.data.splice(index, 1, item)
+                    }
+                })
+            } else {
+                dragData.data[dragingData.value.index] = dragingData.value.data
+                dragData.data.splice(dragingData.value.index, 1, dragingData.value.data)
+            }
         }
     }
     /**
