@@ -101,12 +101,28 @@ export const collisionAvoidanceForItem = (layout: Layout, itemId: string, col :n
     const { w } = item
     let x = item.x
     let y = item.y
+    let toLeft = true
+    let toRight = false
+    let toUp = true
+    let toDown = false
+    // 先向左找位置，在向右找位置，找不到就向上找，最后向下找
     while (collisionDetection(layout, { ...item, x, y })) {
-        if (x + w <= col) {
-            x++
+        if (x > 1 && toLeft) {
+            x --
+        } else if (x === 1 && !toRight) {
+            toLeft = false
+            toRight = true
+        } else if (x + w <= col) {
+            x ++
+        } else if (toUp && y > 1) {
+            x = 1
+            y --
+        } else if (y === 1 && !toDown) {
+            toUp = false
+            toDown = true
         } else {
             x = 1
-            y++
+            y ++
         }
     }
     layout.splice(index, 1, { ...item, x, y })
@@ -136,7 +152,7 @@ export const getCollidingIndexes = (layout: Layout, item: LayoutItem): string[] 
  * @param itemIndexs 所有与指定item发生碰撞的布局项的索引
  * @returns 新的布局数据
  */
-export const collisionAvoidanceForItems = (layout: LayoutItem[], itemIds: string[], col: number): LayoutItem[] => {
+export const collisionAvoidanceForItems = (layout: Layout, itemIds: string[], col: number): Layout => {
     let newLayout = [...layout]
     for (const itemId of itemIds) {
         newLayout = collisionAvoidanceForItem(newLayout, itemId, col)

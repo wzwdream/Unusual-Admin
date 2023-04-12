@@ -118,13 +118,14 @@ provide(key, provideData)
     gap: v-bind('style.gap');
     overflow-x: hidden;
     touch-action: none;
+
+    .dragingItem {
+        width: 100%;
+        height: 100%;
+        background-color: #2c7ec2;
+        grid-area: v-bind('style.yStart') / v-bind('style.xStart') / v-bind('style.yEnd') / v-bind('style.xEnd');
+        z-index: 5;
+    }
 }
 
-.dragingItem {
-    width: 100%;
-    height: 100%;
-    background-color: #2c7ec2;
-    grid-area: v-bind('style.yStart') / v-bind('style.xStart') / v-bind('style.yEnd') / v-bind('style.xEnd');
-    z-index: 5;
-}
 </style>

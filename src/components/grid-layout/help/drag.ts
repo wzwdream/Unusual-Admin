@@ -18,7 +18,7 @@ const useDrage = (data: Parameter) => {
     /**
      * 初始化数据
      */
-    const dragData = reactive<Parameter>(data)
+    const dragData = reactive<Parameter>(deepClone(data))
     /**
      * 开始拖拽，记录当前操作的item的初始数据
      * @param id 当前操作的item的id
