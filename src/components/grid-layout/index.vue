@@ -1,15 +1,19 @@
 <template>
-    <div class="grid-layout" ref="gridLayout">
-        <slot />
-        <div v-show="isDraging" class="dragingItem"></div>
+    <div class="grid">
+        <canvas v-show="isDrawGridLines" ref="canvas" class="canvas"></canvas>
+        <div class="grid-layout" ref="gridLayout">
+            <slot />
+            <div v-show="isDraging" class="dragingItem"></div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts" name="Grid">
 import { Layout, DraggableStart, DraggableHandle, DraggableEnd, Removes, HandleType, LayoutItem } from './types/index'
 import { key } from './help/key'
-import useDrage from './help/drag'
-import { calcColWidth } from './help/utils'
+import useDrage from './help/useDrage'
+import useLayout from './help/useLayout'
+import { calcColWidth, calcHeight, drawGridLines } from './help/utils';
 // 默认props
 interface PropsType {
     data: Layout, // 布局数据
@@ -19,6 +23,7 @@ interface PropsType {
     resize?: boolean, // 是否可缩放
     remove?: boolean, // 是否可删除
     gutter?: number, // 网格间距
+    isDrawGridLines?: boolean // 网格线
 }
 const props = withDefaults(defineProps<PropsType>(), {
     col: 12,
@@ -26,23 +31,34 @@ const props = withDefaults(defineProps<PropsType>(), {
     drage: true,
     resize: true,
     remove: true,
-    gutter: 10
+    gutter: 10,
+    isDrawGridLines: true
 })
+/**
+ * 初始化数据
+ */
+const canvas = ref<HTMLCanvasElement>()
 /**
  * 引用hook，分离拖拽、缩放、删除的逻辑代码
  */
-const { dragData, draggableStart, draggableHandle, draggableEnd, style, isDraging, colWidth, removes, propsId, dragingData } = useDrage(props)
+const { dragData, draggableStart, draggableHandle, draggableEnd, isDraging, removes, propsId, dragingstyle } = useDrage(props)
+const { rowHeight, colWidth, layoutStyle, updateStyle } = useLayout()
 /**
  * 保证hook中的数据是最新数据
  */
-watch(() => props, (val) => {
-    dragData.data = val.data
-    dragData.drage = val.drage
-    dragData.rowH = val.rowH
-    dragData.col = val.col
-    dragData.gutter = val.gutter
-    dragData.resize = val.resize
-    dragData.remove = val.remove
+watchEffect( () => {
+    // 绘制网格线
+    if (canvas.value && gridLayout.value && props.isDrawGridLines) {
+        drawGridLines(canvas.value, rowHeight.value, gridLayout.value.clientWidth, colWidth.value, dragData.rowH, dragData.gutter)
+    }
+    dragData.data = props.data
+    dragData.drage = props.drage
+    dragData.rowH = props.rowH
+    dragData.col = props.col
+    dragData.gutter = props.gutter
+    dragData.resize = props.resize
+    dragData.remove = props.remove
+    updateStyle(dragData.col, dragData.rowH, dragData.gutter)
 })
 /**
  * 抛出emit事件
@@ -62,8 +78,9 @@ const dragStart: DraggableStart = (id: string) => {
     emit('draggableStart', id)
 }
 const dragHandle: DraggableHandle = (shiftX: number, shiftY: number, handleType?: HandleType) => {
-    draggableHandle(shiftX, shiftY, handleType)
-    emit('draggableHandle', propsId.value, dragingData.value.data)
+    const { newData, newItem } = draggableHandle(shiftX, shiftY, colWidth.value, handleType)
+    rowHeight.value = calcHeight(dragData.rowH, dragData.gutter, newData)
+    emit('draggableHandle', propsId.value, newItem)
 }
 const dragEnd: DraggableEnd = () => {
     draggableEnd()
@@ -76,7 +93,7 @@ const remove: Removes = (id: string) => {
     emit('remove', id)
 }
 /**
- * 计算每个item的宽度
+ * 计算每个item的宽度高度
  */
 const gridLayout = ref<HTMLDivElement | null>(null)
 const calcWidth = () => {
@@ -87,6 +104,7 @@ const calcWidth = () => {
 }
 onMounted(() => {
     calcWidth()
+    rowHeight.value = calcHeight(props.rowH, props.gutter, props.data)
     window.onresize = calcWidth
 })
 /**
@@ -110,22 +128,31 @@ provide(key, provideData)
 </script>
 
 <style scoped lang="scss">
-.grid-layout {
-    display: grid;
-    place-items: center center;
-    grid-template-columns: v-bind('style.gridTemplateColumns');
-    grid-auto-rows: v-bind('style.gridAutoRows');
-    gap: v-bind('style.gap');
-    overflow-x: hidden;
-    touch-action: none;
+.grid {
+    position: relative;
 
-    .dragingItem {
-        width: 100%;
-        height: 100%;
-        background-color: #2c7ec2;
-        grid-area: v-bind('style.yStart') / v-bind('style.xStart') / v-bind('style.yEnd') / v-bind('style.xEnd');
-        z-index: 5;
+    .grid-layout {
+        display: grid;
+        place-items: center center;
+        grid-template-columns: v-bind('layoutStyle.gridTemplateColumns');
+        grid-auto-rows: v-bind('layoutStyle.gridAutoRows');
+        gap: v-bind('layoutStyle.gap');
+        height: v-bind('layoutStyle.height');
+        overflow-x: hidden;
+        touch-action: none;
+        .dragingItem {
+            width: 100%;
+            height: 100%;
+            background-color: #2c7ec2;
+            grid-area: v-bind('dragingstyle.yStart') / v-bind('dragingstyle.xStart') / v-bind('dragingstyle.yEnd') / v-bind('dragingstyle.xEnd');
+            z-index: 5;
+        }
+    }
+
+    .canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 }
-
 </style>

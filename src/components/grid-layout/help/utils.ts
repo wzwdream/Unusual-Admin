@@ -1,4 +1,4 @@
-import { Layout, LayoutItem } from '../types/index'
+import { Layout } from "../types"
 
 /**
  * 计算每一列的宽度
@@ -7,8 +7,26 @@ import { Layout, LayoutItem } from '../types/index'
  * @param boxWidth 容器宽度
  * @returns 每列的宽度
  */
-export const calcColWidth = (col: number, gutter: number, boxWidth: number,): number => {
+export const calcColWidth = (col: number, gutter: number, boxWidth: number): number => {
     return (boxWidth - (col - 1) * gutter) / col
+}
+/**
+ * 计算布局的高度
+ * @param rowH 每列高度
+ * @param gutter 间距
+ * @param layout 布局数据
+ * @returns 计算的高度
+ */
+export const calcHeight = (rowH: number, gutter: number, layout: Layout): number => {
+    let y = 0, h = 0
+    layout.forEach(element => {
+        const { y: y1, h: h1 } = element
+        if (y1 + h1 > y + h) {
+            y = y1
+            h = h1
+        }
+    })
+    return (y + h - 2) * gutter + (y + h - 1) * rowH + rowH + gutter
 }
 /**
  * 计算边界值-以x,y,h,w计算，计算再边界内的合法值
@@ -42,148 +60,57 @@ export const findIndexById = (layout: Layout, id: string) => {
 }
 
 /**
- * 布局项是否发生了位置、大小变化
- * @param oldItem 原始数据
- * @param newItem 变化后的数据
- * @returns 判断结果
+ * 绘制网格线
+ * @param canvas canvas实列
+ * @param height 高度
+ * @param width 宽度
+ * @param colWidth 列宽
+ * @param rowH 行高
+ * @param gutter 间距
  */
-export const isLayoutChanged = (oldItem: LayoutItem, newItem: LayoutItem) => {
-    return (
-        oldItem.x !== newItem.x ||
-        oldItem.y !== newItem.y ||
-        oldItem.w !== newItem.w ||
-        oldItem.h !== newItem.h
-    )
-}
-
-/**
- * 判断两个矩形是否相交
- * @param rect1 第一个item
- * @param rect2 第二个item
- * @returns 判断结果 true-相交 false-不相交
- */
-export const isOverlap = (rect1: LayoutItem, rect2: LayoutItem) => {
-    const { x: x1, y: y1, w: w1, h: h1 } = rect1
-    const { x: x2, y: y2, w: w2, h: h2 } = rect2
-    return (
-        x1 + w1 > x2 &&
-        x1 < x2 + w2 &&
-        y1 + h1 > y2 &&
-        y1 < y2 + h2
-    )
-}
-
-/**
- * 碰撞检测
- * @param layout 布局数据
- * @param newItem 检测的item
- * @returns 检测结果
- */
-export const collisionDetection = (layout: Layout, newItem: LayoutItem): boolean => {
-    // 排除当前移动的元素
-    const data = layout.filter(item => item.id !== newItem.id)
-    for (const item of data) {
-        if (isOverlap(newItem, item)) {
-            return true
+export const drawGridLines = (canvas: HTMLCanvasElement, height: number, width: number, colWidth: number, rowH :number, gutter: number) => {
+    canvas.width = width
+    canvas.height =  height
+    const ctx = canvas.getContext("2d")
+    if (ctx) {
+        // 绘制网格线
+        ctx.fillStyle = '#000'
+        ctx.lineWidth = 0.2
+        ctx.setLineDash([20, 5])
+        for (let i = rowH + gutter / 2; i <  height; i = i + rowH + gutter) {
+            ctx.beginPath()
+            ctx.moveTo(0, i)
+            ctx.lineTo(width, i)
+            ctx.stroke()
+        }
+        for (let i = colWidth + gutter / 2; i < width; i = i + colWidth + gutter) {
+            ctx.beginPath()
+            ctx.moveTo(i, 0)
+            ctx.lineTo(i,  height)
+            ctx.stroke()
         }
     }
-    return false
 }
-
 /**
- * 碰撞规避（只针对单个布局项）
- * @param layout 布局数据
- * @param itemIndex 做规避的元素
- * @returns 重新计算后的布局数据
+ * 深克隆函数
+ * @param obj 需要拷贝的元素
+ * @param cache 用来缓存的对象
+ * @returns 返回拷贝的对象
  */
-export const collisionAvoidanceForItem = (layout: Layout, itemId: string, col :number): Layout => {
-    const { index, data: item } = findIndexById(layout, itemId)
-    const { w } = item
-    let x = item.x
-    let y = item.y
-    let toLeft = true
-    let toRight = false
-    let toUp = true
-    let toDown = false
-    // 先向左找位置，在向右找位置，找不到就向上找，最后向下找
-    while (collisionDetection(layout, { ...item, x, y })) {
-        if (x > 1 && toLeft) {
-            x --
-        } else if (x === 1 && !toRight) {
-            toLeft = false
-            toRight = true
-        } else if (x + w <= col) {
-            x ++
-        } else if (toUp && y > 1) {
-            x = 1
-            y --
-        } else if (y === 1 && !toDown) {
-            toUp = false
-            toDown = true
-        } else {
-            x = 1
-            y ++
-        }
-    }
-    layout.splice(index, 1, { ...item, x, y })
-    return layout
-}
-
-/**
- * 获取所有与指定布局项发生碰撞的布局项的索引
- * @param layout 布局数据
- * @param itemIndex 指定item的索引
- * @returns 所有与指定item发生碰撞的布局项的索引
- */
-export const getCollidingIndexes = (layout: Layout, item: LayoutItem): string[] => {
-    const collidingIds: string[] = []
-    const { id } = item
-    layout.forEach(elem => {
-        if (elem.id !== id && isOverlap(elem, item)) {
-            collidingIds.push(elem.id)
-        }
-    })
-    return collidingIds
-}
-
-/**
- * 碰撞规避（针对多个布局项）
- * @param layout 布局数据
- * @param itemIndexs 所有与指定item发生碰撞的布局项的索引
- * @returns 新的布局数据
- */
-export const collisionAvoidanceForItems = (layout: Layout, itemIds: string[], col: number): Layout => {
-    let newLayout = [...layout]
-    for (const itemId of itemIds) {
-        newLayout = collisionAvoidanceForItem(newLayout, itemId, col)
-    }
-    return newLayout
-}
-
-export const deepClone = (obj: any, cache = new WeakMap()) => {
-
-    // 判断是否是引用类型，如果不是则直接返回
-    if (obj === null || typeof obj !== 'object') return obj
-
-    // 判断是否是特殊的对象类型（Date/RegExp）
-    if (obj instanceof Date) return new Date(obj)
-    if (obj instanceof RegExp) return new RegExp(obj)
-
+export const deepClone = <T>(obj: T, cache = new WeakMap()): T => {
+    if (obj === null || typeof obj !== "object") return obj
+    // 先返回 unknown，让instanceof 检查推断出正确的类型。这消除了后面的类型断言（as T）
+    if (obj instanceof Date) return new Date(obj.getTime()) as unknown as T
+    if (obj instanceof RegExp) return new RegExp(obj.source) as unknown as T
     // 如果出现循环引用，则返回缓存的对象，防止递归进入死循环
     if (cache.has(obj)) return cache.get(obj)
-
-    // 使用原对象的构造函数创建一个新对象
-    const newObj = new obj.constructor()
-
+    // 创建空数组/没有原型链的空对象
+    const newObj: T = Array.isArray(obj) ? [] : Object.create(null)
     // 缓存对象，用于循环引用的情况
     cache.set(obj, newObj)
-
     for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            // 递归克隆
-            newObj[key] = deepClone(obj[key], cache)
-        }
+        // 递归克隆
+        newObj[key] = deepClone(obj[key], cache)
     }
-
     return newObj
 }

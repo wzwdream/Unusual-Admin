@@ -1,5 +1,5 @@
 <template>
-    <div class="grid" @pointerdown="(e: PointerEvent) => draggableStart(e, 'drag')">
+    <div class="grid-item-box" @pointerdown="(e: PointerEvent) => draggableStart(e, 'drag')">
         <div :class="{ 'grid-item': true, 'grid-resizing': isDraging && handleType === 'resize', 'grid-draging': isDraging && handleType === 'drag' }">
             <slot />
             <div v-show="layoutData?.resize" @pointerdown.stop="(e: PointerEvent) => draggableStart(e, 'resize')">
@@ -21,7 +21,7 @@
 <script setup lang="ts" name="GridItem">
 import { LayoutItem, HandleType } from '../types/index'
 import { key } from '../help/key'
-import { findIndexById } from '../help/utils'
+import { findIndexById } from '../help/utils';
 const layoutData = inject(key)
 // 默认props
 interface PropsType {
@@ -136,7 +136,7 @@ const removes = () => {
 </script>
 
 <style scoped lang="scss">
-.grid {
+.grid-item-box {
     position: relative;
     width: 100%;
     height: 100%;

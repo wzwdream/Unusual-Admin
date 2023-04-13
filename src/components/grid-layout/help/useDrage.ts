@@ -1,9 +1,13 @@
 import { Parameter, LayoutItem, HandleType } from '../types/index'
-import { calcBoundary, collisionAvoidanceForItems, collisionDetection, deepClone, findIndexById, getCollidingIndexes, isLayoutChanged } from '../help/utils'
+import { collisionAvoidanceForItems, collisionDetection, getCollidingIndexes } from './dragerule'
+import { calcBoundary, deepClone, findIndexById } from './utils'
 const useDrage = (data: Parameter) => {
+    /**
+     * 初始化数据
+    */
+    const dragData = reactive<Parameter>(deepClone(data))
     const isDraging = ref(false) // 是否拖拽中
     const propsId = ref('') // 当前操作的item的id
-    const colWidth = ref(0) // item宽度
     const drageItem = reactive({ x: 0, y: 0, h: 0, w: 0 }) // 操作item的提示数据
     /**
      * 操作item的数据
@@ -15,10 +19,6 @@ const useDrage = (data: Parameter) => {
             data
         }
     })
-    /**
-     * 初始化数据
-     */
-    const dragData = reactive<Parameter>(deepClone(data))
     /**
      * 开始拖拽，记录当前操作的item的初始数据
      * @param id 当前操作的item的id
@@ -38,16 +38,16 @@ const useDrage = (data: Parameter) => {
      * @param shiftY 纵向移动的距离
      * @param handleType 操作类型：drag-拖拽、resize-缩放
      */
-    const draggableHandle = (shiftX: number, shiftY: number, handleType?: HandleType) => {
+    const draggableHandle = (shiftX: number, shiftY: number, colWidth: number, handleType?: HandleType) => {
         const { x, y, h, w } = dragingData.value.data
-        const moveX = Math.round((shiftX) / (colWidth.value + dragData.gutter))
+        const moveX = Math.round((shiftX) / (colWidth + dragData.gutter))
         const moveY = Math.round((shiftY) / (dragData.rowH + dragData.gutter))
         if (handleType === 'drag') {
             drageItem.x = calcBoundary(x, moveX, w, dragData.col,)
             drageItem.y = calcBoundary(y, moveY, h)
         }
         if (handleType === 'resize') {
-            drageItem.w = (w + moveX) <= 0 ? 1 : (w +moveX)
+            drageItem.w = (w + moveX) <= 0 ? 1 : (w + moveX)
             drageItem.h = (h + moveY) <= 0 ? 1 : (h + moveY)
         }
         const newItem = {
@@ -57,20 +57,21 @@ const useDrage = (data: Parameter) => {
         const newData = deepClone(dragData.data)
         const { index } = findIndexById(newData, propsId.value)
         newData[index] = newItem
-        if (isLayoutChanged(newData, newItem)) {
-            if (collisionDetection(newData, newItem)) {
-                const collidingIndexes = getCollidingIndexes(newData, newItem)
-                const data = collisionAvoidanceForItems(newData, collidingIndexes, dragData.col)
-                data.forEach(item => {
-                    if (item.id !== propsId.value) {
-                        const { index } = findIndexById(dragData.data, item.id)
-                        dragData.data.splice(index, 1, item)
-                    }
-                })
-            } else {
-                dragData.data[dragingData.value.index] = dragingData.value.data
-                dragData.data.splice(dragingData.value.index, 1, dragingData.value.data)
-            }
+        if (collisionDetection(newData, newItem)) {
+            const collidingIndexes = getCollidingIndexes(newData, newItem)
+            const data = collisionAvoidanceForItems(newData, collidingIndexes, dragData.col)
+            data.forEach(item => {
+                if (item.id !== propsId.value) {
+                    const { index } = findIndexById(dragData.data, item.id)
+                    dragData.data.splice(index, 1, item)
+                }
+            })
+        } else {
+            dragData.data.splice(dragingData.value.index, 1, dragingData.value.data)
+        }
+        return {
+            newData,
+            newItem
         }
     }
     /**
@@ -78,7 +79,7 @@ const useDrage = (data: Parameter) => {
     */
     const draggableEnd = () => {
         const { x, y, h, w } = drageItem
-        const  { index, data } = dragingData.value
+        const { index, data } = dragingData.value
         const newData: LayoutItem = {
             ...data,
             x,
@@ -101,11 +102,8 @@ const useDrage = (data: Parameter) => {
     /**
      * 当前操作的item的提示数据的样式和布局样式
      */
-    const style = computed(() => {
+    const dragingstyle = computed(() => {
         return {
-            gridTemplateColumns: `repeat(${dragData.col}, minmax(50px, 1fr))`,
-            gridAutoRows: `${dragData.rowH}px`,
-            gap: `${dragData.gutter}px`,
             xStart: drageItem.x,
             yStart: drageItem.y,
             xEnd: drageItem.x + drageItem.w,
@@ -119,8 +117,7 @@ const useDrage = (data: Parameter) => {
         draggableEnd,
         drageItem,
         isDraging,
-        style,
-        colWidth,
+        dragingstyle,
         removes,
         propsId,
         dragingData
