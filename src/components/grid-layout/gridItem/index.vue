@@ -78,10 +78,10 @@ const draggableStart = (e: PointerEvent, type?: HandleType) => {
     handleType.value = type
     offsetX.value = e.clientX
     offsetY.value = e.clientY
-    layoutData?.draggableStart(props.id)
-    document.addEventListener("pointermove", draggableHandle)
-    document.addEventListener("pointerup", draggableEnd)
+    window.addEventListener("pointermove", draggableHandle)
+    window.addEventListener("pointerup", draggableEnd)
     isDraging.value = true
+    layoutData.draggableStart(props.id)
 }
 /**
  * 拖拽中，计算移动距离，动态更改拖拽/缩放的样式
@@ -91,8 +91,6 @@ const draggableHandle = (e: PointerEvent) => {
     const { clientX, clientY } = e
     const shiftX = clientX - offsetX.value
     const shiftY = clientY - offsetY.value
-
-    layoutData?.draggableHandle(shiftX, shiftY, handleType.value)
 
     if (handleType.value === 'drag') {
         style.transform = `translate3d(${shiftX}px, ${shiftY}px, 0)`
@@ -105,25 +103,24 @@ const draggableHandle = (e: PointerEvent) => {
         style.width = `${newWidth}px`
         style.height = `${newHeight}px`
     }
+    layoutData?.draggableHandle(shiftX, shiftY, handleType.value)
 }
 /**
  * 拖拽结束，解绑事件
  */
 const draggableEnd = () => {
-    layoutData?.draggableEnd()
     // 防止第二次拖拽开始的时候位置错乱
     if (handleType.value === 'drag') {
         style.transform = `translate3d(0, 0, 0)`
     }
     if (handleType.value === 'resize' && layoutData) {
         const { width, height } = layout.value
-        const newWidth = parseInt(width)
-        const newHeight = parseInt(height)
-        style.width = `${newWidth}px`
-        style.height = `${newHeight}px`
+        style.width = `${parseInt(width)}px`
+        style.height = `${parseInt(height)}px`
     }
-    document.removeEventListener("pointermove", draggableHandle)
-    document.removeEventListener("pointerup", draggableEnd)
+    window.removeEventListener("pointermove", draggableHandle)
+    window.removeEventListener("pointerup", draggableEnd)
+    layoutData?.draggableEnd()
     isDraging.value = false
 }
 /**

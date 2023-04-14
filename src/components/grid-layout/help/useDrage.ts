@@ -45,22 +45,18 @@ const useDrage = (data: Parameter) => {
         if (handleType === 'drag') {
             drageItem.x = calcBoundary(x, moveX, w, dragData.col,)
             drageItem.y = calcBoundary(y, moveY, h)
-        }
-        if (handleType === 'resize') {
+        } else if (handleType === 'resize') {
             drageItem.w = (w + moveX) <= 0 ? 1 : (w + moveX)
             drageItem.h = (h + moveY) <= 0 ? 1 : (h + moveY)
         }
-        const newItem = {
-            ...drageItem,
-            id: propsId.value
-        }
+        const newItem = { ...drageItem, id: propsId.value }
         const newData = deepClone(dragData.data)
         const { index } = findIndexById(newData, propsId.value)
         newData[index] = newItem
         if (collisionDetection(newData, newItem)) {
             const collidingIndexes = getCollidingIndexes(newData, newItem)
-            const data = collisionAvoidanceForItems(newData, collidingIndexes, dragData.col)
-            data.forEach(item => {
+            const avoidingItems  = collisionAvoidanceForItems(newData, collidingIndexes, dragData.col)
+            avoidingItems .forEach(item => {
                 if (item.id !== propsId.value) {
                     const { index } = findIndexById(dragData.data, item.id)
                     dragData.data.splice(index, 1, item)

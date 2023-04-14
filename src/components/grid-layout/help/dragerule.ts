@@ -8,12 +8,7 @@ import { findIndexById } from './utils'
  * @returns 判断结果
  */
 export const isLayoutChanged = (oldItem: LayoutItem, newItem: LayoutItem) => {
-    return (
-        oldItem.x !== newItem.x ||
-        oldItem.y !== newItem.y ||
-        oldItem.w !== newItem.w ||
-        oldItem.h !== newItem.h
-    )
+    return (oldItem.x !== newItem.x || oldItem.y !== newItem.y || oldItem.w !== newItem.w || oldItem.h !== newItem.h)
 }
 
 /**
@@ -22,15 +17,8 @@ export const isLayoutChanged = (oldItem: LayoutItem, newItem: LayoutItem) => {
  * @param rect2 第二个item
  * @returns 判断结果 true-相交 false-不相交
  */
-export const isOverlap = (rect1: LayoutItem, rect2: LayoutItem) => {
-    const { x: x1, y: y1, w: w1, h: h1 } = rect1
-    const { x: x2, y: y2, w: w2, h: h2 } = rect2
-    return (
-        x1 + w1 > x2 &&
-        x1 < x2 + w2 &&
-        y1 + h1 > y2 &&
-        y1 < y2 + h2
-    )
+export const isOverlap = ({ x: x1, y: y1, w: w1, h: h1 }: LayoutItem, { x: x2, y: y2, w: w2, h: h2 }: LayoutItem) => {
+    return (x1 + w1 > x2 && x1 < x2 + w2 && y1 + h1 > y2 && y1 < y2 + h2)
 }
 
 /**
@@ -40,14 +28,9 @@ export const isOverlap = (rect1: LayoutItem, rect2: LayoutItem) => {
  * @returns 检测结果
  */
 export const collisionDetection = (layout: Layout, newItem: LayoutItem): boolean => {
-    // 排除当前移动的元素
-    const data = layout.filter(item => item.id !== newItem.id)
-    for (const item of data) {
-        if (isOverlap(newItem, item)) {
-            return true
-        }
-    }
-    return false
+    return layout
+        .filter(item => item.id !== newItem.id)
+        .some(item => isOverlap(newItem, item))
 }
 
 /**
@@ -65,37 +48,30 @@ export const collisionAvoidanceForItem = (layout: Layout, itemId: string, col: n
     let direction = "left"
 
     const isCollision = () => collisionDetection(layout, { ...item, x, y })
-    // 先向左找位置，在向右找位置，找不到就向上找，最后向下找
+
     while (isCollision()) {
-        console.log(direction, x, w, y)
-        if (direction === "left") {
-            if (x > 1) {
-                x--
-            } else {
-                direction = "right"
-            }
-        } else if (direction === "right") {
-            if (x + w <= col) {
-                x++
-            } else {
-                direction = "up"
-            }
-        } else if (direction === "up") {
-            if (y > 1 && x + w < col) {
-                y--
-            } else {
-                direction = "down"
-            }
-        } else {
-            y++
-            direction = "left"
+        switch (direction) {
+            case "left":
+                if (x > 1) x--
+                else direction = "right"
+                break
+            case "right":
+                if (x + w <= col) x++
+                else direction = "up"
+                break
+            case "up":
+                if (y > 1 && x + w < col) y--
+                else direction = "down"
+                break;
+            default:
+                y++
+                direction = "left"
         }
     }
-
     const newItem = { ...item, x, y }
-    const newLayout = [...layout.slice(0, index), newItem, ...layout.slice(index + 1)]
-    return newLayout
+    return [...layout.slice(0, index), newItem, ...layout.slice(index + 1)]
 }
+
 
 /**
  * 获取所有与指定布局项发生碰撞的布局项的索引
@@ -104,14 +80,9 @@ export const collisionAvoidanceForItem = (layout: Layout, itemId: string, col: n
  * @returns 所有与当前移动的item发生碰撞的布局项的id
  */
 export const getCollidingIndexes = (layout: Layout, item: LayoutItem): string[] => {
-    const collidingIds: string[] = []
-    const { id } = item
-    layout.forEach(elem => {
-        if (elem.id !== id && isOverlap(elem, item)) {
-            collidingIds.push(elem.id)
-        }
-    })
-    return collidingIds
+    return layout
+        .filter(elem => elem.id !== item.id && isOverlap(item, elem))
+        .map(item => item.id)
 }
 
 /**

@@ -19,13 +19,12 @@ export const calcColWidth = (col: number, gutter: number, boxWidth: number): num
  */
 export const calcHeight = (rowH: number, gutter: number, layout: Layout): number => {
     let y = 0, h = 0
-    layout.forEach(element => {
-        const { y: y1, h: h1 } = element
+    for (const { y: y1, h: h1 } of layout) {
         if (y1 + h1 > y + h) {
             y = y1
             h = h1
         }
-    })
+    }
     return (y + h - 2) * gutter + (y + h - 1) * rowH + rowH + gutter
 }
 /**
@@ -37,12 +36,12 @@ export const calcHeight = (rowH: number, gutter: number, layout: Layout): number
  * @returns 移动后的值
  */
 export const calcBoundary = (initNumber: number, moveNumber: number, gapNumber: number, boundaryNumber = 0) => {
-    if (initNumber + moveNumber <= 0) return 1
-    if (boundaryNumber && (initNumber + moveNumber + gapNumber) >= boundaryNumber + 1) {
-        return boundaryNumber + 1 - gapNumber
-    }
-    return initNumber + moveNumber
-}
+    return (initNumber + moveNumber <= 0)
+        ? 1
+        : (boundaryNumber && (initNumber + moveNumber + gapNumber) >= (boundaryNumber + 1))
+            ? boundaryNumber + 1 - gapNumber
+            : initNumber + moveNumber
+};
 
 /**
  * 根据id查找index
@@ -53,10 +52,7 @@ export const calcBoundary = (initNumber: number, moveNumber: number, gapNumber: 
 export const findIndexById = (layout: Layout, id: string) => {
     const index = layout.findIndex((item) => item.id === id)
     const data = layout[index]
-    return {
-        index,
-        data
-    }
+    return { index, data }
 }
 
 /**
@@ -68,27 +64,26 @@ export const findIndexById = (layout: Layout, id: string) => {
  * @param rowH 行高
  * @param gutter 间距
  */
-export const drawGridLines = (canvas: HTMLCanvasElement, height: number, width: number, colWidth: number, rowH :number, gutter: number) => {
+export const drawGridLines = (canvas: HTMLCanvasElement, height: number, width: number, colWidth: number, rowH: number, gutter: number) => {
     canvas.width = width
-    canvas.height =  height
+    canvas.height = height
     const ctx = canvas.getContext("2d")
-    if (ctx) {
-        // 绘制网格线
-        ctx.fillStyle = '#000'
-        ctx.lineWidth = 0.2
-        ctx.setLineDash([20, 5])
-        for (let i = rowH + gutter / 2; i <  height; i = i + rowH + gutter) {
-            ctx.beginPath()
-            ctx.moveTo(0, i)
-            ctx.lineTo(width, i)
-            ctx.stroke()
-        }
-        for (let i = colWidth + gutter / 2; i < width; i = i + colWidth + gutter) {
-            ctx.beginPath()
-            ctx.moveTo(i, 0)
-            ctx.lineTo(i,  height)
-            ctx.stroke()
-        }
+    if (!ctx) return
+    // 绘制网格线
+    ctx.fillStyle = '#000'
+    ctx.lineWidth = 0.2
+    ctx.setLineDash([20, 5])
+    for (let i = rowH + gutter / 2; i < height; i = i + rowH + gutter) {
+        ctx.beginPath()
+        ctx.moveTo(0, i)
+        ctx.lineTo(width, i)
+        ctx.stroke()
+    }
+    for (let i = colWidth + gutter / 2; i < width; i = i + colWidth + gutter) {
+        ctx.beginPath()
+        ctx.moveTo(i, 0)
+        ctx.lineTo(i, height)
+        ctx.stroke()
     }
 }
 /**
