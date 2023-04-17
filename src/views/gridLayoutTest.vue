@@ -1,10 +1,10 @@
 <template>
     <div>
-        <GridLayout v-model:data="layout" @draggableStart="draggableStart" @draggableHandle="draggableHandle" @draggableEnd="draggableEnd" @remove="remove">
-            <GridItem v-for="item in layout" :key="item.id" :id="item.id">
+        <grid-layout v-model:data="layout" @draggableStart="draggableStart" @draggableHandle="draggableHandle" @draggableEnd="draggableEnd" @remove="remove">
+            <grid-item v-for="item in layout" :key="item.id" :id="item.id">
                 {{ item.id }}
-            </GridItem>
-        </GridLayout>
+            </grid-item>
+        </grid-layout>
         <button @click="layout = []">改变</button>
     </div>
 </template>

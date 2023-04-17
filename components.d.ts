@@ -8,8 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Drag: typeof import('./src/components/drag.vue')['default']
-    GridItem: typeof import('./src/components/grid-layout/gridItem/index.vue')['default']
-    GridLayout: typeof import('./src/components/grid-layout/index.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
