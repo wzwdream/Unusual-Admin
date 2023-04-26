@@ -12,6 +12,10 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/layout',
         component: () => import('../views/gridLayoutTest.vue')
+    },
+    {
+        path: '/login',
+        component: () => import('../views/login.vue')
     }
 ]
 

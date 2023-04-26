@@ -24,6 +24,7 @@ import HelloWorld from './components/HelloWorld.vue'
 .home {
   height: 100%;
   width: 100%;
+  background-color: white;
 }
 .logo {
   height: 6em;
