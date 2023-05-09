@@ -17,8 +17,8 @@
                         <n-input v-model:value="formValue.userPassword" placeholder="Input userPassword"/>
                     </n-form-item>
                 </n-form>
-                <n-button class="loginButton" type="tertiary" @click="passwordEncrypt">Login</n-button>
-                <n-button class="loginButton" type="tertiary" @click="passwordDeciphering">解密</n-button>
+                <n-button class="loginButton" type="primary" @click="passwordEncrypt">Login</n-button>
+                <n-button class="loginButton" type="primary" @click="passwordDeciphering">解密</n-button>
             </n-space>
 
         </div>
@@ -28,7 +28,7 @@
 <script lang="ts">
 import {defineComponent, reactive} from 'vue'
 import {NConfigProvider, NInput, NDatePicker, NSpace} from 'naive-ui'
-import {encrypt} from '@/utils/encrypt';
+import {encrypt} from '@/utils/encrypt'
 import {decrypt} from '@/utils/decrypt';
 
 export default defineComponent({
@@ -126,13 +126,13 @@ export default defineComponent({
 }
 
 .n-form-item .n-form-item-blank :focus-visible {
-    outline: 1px #fe538d !important;
+    //outline: 1px #fe538d !important;
 }
 
 .loginButton {
     width: 50%;
-    color: #ffffff;
-    background-color: #fe538d;
+    //color: #ffffff;
+    //background-color: #fe538d;
     animation: shadow-drop-bottom 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     border-radius: .3rem;
 }
@@ -149,7 +149,7 @@ export default defineComponent({
 }
 
 .n-button:not(.n-button--disabled):active {
-    border: 1px solid #fe538d !important;
-    color: #fe538d;
+    //border: 1px solid #fe538d !important;
+    //color: #fe538d;
 }
 </style>

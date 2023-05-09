@@ -12,6 +12,7 @@
     "eslint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@vitejs/plugin-vue-jsx": "^2.0.1",
     "crypto-js": "^4.1.1",
     "pinia": "^2.0.23",
