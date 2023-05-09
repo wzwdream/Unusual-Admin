@@ -28,8 +28,8 @@
 <script lang="ts">
 import {defineComponent, reactive} from 'vue'
 import {NConfigProvider, NInput, NDatePicker, NSpace} from 'naive-ui'
-import {encrypt} from '@/utils/encrypt'
-import {decrypt} from '@/utils/decrypt';
+import {encrypt,decrypt} from '@/utils/aes'
+
 
 export default defineComponent({
     components: {
@@ -55,7 +55,9 @@ export default defineComponent({
             let decrypts = decrypt(formValue.ciphertext)
             console.log(decrypts,'decrypts')
         }
-
+        onMounted(()=>{
+            console.log('onmounted')
+        })
         return {
             login,
             formValue,
@@ -63,7 +65,8 @@ export default defineComponent({
             passwordDeciphering
         }
 
-    }
+    },
+
 })
 </script>
 
