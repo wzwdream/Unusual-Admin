@@ -21,6 +21,8 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-        "vue/multi-word-component-names": "off" // 关闭组件命名规则
+        "vue/multi-word-component-names": "off", // 关闭组件命名规则
+        'semi': [0],
+        "quotes": [2, "single"]
     }
 }

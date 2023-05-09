@@ -78,8 +78,8 @@ const draggableStart = (e: PointerEvent, type?: HandleType) => {
     handleType.value = type
     offsetX.value = e.clientX
     offsetY.value = e.clientY
-    window.addEventListener("pointermove", draggableHandle)
-    window.addEventListener("pointerup", draggableEnd)
+    window.addEventListener('pointermove', draggableHandle)
+    window.addEventListener('pointerup', draggableEnd)
     isDraging.value = true
     layoutData.draggableStart(props.id)
 }
@@ -111,15 +111,15 @@ const draggableHandle = (e: PointerEvent) => {
 const draggableEnd = () => {
     // 防止第二次拖拽开始的时候位置错乱
     if (handleType.value === 'drag') {
-        style.transform = `translate3d(0, 0, 0)`
+        style.transform = 'translate3d(0, 0, 0)'
     }
     if (handleType.value === 'resize' && layoutData) {
         const { width, height } = layout.value
         style.width = `${parseInt(width)}px`
         style.height = `${parseInt(height)}px`
     }
-    window.removeEventListener("pointermove", draggableHandle)
-    window.removeEventListener("pointerup", draggableEnd)
+    window.removeEventListener('pointermove', draggableHandle)
+    window.removeEventListener('pointerup', draggableEnd)
     layoutData?.draggableEnd()
     isDraging.value = false
 }
