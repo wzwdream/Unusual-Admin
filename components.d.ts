@@ -11,12 +11,6 @@ declare module '@vue/runtime-core' {
     GridItem: typeof import('./src/components/grid-layout/gridItem/index.vue')['default']
     GridLayout: typeof import('./src/components/grid-layout/index.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    NButton: typeof import('naive-ui')['NButton']
-    NForm: typeof import('naive-ui')['NForm']
-    NFormItem: typeof import('naive-ui')['NFormItem']
-    NIcon: typeof import('naive-ui')['NIcon']
-    NInput: typeof import('naive-ui')['NInput']
-    NSpace: typeof import('naive-ui')['NSpace']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
