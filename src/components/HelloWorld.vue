@@ -1,38 +1,31 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useMainStore } from '../store/index'
-const main = useMainStore()
+import { type DataTableColumn } from 'naive-ui/es/data-table';
 
-const count = ref(0)
+const defualtQuery = reactive({
+  name: '',
+  age: null
+})
+const columns: Array<DataTableColumn> = [
+  {
+    title: 'ID',
+    key: 'id'
+  },
+  {
+    title: 'Name',
+    key: 'name'
+  },
+  {
+    title: 'Age',
+    key: 'age'
+  }
+]
 </script>
 
 <template>
-  <h1>{{ main.msg }}</h1>
-
-  <div class="card">
-    <button type="button" @click="count++;main.changeAction('55555')">count is {{ count }}</button>
-    <p>
-      Edit
-      <code>components/HelloWorld.vue</code> to test HMR
-    </p>
-  </div>
-
-  <p>
-    Check out
-    <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank"
-      >create-vue</a
-    >, the official Vue + Vite starter
-  </p>
-  <p>
-    Install
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-    in your IDE for a better DX
-  </p>
-  <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
+  <n-input v-model:value="defualtQuery.name" type="text" placeholder="name" />
+  <n-input v-model:value="defualtQuery.age" type="text" placeholder="age" />
+  <dataTable ref="dataTable" :columns="columns" :url="'/test'" :query-params="defualtQuery" :title="'测试'" />
 </template>
 
 <style scoped>
-.read-the-docs {
-  color: #888;
-}
 </style>

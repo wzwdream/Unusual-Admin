@@ -59,7 +59,8 @@ export default defineConfig({
         // 设置 https 代理
         proxy: {
             '/api': {
-                target: '***',
+                // target: 'http://42.194.198.23:3500',
+                target: 'http://127.0.0.1:3500',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '')
             }
@@ -69,13 +70,13 @@ export default defineConfig({
         /** 消除打包大小超过 500kb 警告 */
         chunkSizeWarningLimit: 2000,
         /** Vite 2.6.x 以上需要配置 minify: "terser", terserOptions 才能生效 */
-        minify: "terser",
+        minify: 'terser',
         /** 在打包代码时移除 console.log、debugger 和 注释 */
         terserOptions: {
             compress: {
                 drop_console: true,
                 drop_debugger: true,
-                pure_funcs: ["console.log"]
+                pure_funcs: ['console.log']
             },
             format: {
                 /** 删除注释 */
@@ -87,7 +88,7 @@ export default defineConfig({
         //关闭生成map文件 可以达到缩小打包体积
         sourcemap: false,
         /** 打包后静态资源目录 */
-        assetsDir: "static",
+        assetsDir: 'static',
         // 打包输出配置
         rollupOptions: {
             output: {

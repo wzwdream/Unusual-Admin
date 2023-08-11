@@ -18,6 +18,7 @@
     "crypto-js": "^4.1.1",
     "pinia": "^2.1.6",
     "pinia-plugin-persistedstate": "^3.2.0",
+    "qs": "^6.11.2",
     "sass": "^1.64.2",
     "terser": "^5.19.2",
     "vue": "^3.3.4",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.4.6",
+    "@types/qs": "^6.9.7",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "@vicons/ionicons5": "^0.12.0",
