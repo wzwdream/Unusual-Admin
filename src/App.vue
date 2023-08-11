@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { zhCN, dateZhCN } from 'naive-ui'
-import {  } from 'naive-ui'
 </script>
 
 <template>
   <n-config-provider :locale="zhCN" :date-locale="dateZhCN">
     <n-message-provider>
       <div class="home">
-        <router-view></router-view>
+        <div class="menu">
+          <Menu />
+        </div>
+        <main class="main">
+          <router-view></router-view>
+        </main>
       </div>
-  </n-message-provider>
+    </n-message-provider>
   </n-config-provider>
 </template>
 
@@ -18,16 +22,14 @@ import {  } from 'naive-ui'
   height: 100%;
   width: 100%;
   background-color: white;
-}
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+  display: flex;
+
+  .menu {
+    width: 210px;
+  }
+
+  .main {
+    flex-grow: 1;
+  }
 }
 </style>

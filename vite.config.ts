@@ -62,7 +62,7 @@ export default defineConfig({
                 // target: 'http://42.194.198.23:3500',
                 target: 'http://127.0.0.1:3500',
                 changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, '')
+                rewrite: (path) => path.replace(/^\/api/, '/')
             }
         }
     },

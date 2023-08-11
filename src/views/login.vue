@@ -1,7 +1,7 @@
 <template>
     <div class="base">
         <div class="loginForm">
-            <div class="loginForm_title"><span>LOGIN</span></div>
+            <div class="loginForm_title" ref="title"><span>LOGIN</span></div>
             <n-space vertical>
                 <n-form ref="formRef" inline :label-width="150" :model="formValue">
                     <n-form-item label="" path="user.name" style="width: 80%">
@@ -21,14 +21,13 @@
 
 <script lang="ts" setup>
 import { encrypt, decrypt } from '@/utils/aes'
-
-
+import Request from '@/utils/request'
 let formValue = reactive({
     userName: '',
     userPassword: '',
     ciphertext: ''
 })
-
+const title = ref('title')
 function login() {
     console.log('login')
 }
@@ -36,6 +35,7 @@ function login() {
 function passwordEncrypt() {
     formValue.ciphertext = encrypt(formValue.userPassword)
     console.log(formValue.ciphertext, '密文')
+    Request.post('/api/user')
 }
 
 function passwordDeciphering() {
@@ -43,7 +43,7 @@ function passwordDeciphering() {
     console.log(decrypts, 'decrypts')
 }
 onMounted(() => {
-    console.log('onmounted')
+    console.log('title',title.value)
 })
 
 </script>
