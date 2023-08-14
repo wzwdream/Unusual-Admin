@@ -1,21 +1,31 @@
-import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
-import HelloWorld from '../components/HelloWorld.vue'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import Layout from '@/components/layout/index.vue'
 const routes: RouteRecordRaw[] = [
-    {
-        path: '/',
-        redirect: '/HelloWorld'
-    },
-    {
-        path:'/HelloWorld',
-        component: HelloWorld
-    },
-    {
-        path: '/layout',
-        component: () => import('../views/gridLayoutTest.vue')
-    },
     {
         path: '/login',
         component: () => import('../views/login.vue')
+    },
+    {
+        path: '/',
+        redirect: '/HelloWorld',
+        component: Layout,
+        children: [
+            {
+                path: '/HelloWorld',
+                component: () => import('../views/HelloWorld.vue')
+            },
+        ]
+    },
+    {
+        path: '/test',
+        redirect: '/test/layout',
+        component: Layout,
+        children: [
+            {
+                path: '/test/layout',
+                component: () => import('../views/gridLayoutTest.vue'),
+            }
+        ]
     }
 ]
 

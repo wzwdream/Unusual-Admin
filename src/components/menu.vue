@@ -1,12 +1,7 @@
 <template>
   <div>
-    <n-menu
-        :options="menuOptions"
-        :default-expanded-keys="defaultExpandedKeys"
-
-    />
+    <n-menu :options="menuOptions" :default-expanded-keys="defaultExpandedKeys" />
   </div>
-
 </template>
 
 <script  lang="ts">
@@ -19,24 +14,45 @@ import {
   // TabletPortraitOutline,
   // BagOutline as BagOutlineIcon
 } from '@vicons/ionicons5'
+import { RouterLink } from 'vue-router'
 
-function renderIcon (icon: Component) {
+function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) })
+}
+
+// 使用v-router跳转
+const hRouter = (lable: string, router: string) => {
+  return () => h(
+    RouterLink,
+    {
+      to: {
+        path: router
+      }
+    },
+    { default: () => lable }
+  )
 }
 
 const menuOptions: MenuOption[] = [
   {
-    label: 'CRUD',
+    label: '测试',
     key: 'CRUD',
     icon: renderIcon(GridSharp),
     children: [
       {
-        label: 'CRUD1',
-        key: 'CRUD1',
-      },
+        label: hRouter('grid-layout', '/test'),
+        key: 'go-to-work',
+      }
+    ]
+  },
+  {
+    label: '列表',
+    key: 'list',
+    icon: renderIcon(GridSharp),
+    children: [
       {
-        label: 'CRUD2',
-        key: 'CRUD2',
+        label: hRouter('grid-layout', '/HelloWorld'),
+        key: 'go-to-work',
       }
     ]
   },
@@ -48,7 +64,7 @@ const menuOptions: MenuOption[] = [
 ]
 
 export default defineComponent({
-  setup () {
+  setup() {
     return {
       menuOptions,
       defaultExpandedKeys: ['fish', 'braise']
