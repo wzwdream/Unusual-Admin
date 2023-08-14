@@ -1,10 +1,9 @@
-
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import {NaiveUiResolver} from 'unplugin-vue-components/resolvers'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import * as path from 'path';
 
@@ -62,7 +61,10 @@ export default defineConfig({
                 // target: 'http://42.194.198.23:3500',
                 target: 'http://127.0.0.1:3500',
                 changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, '/')
+                rewrite: (path) => {
+                    // path.replace(/^\/api/, '/')
+                    return path
+                }
             }
         }
     },

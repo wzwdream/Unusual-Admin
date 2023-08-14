@@ -1,18 +1,28 @@
 <template>
     <div class="base">
         <div class="loginForm">
-            <div class="loginForm_title" ref="title"><span>LOGIN</span></div>
+            <div class="loginForm_title" ref="title"><span>登录</span></div>
             <n-space vertical>
                 <n-form ref="formRef" inline :label-width="150" :model="formValue">
-                    <n-form-item label="" path="user.name" style="width: 80%">
-                        <n-input v-model:value="formValue.userName" placeholder="Input userName" />
+                    <n-form-item label="账户" path="user.name" style="width: 80%">
+                        <n-input v-model:value="formValue.userName" placeholder="请输入账户名称" />
                     </n-form-item>
-                    <n-form-item label="" path="user.age" style="width: 80%">
-                        <n-input v-model:value="formValue.userPassword" placeholder="Input userPassword" />
+                    <n-form-item label="密码" path="user.age" style="width: 80%">
+<!--                        <n-input v-model:value="formValue.userPassword" placeholder="请输入账户密码" />-->
+                      <n-input
+                          v-model:value="Unencrypted"
+                          type="password"
+                          show-password-on="mousedown"
+                          placeholder="请输入账户密码"
+                          :maxlength="12"
+                      />
                     </n-form-item>
                 </n-form>
-                <n-button class="loginButton" type="primary" @click="passwordEncrypt">Login</n-button>
-                <n-button class="loginButton" type="primary" @click="passwordDeciphering">解密</n-button>
+              <div style="width: 100%;display: flex;justify-content: center">
+                <n-button class="loginButton" type="primary" @click="login">确认</n-button>
+
+              </div>
+<!--                <n-button class="loginButton" type="primary" @click="passwordDeciphering">解密</n-button>-->
             </n-space>
 
         </div>
@@ -20,28 +30,32 @@
 </template>
 
 <script lang="ts" setup>
-import { encrypt, decrypt } from '@/utils/aes'
+import { encrypt } from '@/utils/aes'
+import { useMessage } from 'naive-ui'
 import Request from '@/utils/request'
+import router from '@/router';
+let Unencrypted = ref('')
 let formValue = reactive({
     userName: '',
-    userPassword: '',
-    ciphertext: ''
+    userPassword: ''
 })
 const title = ref('title')
+const message = useMessage()
 function login() {
-    console.log('login')
+  formValue.userPassword = encrypt(Unencrypted.value)
+  console.log(formValue,'fomrValue')
+  Request.post('/login',formValue).then((res)=>{
+    console.log(res,res)
+    if(res.status){
+      message.success('登录成功')
+      router.push('/HelloWorld')
+    }else{
+      message.error('登录失败，请检查账号名或者密码')
+    }
+  })
+  // Request.post('/user')
 }
 
-function passwordEncrypt() {
-    formValue.ciphertext = encrypt(formValue.userPassword)
-    console.log(formValue.ciphertext, '密文')
-    Request.post('/api/user')
-}
-
-function passwordDeciphering() {
-    let decrypts = decrypt(formValue.ciphertext)
-    console.log(decrypts, 'decrypts')
-}
 onMounted(() => {
     console.log('title',title.value)
 })
@@ -67,6 +81,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     justify-content: center;
+  color: #333333;
 }
 
 .loginForm {
