@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError,AxiosResponse } from 'axios'
+import axios, { AxiosInstance, AxiosError } from 'axios'
 import { notification } from './help'
 declare module 'axios' {
     interface IAxios {
