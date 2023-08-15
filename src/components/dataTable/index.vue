@@ -77,10 +77,14 @@ const query = async () => {
     pageSize: pagination.pageSize,
     ...props.queryParams
   }
-  const { data, total } = await getData(props.url, params)
-  listData.value = data
-  pagination.itemCount = total
-  loading.value = false
+  getData(props.url, params).then(res => {
+    listData.value = res.data
+    pagination.itemCount = res.total
+    loading.value = false
+  }).catch((e) => {
+    loading.value = false
+    throw new Error(e)
+  })
 }
 query()
 </script>

@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosError } from 'axios'
+import { notification } from './help'
 declare module 'axios' {
     interface IAxios {
         total: number
@@ -16,6 +17,7 @@ service.interceptors.request.use(
         return config
     },
     (error: AxiosError) => {
+        notification.create({ title: error.code, type: 'error', content: error.message, duration: 1600 })
         return Promise.reject(error)
     }
 );
@@ -23,10 +25,15 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     (response) => {
         if (response.status === 200) {
-            return response.data;
+            return response.data
         } else {
-            Promise.reject()
+            notification.create({ title: response.data.code, type: 'error', content: response.data.message, duration: 600 })
+            return Promise.reject()
         }
+    },
+    (error: AxiosError) => {
+        notification.create({ title: error.code, type: 'error', content: error.message, duration: 1600 })
+        return Promise.reject(error)
     }
 )
 

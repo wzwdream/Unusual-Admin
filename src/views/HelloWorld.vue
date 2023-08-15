@@ -24,7 +24,7 @@ const columns: Array<DataTableColumn> = [
 <template>
   <n-input v-model:value="defualtQuery.name" type="text" placeholder="name" />
   <n-input v-model:value="defualtQuery.age" type="text" placeholder="age" />
-  <dataTable ref="dataTable" :columns="columns" :url="'/test'" :query-params="defualtQuery" :title="'测试'" />
+  <dataTable ref="dataTable" :columns="columns" :url="'/list/test'" :query-params="defualtQuery" :title="'测试'" />
 </template>
 
 <style scoped>

@@ -34,9 +34,9 @@ import { encrypt } from '@/utils/aes'
 import { useMessage } from 'naive-ui'
 import Request from '@/utils/request'
 import router from '@/router';
-let Unencrypted = ref('')
+let Unencrypted = ref('widgets@123')
 let formValue = reactive({
-    userName: '',
+    userName: 'admin',
     userPassword: ''
 })
 const title = ref('title')
@@ -44,7 +44,7 @@ const message = useMessage()
 function login() {
   formValue.userPassword = encrypt(Unencrypted.value)
   console.log(formValue,'fomrValue')
-  Request.post('/login',formValue).then((res)=>{
+  Request.post('/api/login',formValue).then((res)=>{
     console.log(res,res)
     if(res.status){
       message.success('登录成功')
