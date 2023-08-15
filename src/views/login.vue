@@ -43,10 +43,10 @@ const title = ref('title')
 const message = useMessage()
 function login() {
   formValue.userPassword = encrypt(Unencrypted.value)
-  console.log(formValue,'fomrValue')
-  Request.post('/api/login',formValue).then((res)=>{
-    console.log(res,res)
-    if(res.status){
+//   console.log(formValue,'fomrValue')
+  Request.post('/api/login',formValue).then((response)=>{
+    console.log(response,'response')
+    if(response.code === 200){
       message.success('登录成功')
       router.push('/HelloWorld')
     }else{
