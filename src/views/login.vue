@@ -49,6 +49,7 @@ function login() {
     if(response.code === 200){
       message.success('登录成功')
       router.push('/HelloWorld')
+      localStorage.setItem('token',response.data)
     }else{
       message.error('登录失败，请检查账号名或者密码')
     }

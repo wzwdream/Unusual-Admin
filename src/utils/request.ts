@@ -14,7 +14,8 @@ const service: AxiosInstance = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
     (config) => {
-        config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        config.headers['Content-Type'] = 'application/json'
+        config.headers['Authorization'] ='Bearer ' +localStorage.getItem('token')
         return config
     },
     (error: AxiosError) => {
