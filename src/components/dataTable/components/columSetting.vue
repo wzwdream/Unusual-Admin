@@ -37,7 +37,7 @@ const checkAll = ref(true)
 const indeterminate = ref(false)
 const selectedColums = ref<(string | number)[]>([])
 // 保留初始数据
-const deepColumns = [...props.columns.map(item => {
+const deepColumns = [...props.columns.map((item: any) => {
   selectedColums.value.push(item.key)
   return { ...item }
 })]

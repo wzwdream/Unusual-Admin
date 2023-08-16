@@ -29,6 +29,7 @@
     "@types/qs": "^6.9.7",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
+    "@vicons/antd": "^0.12.0",
     "@vicons/ionicons5": "^0.12.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "eslint": "^8.46.0",

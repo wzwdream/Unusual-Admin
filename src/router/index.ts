@@ -12,25 +12,14 @@ const routes: RouteRecordRaw[] = [
         ]
     },
     {
-        path: '/HelloWorld',
-        // redirect: '/HelloWorld',
+        path: '/list',
+        redirect: '/list/baseList',
         component: Layout,
         children: [
             {
-                path: '/HelloWorld',
-                component: () => import('../views/HelloWorld.vue')
+                path: '/list/baseList',
+                component: () => import('../views/baseList.vue')
             },
-        ]
-    },
-    {
-        path: '/test',
-        redirect: '/test/layout',
-        component: Layout,
-        children: [
-            {
-                path: '/test/layout',
-                component: () => import('../views/gridLayoutTest.vue'),
-            }
         ]
     }
 ]
