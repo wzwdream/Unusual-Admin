@@ -35,23 +35,12 @@ const hRouter = (lable: string, router: string) => {
 
 const menuOptions: MenuOption[] = [
   {
-    label: '测试',
-    key: 'CRUD',
-    icon: renderIcon(GridSharp),
-    children: [
-      {
-        label: hRouter('grid-layout', '/test'),
-        key: 'go-to-work',
-      }
-    ]
-  },
-  {
     label: '列表',
     key: 'list',
     icon: renderIcon(GridSharp),
     children: [
       {
-        label: hRouter('grid-layout', '/HelloWorld'),
+        label: hRouter('基础列表', '/list'),
         key: 'go-to-work',
       }
     ]
@@ -60,7 +49,7 @@ const menuOptions: MenuOption[] = [
     label: '邮件',
     key: 'email',
     icon: renderIcon(Mail),
-  },
+  }
 ]
 
 export default defineComponent({

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="BaseList">
 import { type DataTableColumn } from 'naive-ui/es/data-table';
 
 const defualtQuery = reactive({
