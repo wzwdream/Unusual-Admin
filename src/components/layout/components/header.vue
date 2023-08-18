@@ -5,12 +5,17 @@
       <span v-show="!menuStore.collapsed" class="logo-text">模板系统</span>
     </div>
     <div class="header-right">
-      <div class="header-icon" @click="menuStore.changeCollapsed(!menuStore.collapsed)">
-        <n-icon size="24">
-          <MenuUnfoldOutlined v-if="menuStore.collapsed" />
-          <MenuFoldOutlined v-else />
-        </n-icon>
-      </div>
+      <n-tooltip trigger="hover">
+        <template #trigger>
+          <n-button class="header-icon" text @click="menuStore.changeCollapsed(!menuStore.collapsed)">
+            <n-icon size="24">
+              <MenuUnfoldOutlined v-if="menuStore.collapsed" />
+              <MenuFoldOutlined v-else />
+            </n-icon>
+          </n-button>
+        </template>
+        {{ !menuStore.collapsed ? '收起菜单' : '展开菜单' }}
+      </n-tooltip>
       <div class="header-trigger">
         <n-breadcrumb>
           <n-breadcrumb-item>
@@ -20,7 +25,18 @@
           <n-breadcrumb-item>
             <n-icon :component="GridSharp" /> 平山道支行</n-breadcrumb-item>
         </n-breadcrumb>
-        <div>
+        <div class="header-tools">
+          <n-tooltip trigger="hover">
+            <template #trigger>
+              <n-button class="header-icon" text @click="toggle">
+              <n-icon size="24">
+                <FullscreenOutlined v-if="!isFullscreen" />
+                <FullscreenExitOutlined v-else />
+              </n-icon>
+            </n-button>
+            </template>
+            {{ !isFullscreen ? '全屏' : '退出全屏' }}
+          </n-tooltip>
           <n-popover trigger="hover" placement="bottom">
             <template #trigger>
               <n-space align="center" class="header-user">
@@ -57,14 +73,17 @@
 
 <script lang="ts" setup name="Header">
 import { GridSharp, LogOutOutline, LockClosedOutline, PersonOutline } from '@vicons/ionicons5'
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@vicons/antd'
+import { MenuUnfoldOutlined, MenuFoldOutlined, FullscreenOutlined, FullscreenExitOutlined } from '@vicons/antd'
 import { useMenuStore } from '@/store/menu'
+import { useFullscreen } from '@vueuse/core'
+
+const { isFullscreen, toggle } = useFullscreen()
 const menuStore = useMenuStore()
 
 </script>
 
 <style scoped>
-.header, .header-logo, .header-right, .header-icon, .header-trigger {
+.header, .header-logo, .header-right, .header-icon, .header-trigger, .header-tools {
   height: 64px;
   display: flex;
   align-items: center;
@@ -93,6 +112,7 @@ const menuStore = useMenuStore()
     justify-content: space-between;
     padding-right: 30px;
     .header-user {
+      flex: 0 0 110px;
       cursor: pointer;
     }
   }

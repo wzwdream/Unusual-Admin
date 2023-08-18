@@ -17,9 +17,11 @@
       >
         <Menu />
       </n-layout-sider>
-      <n-layout-content :native-scrollbar="false" class="layout-main">
-        <n-back-top :visibility-height="10" bottom="60" />
-        <router-view></router-view>
+      <n-layout-content :native-scrollbar="false">
+        <div class="layout-main">
+          <n-back-top :visibility-height="10" bottom="60" />
+          <router-view></router-view>
+        </div>
       </n-layout-content>
       <n-layout-footer class="layout-footer" position="absolute">
         Footer Footer Footer

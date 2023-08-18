@@ -14,6 +14,7 @@
   "dependencies": {
     "@types/crypto-js": "^4.1.1",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
+    "@vueuse/core": "^10.3.0",
     "axios": "^1.4.0",
     "crypto-js": "^4.1.1",
     "pinia": "^2.1.6",

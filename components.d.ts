@@ -7,7 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    ColumSetting: typeof import('./src/components/dataTable/components/columSetting.vue')['default']
+    BasicTable: typeof import('./src/components/basicTable/index.vue')['default']
+    ColumSetting: typeof import('./src/components/basicTable/components/columSetting.vue')['default']
     DataTable: typeof import('./src/components/dataTable/index.vue')['default']
     Drag: typeof import('./src/components/drag.vue')['default']
     Header: typeof import('./src/components/layout/components/header.vue')['default']
