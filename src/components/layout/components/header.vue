@@ -103,7 +103,7 @@ const menuStore = useMenuStore()
 .header-right {
   flex: 1;
   .header-icon {
-    flex: 0 0 44px;
+    width: 44px;
     justify-content: center;
     cursor: pointer;
   }

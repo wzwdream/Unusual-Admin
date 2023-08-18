@@ -18,7 +18,9 @@
         </template>
         <n-checkbox-group v-model:value="selectedColums" :on-update:value="selectedChange">
           <n-space vertical>
-            <n-checkbox v-for="column in deepColumns" :key="column.key" :value="column.key" :label="column.title" />
+            <template v-for="column in deepColumns">
+              <n-checkbox v-if="column.type !== 'selection'" :key="column.key" :value="column.key" :label="column.title" />
+            </template>
           </n-space>
         </n-checkbox-group>
       </n-popover>

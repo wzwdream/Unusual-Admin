@@ -1,5 +1,5 @@
 <script setup lang="ts" name="BaseList">
-import { BasicTableType } from '@/type/components';
+import { type BasicTableType } from '@/type/components';
 import { type DataTableColumn } from 'naive-ui/es/data-table';
 import { type FormInst } from 'naive-ui/es/form/src/interface'
 // 表单
@@ -48,7 +48,7 @@ const columns: Array<DataTableColumn> = [
     </n-form-item>
   </n-form>
 
-  <BasicTable ref="testTable" :columns="columns" :url="'/list/test'" :query-params="defualtQuery" :title="'测试'" />
+  <BasicTable ref="testTable" :columns="columns" :url="'/list/test'" :query-params="defualtQuery" />
 </template>
 
 <style scoped>
