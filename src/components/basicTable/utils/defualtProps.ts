@@ -32,7 +32,15 @@ export const defualtProps = {
     type: Boolean,
     default: true
   },
+  download: {
+    type: Boolean,
+    default: true
+  },
   selection: {
+    type: Boolean,
+    default: true
+  },
+  toolbar: {
     type: Boolean,
     default: true
   }

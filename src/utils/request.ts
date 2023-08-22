@@ -7,6 +7,12 @@ declare module 'axios' {
     }
     export interface AxiosResponse extends IAxios {}
 }
+interface Data {
+    code: string
+    message: string
+    data: any
+    total?: number
+}
 const service: AxiosInstance = axios.create({
     timeout: 60000,
     baseURL: '/api',
@@ -18,13 +24,14 @@ service.interceptors.request.use(
         config.headers['Authorization'] ='Bearer ' +localStorage.getItem('token')
         return config
     },
-    (error: AxiosError) => {
+    (error: AxiosError<Data>) => {
         notification.create({ title: error.code, type: 'error', content: error.message, duration: 1600 })
         return Promise.reject(error)
     }
 );
 // 响应拦截器
 service.interceptors.response.use(
+    // AxiosResponse
     (response) => {
         if (response.status === 200) {
             return response.data
@@ -33,8 +40,8 @@ service.interceptors.response.use(
             return Promise.reject()
         }
     },
-    (error: AxiosError) => {
-        notification.create({ title: error.code, type: 'error', content: error.message, duration: 1600 })
+    (error: AxiosError<Data>) => {
+        notification.create({ title: error.response?.data.code, type: 'error', content: error.response?.data.message, duration: 1600 })
         return Promise.reject(error)
     }
 )

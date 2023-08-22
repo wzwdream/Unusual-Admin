@@ -17,14 +17,14 @@
       >
         <Menu />
       </n-layout-sider>
-      <n-layout-content :native-scrollbar="false">
-        <div class="layout-main">
-          <n-back-top :visibility-height="10" bottom="60" />
+      <n-layout-content :native-scrollbar="false" class="layout-main">
+        <div class="layout-box">
+          <n-back-top :visibility-height="10" bottom="120" />
           <router-view></router-view>
         </div>
       </n-layout-content>
       <n-layout-footer class="layout-footer" position="absolute">
-        Footer Footer Footer
+        xxxx公司 xxxxx系统 ⋅ xxxx备案号号-40
       </n-layout-footer>
     </n-layout>
   </n-layout>
@@ -34,7 +34,6 @@
 import Header from './components/header.vue'
 import { useMenuStore } from '@/store/menu'
 const menuStore = useMenuStore()
-
 </script>
 
 <style scoped>
@@ -54,12 +53,15 @@ const menuStore = useMenuStore()
   }
 
   .layout-main {
-    padding: 10px;
-    padding-bottom: 50px;
     background: #f5f7f9;
+    .layout-box {
+      padding: 10px;
+      padding-bottom: 43px;
+    }
   }
   .layout-footer {
-    height: 50px;
+    height: 33px;
+    line-height: 33px;
     z-index: 1;
     padding: 0 200px;
     text-align: center;

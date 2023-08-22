@@ -1,10 +1,11 @@
 <template>
 <n-space ref="table" vertical class="table">
-  <n-space justify="space-between" align="center">
+  <n-space v-if="props.toolbar" justify="space-between" align="center">
     <n-space>
       <n-button v-if="props.add" type="info" @click="emit('add')">新增</n-button>
       <n-button v-if="props.edit && props.selection" :disabled="editDisabled" type="warning" @click="emit('edit', checkedRowKeysRef)">修改</n-button>
       <n-button v-if="props.del && props.selection" :disabled="delDisabled" type="error" @click="emit('delete', checkedRowKeysRef)">删除</n-button>
+      <n-button v-if="props.download" :disabled="pagination.itemCount <= 0" type="primary" @click="emit('download')">导出</n-button>
       <slot name="tableLeft"></slot>
     </n-space>
     <n-space>
@@ -67,7 +68,7 @@ const table = ref<HTMLElement | null>(null)
 const { isFullscreen, toggle } = useFullscreen(table)
 
 // 选中行以及操作按钮
-const emit = defineEmits(['add', 'delete', 'edit'])
+const emit = defineEmits(['add', 'delete', 'edit', 'download'])
 const { checkedRowKeysRef, changeCheck, editDisabled, delDisabled } = useSelection()
 
 // 表格数据

@@ -5,6 +5,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import {NaiveUiResolver} from 'unplugin-vue-components/resolvers'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
+import UnoCSS from 'unocss/vite'
 import * as path from 'path';
 
 export default defineConfig({
@@ -17,6 +18,7 @@ export default defineConfig({
     plugins: [
         vue(),
         vueJsx(),
+        UnoCSS(),
         VueSetupExtend(), // setup语法糖name增强插件
         // 自动引入APi
         AutoImport({
