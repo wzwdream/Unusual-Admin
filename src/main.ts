@@ -1,8 +1,8 @@
 import {createApp} from 'vue'
 import './style.scss' // 全局样式
+import 'virtual:uno.css' // 引入unocss
 import App from './App.vue'
 import router from './router/index' // 引入路由
-import 'virtual:uno.css' // 引入unocss
 import {createPinia} from 'pinia' // 引入pinia
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import {create, NButton} from 'naive-ui'

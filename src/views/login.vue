@@ -86,8 +86,8 @@ onMounted(() => {
 }
 
 .loginForm {
-    width: 25rem;
-    height: 30rem;
+    width: 100rem;
+    height: 120rem;
     background-color: #fff;
     position: relative;
     top: 50%;

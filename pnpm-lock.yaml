@@ -58,6 +58,9 @@ devDependencies:
   '@unocss/preset-attributify':
     specifier: ^0.55.2
     version: 0.55.2
+  '@unocss/preset-rem-to-px':
+    specifier: ^0.55.2
+    version: 0.55.2
   '@unocss/preset-uno':
     specifier: ^0.55.2
     version: 0.55.2
@@ -1184,6 +1187,12 @@ packages:
     dependencies:
       '@unocss/core': 0.55.2
       '@unocss/extractor-arbitrary-variants': 0.55.2
+    dev: true
+
+  /@unocss/preset-rem-to-px@0.55.2:
+    resolution: {integrity: sha512-vVF+gsh4NGXljgrpFZ4Cj8y8wpgg2WVKH1Wb8KDHZdpMF+tGvUr8i3vrc0ZlRWS6zW+Rwzx5NleucdWWdsFP1A==}
+    dependencies:
+      '@unocss/core': 0.55.2
     dev: true
 
   /@unocss/preset-tagify@0.55.2:
