@@ -1,6 +1,7 @@
 <template>
-<n-space ref="table" vertical class="table">
-  <n-space v-if="props.toolbar" justify="space-between" align="center">
+<n-card :segmented="{ content: true }">
+  <template #header>
+    <n-space v-if="props.toolbar" justify="space-between" align="center">
     <n-space>
       <n-button v-if="props.add" type="info" @click="emit('add')">新增</n-button>
       <n-button v-if="props.edit && props.selection" :disabled="editDisabled" type="warning" @click="emit('edit', checkedRowKeysRef)">修改</n-button>
@@ -35,7 +36,8 @@
         <ColumSetting v-model:columns="columns" />
       </n-button-group>
     </n-space>
-  </n-space>
+    </n-space>
+  </template>
   <n-data-table
     v-bind="props"
     striped
@@ -48,7 +50,7 @@
     :on-update:page-size="pageSizeChange"
     @update:checked-row-keys="changeCheck"
   />
-</n-space>
+</n-card>
 </template>
 
 <script lang="ts" setup name="basicTable">
@@ -106,8 +108,4 @@ defineExpose({ listQuery })
 </script>
 
 <style scoped>
-.table {
-  background: #fff;
-  padding: 10px;
-}
 </style>

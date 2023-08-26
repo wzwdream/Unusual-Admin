@@ -43,7 +43,6 @@ const title = ref('title')
 const message = useMessage()
 function login() {
   formValue.userPassword = encrypt(Unencrypted.value)
-//   console.log(formValue,'fomrValue')
   Request.post('/api/login',formValue).then((response)=>{
     console.log(response,'response')
     if(response.code === 200){
@@ -56,10 +55,6 @@ function login() {
   })
   // Request.post('/user')
 }
-
-onMounted(() => {
-    console.log('title',title.value)
-})
 
 </script>
 
@@ -152,3 +147,4 @@ onMounted(() => {
     //color: #fe538d; */
 }
 </style>
+@/router/router1@/router/router

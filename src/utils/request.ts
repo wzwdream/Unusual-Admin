@@ -25,7 +25,7 @@ service.interceptors.request.use(
         return config
     },
     (error: AxiosError<Data>) => {
-        notification.create({ title: error.code, type: 'error', content: error.message, duration: 1600 })
+        notification.error({ title: error.code, content: error.message, duration: 1600 })
         return Promise.reject(error)
     }
 );
@@ -36,12 +36,18 @@ service.interceptors.response.use(
         if (response.status === 200) {
             return response.data
         } else {
-            notification.create({ title: response.data.code, type: 'error', content: response.data.message, duration: 600 })
+            notification.error({ title: response.data.code, content: response.data.message, duration: 1600 })
             return Promise.reject()
         }
     },
     (error: AxiosError<Data>) => {
-        notification.create({ title: error.response?.data.code, type: 'error', content: error.response?.data.message, duration: 1600 })
+        let title = error.code
+        let content = error.message
+        if (error.response?.data) {
+            title = error.response.data.code
+            content = error.response.data.message
+        }
+        notification.error({ title: title, content: content, duration: 1600 })
         return Promise.reject(error)
     }
 )

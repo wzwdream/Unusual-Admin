@@ -6,7 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import {NaiveUiResolver} from 'unplugin-vue-components/resolvers'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import UnoCSS from 'unocss/vite'
-import * as path from 'path';
+import path from 'path';
 
 export default defineConfig({
     resolve: {
