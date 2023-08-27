@@ -19,7 +19,7 @@
                     </n-form-item>
                 </n-form>
               <div style="width: 100%;display: flex;justify-content: center">
-                <n-button class="loginButton" type="primary" @click="login">确认</n-button>
+                <n-button class="loginButton" type="primary" @click="login" @keyup.enter="login">确认</n-button>
 
               </div>
 <!--                <n-button class="loginButton" type="primary" @click="passwordDeciphering">解密</n-button>-->
