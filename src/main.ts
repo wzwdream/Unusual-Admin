@@ -6,7 +6,7 @@ import router from './router' // 引入路由
 import {createPinia} from 'pinia' // 引入pinia
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { setting } from './setting'
-
+import directive from './directive'
 const pinia = createPinia() // 创建 Pinia 实例
 pinia.use(piniaPluginPersistedstate)
 
@@ -15,6 +15,7 @@ const meta = document.createElement('meta')
 meta.name = 'naive-ui-style'
 document.head.appendChild(meta)
 document.title = setting.title // 设置默认标题
+app.use(directive)
 app
 .use(router)
 .use(pinia)
