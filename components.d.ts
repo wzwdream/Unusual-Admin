@@ -9,11 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     BasicTable: typeof import('./src/components/basicTable/index.vue')['default']
     ColumSetting: typeof import('./src/components/basicTable/components/columSetting.vue')['default']
-    DataTable: typeof import('./src/components/dataTable/index.vue')['default']
     Drag: typeof import('./src/components/drag.vue')['default']
-    Header: typeof import('./src/components/layout/components/header.vue')['default']
-    Layout: typeof import('./src/components/layout/index.vue')['default']
-    Menu: typeof import('./src/components/menu.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']
     NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']

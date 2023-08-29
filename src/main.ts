@@ -11,6 +11,9 @@ const pinia = createPinia() // 创建 Pinia 实例
 pinia.use(piniaPluginPersistedstate)
 
 const app = createApp(App)
+const meta = document.createElement('meta')
+meta.name = 'naive-ui-style'
+document.head.appendChild(meta)
 document.title = setting.title // 设置默认标题
 app
 .use(router)

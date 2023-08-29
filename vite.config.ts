@@ -9,6 +9,7 @@ import UnoCSS from 'unocss/vite'
 import path from 'path';
 
 export default defineConfig({
+    base: './',
     resolve: {
         //设置别名
         alias: {

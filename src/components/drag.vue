@@ -3,7 +3,7 @@
     <div class="slide">
       <div @click="add()">{{count}}</div>
       <div id="list" v-on:mousedown="onDrag">
-        <img class="item" src="../assets/IMG_0249.JPG"/>
+        <img class="item" src="../assets/IMG_0249.jpg"/>
       </div>
     </div>
     <div id="content">
