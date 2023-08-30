@@ -1,5 +1,5 @@
 <template>
-  <n-layout-content :native-scrollbar="false" :scrollbar-props="{ xScrollable: true}" bg-white dark:bg-dark class="h-[calc(100vh-90px)]">
+  <n-layout-content ref="contentRef" :style="style()" :native-scrollbar="false" :scrollbar-props="{ xScrollable: true}" bg-hex-f5f6fb dark:bg-dark>
     <n-back-top :visibility-height=" 10 " bottom="120" />
     <main p-10>
       <router-view v-slot=" { Component, route } ">
@@ -12,3 +12,26 @@
     </main>
   </n-layout-content>
 </template>
+
+<script setup lang="ts" name="Content">
+import { useTagStore } from '@/store/tags'
+import { useFullscreen } from '@vueuse/core'
+import { setting } from '@/setting'
+const { showFooter, tagsView } = setting
+const style = () => {
+  let height = 60
+  if (showFooter) height += 30
+  if (tagsView) height += 48
+  return { height: `calc(100vh - ${height}px)` }
+}
+// 内容全屏
+const contentRef = ref<HTMLElement | null>(null)
+const { toggle, isFullscreen } = useFullscreen(contentRef)
+const tagStore = useTagStore()
+watch(isFullscreen, () => {
+  if(!isFullscreen.value) tagStore.setFullContent(isFullscreen.value)
+})
+watch(() => tagStore.fullContent, () => {
+  toggle()
+})
+</script>

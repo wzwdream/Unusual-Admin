@@ -1,56 +1,56 @@
 <template>
-<n-card :segmented="{ content: true }">
-  <template #header>
-    <n-space v-if="props.toolbar" justify="space-between" align="center">
-    <n-space>
-      <n-button v-if="props.add" type="info" @click="emit('add')">新增</n-button>
-      <n-button v-if="props.edit && props.selection" :disabled="editDisabled" type="warning" @click="emit('edit', checkedRowKeysRef)">修改</n-button>
-      <n-button v-if="props.del && props.selection" :disabled="delDisabled" type="error" @click="emit('delete', checkedRowKeysRef)">删除</n-button>
-      <n-button v-if="props.download" :disabled="pagination.itemCount <= 0" type="primary" @click="emit('download')">导出</n-button>
-      <slot name="tableLeft"></slot>
-    </n-space>
-    <n-space>
-      <slot name="tableRight"></slot>
-      <n-button-group>
-        <n-tooltip trigger="hover">
-          <template #trigger>
-            <n-button ghost @click="toggle">
-            <n-icon>
-              <FullscreenOutlined v-if="!isFullscreen" />
-              <FullscreenExitOutlined v-else />
-            </n-icon>
-          </n-button>
-          </template>
-          {{ !isFullscreen ? '全屏' : '退出全屏' }}
-        </n-tooltip>
-        <n-tooltip trigger="hover">
-          <template #trigger>
-            <n-button ghost @click="listQuery">
-              <template #icon>
-                <n-icon><Reload /></n-icon>
-              </template>
+  <n-card ref="table" :segmented="{ content: true }">
+    <template #header>
+      <n-space v-if="props.toolbar" justify="space-between" align="center">
+      <n-space>
+        <n-button v-if="props.add" type="info" @click="emit('add')">新增</n-button>
+        <n-button v-if="props.edit && props.selection" :disabled="editDisabled" type="warning" @click="emit('edit', checkedRowKeysRef)">修改</n-button>
+        <n-button v-if="props.del && props.selection" :disabled="delDisabled" type="error" @click="emit('delete', checkedRowKeysRef)">删除</n-button>
+        <n-button v-if="props.download" :disabled="pagination.itemCount <= 0" type="primary" @click="emit('download')">导出</n-button>
+        <slot name="tableLeft"></slot>
+      </n-space>
+      <n-space>
+        <slot name="tableRight"></slot>
+        <n-button-group>
+          <n-tooltip trigger="hover">
+            <template #trigger>
+              <n-button ghost @click="toggle">
+              <n-icon>
+                <FullscreenOutlined v-if="!isFullscreen" />
+                <FullscreenExitOutlined v-else />
+              </n-icon>
             </n-button>
-          </template>
-          刷新
-        </n-tooltip>
-        <ColumSetting v-model:columns="columns" />
-      </n-button-group>
-    </n-space>
-    </n-space>
-  </template>
-  <n-data-table
-    v-bind="props"
-    striped
-    :pagination="pagination"
-    :remote="true"
-    :loading="loading"
-    :data="listData"
-    :columns="columns"
-    :on-update:page="pageChange"
-    :on-update:page-size="pageSizeChange"
-    @update:checked-row-keys="changeCheck"
-  />
-</n-card>
+            </template>
+            {{ !isFullscreen ? '全屏' : '退出全屏' }}
+          </n-tooltip>
+          <n-tooltip trigger="hover">
+            <template #trigger>
+              <n-button ghost @click="listQuery">
+                <template #icon>
+                  <n-icon><Reload /></n-icon>
+                </template>
+              </n-button>
+            </template>
+            刷新
+          </n-tooltip>
+          <ColumSetting v-model:columns="columns" />
+        </n-button-group>
+      </n-space>
+      </n-space>
+    </template>
+    <n-data-table
+      v-bind="props"
+      striped
+      :pagination="pagination"
+      :remote="true"
+      :loading="loading"
+      :data="listData"
+      :columns="columns"
+      :on-update:page="pageChange"
+      :on-update:page-size="pageSizeChange"
+      @update:checked-row-keys="changeCheck"
+    />
+  </n-card>
 </template>
 
 <script lang="ts" setup name="basicTable">

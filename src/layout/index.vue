@@ -1,19 +1,9 @@
 <template>
   <n-layout has-sider>
-    <n-layout-sider
-      show-trigger
-      collapse-mode="width"
-      :collapsed-width="64"
-      :width="200"
-      :native-scrollbar="false"
-      :collapsed="menuStore.collapsed"
-      @collapse="menuStore.changeCollapsed(true)"
-      @expand="menuStore.changeCollapsed(false)"
-    >
-      <Sider />
-    </n-layout-sider>
+    <Sider />
     <n-layout h-full>
       <Header />
+      <TagsView />
       <Content />
       <Footer />
     </n-layout>
@@ -25,8 +15,7 @@ import Header from './components/header/index.vue'
 import Sider from './components/sider/index.vue'
 import Footer from './components/footer.vue'
 import Content from './components/content.vue'
-import { useMenuStore } from '@/store/menu'
-const menuStore = useMenuStore()
+import TagsView from './components/tagsView/index.vue'
 </script>
 
 <style scoped>

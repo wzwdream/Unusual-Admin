@@ -1,5 +1,5 @@
 <template>
-  <n-layout-header h-60 px-10 flex items-center>
+  <n-layout-header bordered h-60 px-10 flex items-center>
     <div flex items-center>
       <Collapsed />
       <Breadcrumb />

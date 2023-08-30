@@ -91,7 +91,7 @@ export default defineConfig({
         //关闭文件计算
         reportCompressedSize: false,
         //关闭生成map文件 可以达到缩小打包体积
-        sourcemap: false,
+        sourcemap: true,
         /** 打包后静态资源目录 */
         assetsDir: 'static',
         // 打包输出配置

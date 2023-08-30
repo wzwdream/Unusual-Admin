@@ -4,18 +4,6 @@ export const setting = {
    */
   title: 'Naive Admin',
   /**
-   * @description 是否显示 tagsView
-   */
-  tagsView: true,
-  // /**
-  //  * @description 记住密码状态下的token在Cookie中存储的天数，默认1天
-  //  */
-  // tokenCookieExpires: 1,
-  // /**
-  //  * @description 记住密码状态下的密码在Cookie中存储的天数，默认1天s
-  //  */
-  // passCookieExpires: 1,
-  /**
    * @description 是否只保持一个子菜单的展开(手风琴)
    */
   accordion: true,
@@ -32,6 +20,10 @@ export const setting = {
    */
   sidebarLogo: true,
   /**
+   * @description 是否显示 tagsView
+   */
+  tagsView: true,
+  /**
    * 是否显示设置的底部信息
    */
   showFooter: true,
@@ -47,31 +39,31 @@ export const setting = {
    * 主题颜色
    */
   naiveThemeOverrides: {
-    // common: {
-    //   primaryColor: '#316C72FF',
-    //   primaryColorHover: '#316C72E3',
-    //   primaryColorPressed: '#2B4C59FF',
-    //   primaryColorSuppl: '#316C72E3',
+    common: {
+      primaryColor: '#18a058',
+      primaryColorHover: '#36ad6a',
+      primaryColorPressed: '#0c7a43',
+      primaryColorSuppl: '#36ad6a',
 
-    //   infoColor: '#2080F0FF',
-    //   infoColorHover: '#4098FCFF',
-    //   infoColorPressed: '#1060C9FF',
-    //   infoColorSuppl: '#4098FCFF',
+      infoColor: '#2080f0',
+      infoColorHover: '#4098fc',
+      infoColorPressed: '#1060c9',
+      infoColorSuppl: '#4098fc',
 
-    //   successColor: '#18A058FF',
-    //   successColorHover: '#36AD6AFF',
-    //   successColorPressed: '#0C7A43FF',
-    //   successColorSuppl: '#36AD6AFF',
+      successColor: '#18a058',
+      successColorHover: '#36ad6a',
+      successColorPressed: '#0c7a43',
+      successColorSuppl: '#36ad6a',
 
-    //   warningColor: '#F0A020FF',
-    //   warningColorHover: '#FCB040FF',
-    //   warningColorPressed: '#C97C10FF',
-    //   warningColorSuppl: '#FCB040FF',
+      warningColor: '#f0a020',
+      warningColorHover: '#fcb040',
+      warningColorPressed: '#c97c10',
+      warningColorSuppl: '#fcb040',
 
-    //   errorColor: '#D03050FF',
-    //   errorColorHover: '#DE576DFF',
-    //   errorColorPressed: '#AB1F3FFF',
-    //   errorColorSuppl: '#DE576DFF'
-    // }
+      errorColor: '#d03050',
+      errorColorHover: '#de576d',
+      errorColorPressed: '#ab1f3f',
+      errorColorSuppl: '#de576d'
+    }
   }
 }

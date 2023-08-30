@@ -31,24 +31,25 @@ const columns: Array<DataTableColumn> = [
 </script>
 
 <template>
-  <n-form ref="formRef" inline :mode="defualtQuery" label-placement="left" label-width="auto">
-    <n-form-item label="姓名" path="user.name">
-      <n-input v-model:value="defualtQuery.name" placeholder="输入姓名" />
-    </n-form-item>
-    <n-form-item label="年龄" path="user.age">
-      <n-input v-model:value="defualtQuery.age" placeholder="输入年龄" />
-    </n-form-item>
-    <n-form-item>
-      <n-button attr-type="button" @click="handleValidateClick">
-        查询
-      </n-button>
-      <n-button attr-type="button" @click="handleValidateClick">
-        重置
-      </n-button>
-    </n-form-item>
-  </n-form>
-
-  <BasicTable ref="testTable" :columns="columns" :url="'/list/test'" :query-params="defualtQuery" />
+  <div>
+    <n-form ref="formRef" inline :mode="defualtQuery" label-placement="left" label-width="auto">
+      <n-form-item label="姓名" path="user.name">
+        <n-input v-model:value="defualtQuery.name" placeholder="输入姓名" />
+      </n-form-item>
+      <n-form-item label="年龄" path="user.age">
+        <n-input v-model:value="defualtQuery.age" placeholder="输入年龄" />
+      </n-form-item>
+      <n-form-item>
+        <n-button attr-type="button" @click="handleValidateClick">
+          查询
+        </n-button>
+        <n-button attr-type="button" @click="handleValidateClick">
+          重置
+        </n-button>
+      </n-form-item>
+    </n-form>
+    <BasicTable ref="testTable" :columns="columns" :url="'/list/test'" :query-params="defualtQuery" />
+  </div>
 </template>
 
 <style scoped>
