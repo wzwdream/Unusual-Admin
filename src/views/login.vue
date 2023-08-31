@@ -44,7 +44,7 @@
         return Request.post('/api/login', formValue).then((response) => {
             console.log(response, 'response')
             if (response.code === 200) {
-                message.success('登录成功')
+                message.success('登录成功,欢迎回来')
                 router.push('/list')
                 localStorage.setItem('token', response.data)
             } else {
