@@ -1,7 +1,8 @@
 <template>
+  <Search />
   <n-tooltip trigger="hover">
     <template #trigger>
-      <n-button mx-10 text @click="toggle">
+      <n-button mx-20 text @click="toggle">
         <n-icon size="24">
           <FullscreenOutlined v-if="!isFullscreen" />
           <FullscreenExitOutlined v-else />
@@ -28,6 +29,7 @@ import { SunnyOutline, MoonOutline } from '@vicons/ionicons5'
 import { FullscreenOutlined, FullscreenExitOutlined } from '@vicons/antd'
 import { useThemeStore } from '@/store/them';
 import { useFullscreen } from '@vueuse/core'
+import Search from './search.vue'
 const { isFullscreen, toggle } = useFullscreen()
 const themeStore = useThemeStore()
 const toggleDark = () => {

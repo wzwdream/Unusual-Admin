@@ -37,7 +37,8 @@ export const routes: RouteRecordRaw[] = [
         children:[
             {
                 path: '/email/email',
-                component: () => import('../views/email.vue')
+                component: () => import('../views/email.vue'),
+                meta: {title: '邮件'}
             }
         ]
 
