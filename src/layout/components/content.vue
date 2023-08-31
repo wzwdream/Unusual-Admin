@@ -32,6 +32,6 @@ watch(isFullscreen, () => {
   if(!isFullscreen.value) tagStore.setFullContent(isFullscreen.value)
 })
 watch(() => tagStore.fullContent, () => {
-  toggle()
+  if (tagStore.fullContent) toggle()
 })
 </script>
