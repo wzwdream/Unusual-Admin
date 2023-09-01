@@ -26,19 +26,21 @@
       <n-input v-model:value="searchValue" type="text" placeholder="请输入关键字进行搜索" />
     </template>
     <n-empty v-if="result.length <= 0" description="暂无搜索结果" />
-    <n-list v-else clickable>
-      <n-list-item v-for="(item, index) in result" :key="item.path" mb-5 b-rd-4 :class="{ 'bg-primary': actived === index }" @mouseenter="changeActive(index)" @click="jumpTo">
-        <n-space justify="space-between" :wrap="false" px-15>
-          <div>
-            <span>{{ item.meta?.title }}</span>
-            <span font-size-12 color-blueGray>（{{ item.path }}）</span>
-          </div>
-          <n-icon :depth="3">
-            <ReturnDownBackSharp />
-          </n-icon>
-        </n-space>
-      </n-list-item>
-    </n-list>
+    <n-scrollbar v-else max-h-300>
+      <n-list>
+        <n-list-item v-for="(item, index) in result" :key="item.path" mb-5 b-rd-4 :class="{ 'bg-primary': actived === index }" @mouseenter="changeActive(index)" @click="jumpTo">
+          <n-space justify="space-between" :wrap="false" px-15>
+            <div>
+              <span>{{ item.meta?.title }}</span>
+              <span font-size-12 color-blueGray>（{{ item.path }}）</span>
+            </div>
+            <n-icon :depth="3">
+              <ReturnDownBackSharp />
+            </n-icon>
+          </n-space>
+        </n-list-item>
+      </n-list>
+    </n-scrollbar>
     <template #footer>
       <div class="h-54px flex flex-items-center">
         <span class="mr-14px flex flex-items-center">
