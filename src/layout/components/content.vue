@@ -3,7 +3,7 @@
     <n-back-top :visibility-height=" 10 " bottom="120" />
     <main p-10>
       <router-view v-slot=" { Component, route } ">
-        <Transition :duration=" 550 " name="nested">
+        <Transition :duration=" 550 " name="fade">
           <KeepAlive>
             <component :is="Component" :key=" route.fullPath " />
           </KeepAlive>
