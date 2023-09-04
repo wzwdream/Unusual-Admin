@@ -43,7 +43,7 @@ const menuOptions: MenuOption[] = [
   ]
 },
 {
-  label: hRouter('邮件', '/email/email'),
+  label: hRouter('邮件', '/email/sendEmail'),
   key: 'email',
   icon: renderIcon(Mail),
 }

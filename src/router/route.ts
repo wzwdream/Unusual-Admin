@@ -31,13 +31,13 @@ export const routes: RouteRecordRaw[] = [
         ]
     },
     {
-        path: '/email',
-        redirect:'/email/email',
+        path: '/sendEmail',
+        redirect:'/email/sendEmail',
         component: Layout,
         children:[
             {
-                path: '/email/email',
-                component: () => import('../views/email.vue'),
+                path: '/email/sendEmail',
+                component: () => import('../views/sendEmail.tsx'),
                 meta: {title: '邮件'}
             }
         ]
