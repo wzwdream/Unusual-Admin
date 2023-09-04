@@ -37,7 +37,7 @@ export const routes: RouteRecordRaw[] = [
         children:[
             {
                 path: '/email/sendEmail',
-                component: () => import('../views/sendEmail.tsx'),
+                component: () => import('../views/sendEmail'),
                 meta: {title: '邮件'}
             }
         ]
