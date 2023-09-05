@@ -5,9 +5,7 @@
         <template #trigger>
           <n-button ghost>
             <template #icon>
-              <n-icon>
-                <ListOutline />
-              </n-icon>
+              <Icon icon="ant-design:setting-outlined" />
             </template>
           </n-button>
         </template>
@@ -30,8 +28,7 @@
 </template>
 
 <script lang="ts" setup name="ColumSetting">
-import { ListOutline } from '@vicons/ionicons5'
-import { type DataTableColumn } from 'naive-ui/es/data-table';
+import { type DataTableColumn } from 'naive-ui/es/data-table'
 
 const props =  defineProps<{ columns: Array<DataTableColumn> }>()
 const emit = defineEmits(['update:columns'])

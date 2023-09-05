@@ -2,9 +2,7 @@
   <n-tooltip trigger="hover">
     <template #trigger>
       <n-button text @click="showModal = true">
-        <n-icon size="24">
-          <SearchSharp />
-        </n-icon>
+        <Icon icon="ant-design:search-outlined" />
       </n-button>
     </template>
     搜索(Control+K)
@@ -34,9 +32,7 @@
               <span>{{ item.meta?.title }}</span>
               <span font-size-12 color-blueGray>（{{ item.path }}）</span>
             </div>
-            <n-icon :depth="3">
-              <ReturnDownBackSharp />
-            </n-icon>
+            <Icon icon="uil:enter" />
           </n-space>
         </n-list-item>
       </n-list>
@@ -44,24 +40,16 @@
     <template #footer>
       <div class="h-54px flex flex-items-center">
         <span class="mr-14px flex flex-items-center">
-          <n-icon class="icon text-20px p-2px mr-5px">
-            <ReturnDownBackSharp />
-          </n-icon>
+          <Icon class="icon text-20px p-2px mr-5px" icon="uil:enter" />
           <span>确认</span>
         </span>
         <span class="mr-14px flex flex-items-center">
-          <n-icon class="icon text-20px p-2px mr-5px">
-            <ArrowUpOutline />
-          </n-icon>
-          <n-icon class="icon text-20px p-2px mr-5px">
-            <ArrowDownOutline />
-          </n-icon>
+          <Icon class="icon text-20px p-2px mr-5px" icon="material-symbols:arrow-upward" />
+          <Icon class="icon text-20px p-2px mr-5px" icon="material-symbols:arrow-downward" />
           <span>切换</span>
         </span>
         <span class="flex flex-items-center">
-          <n-icon class="icon text-20px p-2px mr-5px">
-            <CloseOutline />
-          </n-icon>
+          <Icon class="icon text-20px p-2px mr-5px" icon="material-symbols:close-rounded" />
           <span>关闭</span>
         </span>
       </div>
@@ -74,7 +62,6 @@
 import { routes } from '@/router/route'
 import { type RouteRecordRaw } from 'vue-router'
 import { onKeyStroke } from '@vueuse/core'
-import { SearchSharp, ArrowDownOutline, ArrowUpOutline, CloseOutline, ReturnDownBackSharp } from '@vicons/ionicons5'
 
 const showModal = ref(false)
 const searchValue = ref('')

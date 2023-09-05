@@ -3,10 +3,8 @@
   <n-tooltip trigger="hover">
     <template #trigger>
       <n-button mx-20 text @click="toggle">
-        <n-icon size="24">
-          <FullscreenOutlined v-if="!isFullscreen" />
-          <FullscreenExitOutlined v-else />
-        </n-icon>
+        <Icon v-if="!isFullscreen" icon="ant-design:fullscreen-outlined" />
+        <Icon v-else icon="ant-design:fullscreen-exit-outlined" />
       </n-button>
     </template>
     {{ !isFullscreen ? '全屏' : '退出全屏' }}
@@ -14,10 +12,8 @@
   <n-tooltip trigger="hover">
     <template #trigger>
       <n-button mr-20 text @click="toggleDark">
-        <n-icon size="24">
-          <SunnyOutline v-if="!themeStore.isDark" />
-          <MoonOutline v-else />
-        </n-icon>
+        <Icon v-if="!themeStore.isDark" icon="material-symbols:sunny-outline" />
+        <Icon v-else icon="material-symbols:dark-mode-outline-rounded" />
       </n-button>
     </template>
     {{ !themeStore.isDark ? '深色' : '浅色' }}
@@ -25,8 +21,6 @@
 </template>
 
 <script setup lang="ts" name="Tools">
-import { SunnyOutline, MoonOutline } from '@vicons/ionicons5'
-import { FullscreenOutlined, FullscreenExitOutlined } from '@vicons/antd'
 import { useThemeStore } from '@/store/them';
 import { useFullscreen } from '@vueuse/core'
 import Search from './search.vue'

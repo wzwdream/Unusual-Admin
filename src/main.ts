@@ -27,6 +27,7 @@
 import { createApp } from 'vue'
 import './style.scss' // 全局样式
 import 'uno.css' // 引入unocss
+import 'virtual:svg-icons-register' // 本地图标注册
 import App from './App.vue'
 import router from './router' // 引入路由
 import {createPinia} from 'pinia' // 引入pinia

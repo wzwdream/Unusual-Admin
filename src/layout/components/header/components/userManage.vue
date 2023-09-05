@@ -9,25 +9,19 @@
     <n-button-group vertical>
       <n-button text>
         <template #icon>
-          <n-icon>
-            <PersonOutline />
-          </n-icon>
+          <Icon icon="material-symbols:manage-accounts-outline" />
         </template>
         个人设置
       </n-button>
       <n-button text>
         <template #icon>
-          <n-icon>
-            <LockClosedOutline />
-          </n-icon>
+          <Icon icon="ri:lock-line" />
         </template>
         修改密码
       </n-button>
       <n-button text>
         <template #icon>
-          <n-icon>
-            <LogOutOutline />
-          </n-icon>
+          <Icon icon="material-symbols:logout" />
         </template>
       退出登录
     </n-button>
@@ -35,6 +29,5 @@
 </n-popover>
 </template>
 <script setup lang="ts" name="UserManage">
-import { LogOutOutline, LockClosedOutline, PersonOutline } from '@vicons/ionicons5'
 
 </script>

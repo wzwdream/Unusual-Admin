@@ -15,10 +15,8 @@
           <n-tooltip trigger="hover">
             <template #trigger>
               <n-button ghost @click="toggle">
-              <n-icon>
-                <FullscreenOutlined v-if="!isFullscreen" />
-                <FullscreenExitOutlined v-else />
-              </n-icon>
+                <Icon v-if="!isFullscreen" icon="ant-design:fullscreen-outlined" />
+                <Icon v-else icon="ant-design:fullscreen-exit-outlined" />
             </n-button>
             </template>
             {{ !isFullscreen ? '全屏' : '退出全屏' }}
@@ -27,7 +25,7 @@
             <template #trigger>
               <n-button ghost @click="listQuery">
                 <template #icon>
-                  <n-icon><Reload /></n-icon>
+                  <Icon icon="ant-design:reload-outlined" />
                 </template>
               </n-button>
             </template>
@@ -58,8 +56,8 @@ import { usePagination } from './hooks/usePagination'
 import { useRequest } from './hooks/useRequest'
 import { useSelection } from './hooks/useSelection'
 import { defualtProps } from './utils/defualtProps'
-import { FullscreenOutlined, FullscreenExitOutlined } from '@vicons/antd'
-import { Reload } from '@vicons/ionicons5'
+// import { FullscreenOutlined, FullscreenExitOutlined } from '@vicons/antd'
+// import { Reload } from '@vicons/ionicons5'
 import { useFullscreen } from '@vueuse/core'
 
 // props

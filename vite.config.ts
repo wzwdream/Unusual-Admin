@@ -1,19 +1,24 @@
-import {defineConfig} from 'vite';
-import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import {NaiveUiResolver} from 'unplugin-vue-components/resolvers'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import UnoCSS from 'unocss/vite'
-import path from 'path';
+import { resolve } from 'path'
+import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import { FileSystemIconLoader } from 'unplugin-icons/loaders'
 
+const svfIconPath = resolve(process.cwd(), 'src/assets/svg')
 export default defineConfig({
     base: './',
     resolve: {
         //设置别名
         alias: {
-            '@': path.resolve(__dirname, 'src')
+            '@': resolve(__dirname, 'src')
         }
     },
     plugins: [
@@ -21,6 +26,14 @@ export default defineConfig({
         vueJsx(),
         UnoCSS(),
         VueSetupExtend(), // setup语法糖name增强插件
+        Icons({
+            compiler: 'vue3',
+            customCollections: {
+              svg: FileSystemIconLoader(svfIconPath),
+            },
+            scale: 1,
+            defaultClass: 'inline-block',
+          }),
         // 自动引入APi
         AutoImport({
             include: [
@@ -49,8 +62,15 @@ export default defineConfig({
         Components({
             dirs: ['src/components'], // 自动导入项目的公共组件
             extensions: ['vue', 'tsx'], // 组件有效的文件扩展名
-            resolvers: [NaiveUiResolver()] // 自动导入naive组件库组件
+            resolvers: [
+                NaiveUiResolver(),
+                IconsResolver({ customCollections: ['svg'], componentPrefix: 'icon' }),
+            ] // 自动导入naive组件库组件
         }),
+        createSvgIconsPlugin({
+            iconDirs: [svfIconPath],
+            symbolId: 'icon-[dir]-[name]'
+          }),
     ],
     server: {
         port: 8080, //启动端口
@@ -65,7 +85,7 @@ export default defineConfig({
                 target: 'http://127.0.0.1:3500',
                 changeOrigin: true,
                 rewrite: (path) => {
-                   return  path.replace(/^\/api/, '/')
+                    return path.replace(/^\/api/, '/')
                     // return path
                 }
             }
