@@ -1,6 +1,5 @@
 import { defineComponent, ref } from 'vue'
-import { FormInst, FormItemInst, FormItemRule, useMessage, FormRules,NForm ,NFormItem ,NRow ,NCol,NButton,NInput} from 'naive-ui'
-import { divide } from 'lodash-es'
+import { FormInst, FormItemInst, FormItemRule, useMessage, FormRules, NForm, NFormItem, NRow, NCol, NButton, NInput } from 'naive-ui'
 interface ModelType {
     addressee: string | null
     subject: string | null
@@ -10,7 +9,6 @@ export default defineComponent({
     name: 'sendEmail',
     setup() {
         const formRef = ref<FormInst | null>(null)
-        const rPasswordFormItemRef = ref<FormItemInst | null>(null)
         const message = useMessage()
         // const splitter = new GraphemeSplitter()
         const emailData = ref<ModelType>({
@@ -18,62 +16,79 @@ export default defineComponent({
             subject: null,
             content: null,
         })
-        // function countGraphemes(value: string) {
-        //     splitter.countGraphemes(value)
-        // }
-        const rules: FormRules = {
-            addressee: [
-                {
-                    required: true,
-                    trigger: ['input', 'blur'],
-                },
-            ],
-            subject: [
-                {
-                    required: true,
-                    message: '请输入密码',
-                },
-            ],
-            content: [
-                {
-                    required: true,
-                    message: '请再次输入密码',
-                    trigger: ['input', 'blur'],
-                },
-            ],
+        function handleValidateButtonClick(e: MouseEvent) {
+            e.preventDefault()
+            console.log(formRef.value, 'form')
+            console.log(emailData.value, 'data')
+            formRef.value?.validate((errors) => {
+                if (!errors) {
+                    message.success('验证成功')
+                } else {
+                    console.log(errors)
+                    message.error('验证失败')
+                }
+            })
         }
-        return ()=> <div>
-        <NForm ref='formRef' model={emailData} rules={rules}>
-            <NFormItem path='age' label='收件人'>
-                <NInput v-model:value={emailData.value.addressee}  maxlength='30' clearable show-count />
-            </NFormItem>
-            <NFormItem path='password' label='主题'>
-                <NInput v-model={emailData.value.subject}  maxlength='30' clearable show-count />
-            </NFormItem>
-            <NFormItem label='内容'>
-                <NInput
-                    v-model={emailData.value.content}
-                    // onKeyPress.enter={()=>{}}
-                    type='textarea'
-                    placeholder='请输入'
-                    maxlength='1000'
-                    clearable
-                    show-count
-                />
-            </NFormItem>
-            <NRow gutter={[0, 24]}>
-                <NCol span={'24'}>
-                    <div style='display: flex; justify-content: flex-end'>
-                        <NButton disabled={emailData.value.addressee === null} round type='primary'>
-                            发送
-                        </NButton>
-                    </div>
-                </NCol>
-            </NRow>
-        </NForm>
+        const ruleForm: FormRules = {
 
-    </div>
+            addressee: {
+                required: true,
+                trigger: ['input', 'blur'],
+                message: '请输入收件人邮箱',
+            },
 
+            subject: {
+                required: true,
+                trigger: ['input', 'blur'],
+                message: '请输入主题',
+            },
 
-    }
+            content: {
+                required: true,
+                message: '请输入内容',
+                trigger: ['input', 'blur'],
+            },
+        }
+        const small = 'medium'
+
+        return () =>
+            <div class='w-full min-h-[calc(100vh-138px)] bg-[#fff]'>
+                <div class='w-1/3 m-auto p-10 '>
+                    <NForm ref={formRef} model={emailData} rules={ruleForm} size={small}>
+                        <NFormItem path='age' label='收件人'>
+                            <NInput v-model:value={emailData.value.addressee} maxlength='30' clearable />
+                        </NFormItem>
+                        <NFormItem path='password' label='主题'>
+                            <NInput v-model:value={emailData.value.subject} maxlength='30' clearable />
+                        </NFormItem>
+                        <NFormItem label='内容'>
+                            <NInput
+                                v-model:value={emailData.value.content}
+                                // onKeyPress.enter={()=>{}}
+                                type='textarea'
+                                placeholder='请输入'
+                                maxlength='1000'
+                                clearable
+                                show-count
+                            />
+                        </NFormItem>
+                        <NRow gutter={[0, 24]}>
+                            <NCol span={'24'}>
+                                <div style='display: flex; justify-content: flex-end'>
+                                    <NButton
+                                        disabled={emailData.value.addressee === null}
+                                        round
+                                        type='primary'
+                                        onClick={handleValidateButtonClick}
+                                    >
+                                        发送
+                                    </NButton>
+                                </div>
+                            </NCol>
+                        </NRow>
+                    </NForm>
+                </div>
+            </div>
+
+    },
 })
