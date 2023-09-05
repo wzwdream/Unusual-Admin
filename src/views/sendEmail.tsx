@@ -30,7 +30,6 @@ export default defineComponent({
             })
         }
         const ruleForm: FormRules = {
-
             addressee: {
                 required: true,
                 trigger: ['input', 'blur'],
@@ -51,20 +50,19 @@ export default defineComponent({
         }
         const small = 'medium'
 
-        return () =>
+        return () => (
             <div class='w-full min-h-[calc(100vh-138px)] bg-[#fff]'>
                 <div class='w-1/3 m-auto p-10 '>
-                    <NForm ref={formRef} model={emailData} rules={ruleForm} size={small}>
-                        <NFormItem path='age' label='收件人'>
+                    <NForm ref={formRef} model={emailData.value} rules={ruleForm} size={small}>
+                        <NFormItem path='addressee' label='收件人'>
                             <NInput v-model:value={emailData.value.addressee} maxlength='30' clearable />
                         </NFormItem>
-                        <NFormItem path='password' label='主题'>
+                        <NFormItem path='subject' label='主题'>
                             <NInput v-model:value={emailData.value.subject} maxlength='30' clearable />
                         </NFormItem>
-                        <NFormItem label='内容'>
+                        <NFormItem label='内容'  path='content'>
                             <NInput
                                 v-model:value={emailData.value.content}
-                                // onKeyPress.enter={()=>{}}
                                 type='textarea'
                                 placeholder='请输入'
                                 maxlength='1000'
@@ -89,6 +87,6 @@ export default defineComponent({
                     </NForm>
                 </div>
             </div>
-
+        )
     },
 })
