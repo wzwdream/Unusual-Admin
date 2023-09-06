@@ -1,5 +1,7 @@
 import { defineComponent, ref } from 'vue'
 import { FormInst, FormItemInst, FormItemRule, useMessage, FormRules, NForm, NFormItem, NRow, NCol, NButton, NInput } from 'naive-ui'
+// import { domToPng, domToWebp } from 'modern-screenshot'
+import ScreenShot from 'js-web-screen-shot'
 interface ModelType {
     addressee: string | null
     subject: string | null
@@ -49,6 +51,29 @@ export default defineComponent({
             },
         }
         const small = 'medium'
+        const shotCut = function () {
+            // domToWebp(document.getElementsByTagName('form')[0], { quality: 1,timeout:30000}).then(dataUrl => {
+            //     const link = document.createElement('a')
+            //     link.download = 'screenshot.webp'
+            //     link.href = dataUrl
+            //     link.click()
+            //   })
+            const shot = new ScreenShot({
+                clickCutFullScreen: true,
+                enableWebRtc: false,
+                clickCutFullScreen:true,
+                completeCallback: ({base64, cutInfo}) => {
+                    console.log(base64, cutInfo);
+                    const link = document.createElement('a')
+                        link.download = 'screenshot.png'
+                        link.href = base64
+                        link.click()
+                },
+                triggerCallback:() => {
+                  // 截图组件加载完毕调用此方法来完成框选区域的截图
+                  shot.completeScreenshot()
+                }})
+        }
 
         return () => (
             <div class='wh-full'>
@@ -60,7 +85,7 @@ export default defineComponent({
                         <NFormItem path='subject' label='主题'>
                             <NInput v-model:value={emailData.value.subject} maxlength='30' clearable />
                         </NFormItem>
-                        <NFormItem label='内容'  path='content'>
+                        <NFormItem label='内容' path='content'>
                             <NInput
                                 v-model:value={emailData.value.content}
                                 type='textarea'
@@ -80,6 +105,11 @@ export default defineComponent({
                                         onClick={handleValidateButtonClick}
                                     >
                                         发送
+                                    </NButton>
+                                </div>
+                                <div style='display: flex; justify-content: flex-end' class='mt-10px'>
+                                    <NButton round type='primary' onClick={shotCut}>
+                                        截图
                                     </NButton>
                                 </div>
                             </NCol>
