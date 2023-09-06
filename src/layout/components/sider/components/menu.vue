@@ -35,6 +35,7 @@ const menuOptions: MenuOption[] = [
     {
       label: hRouter('基础列表', '/list'),
       key: 'go-to-work',
+      icon: renderIcon('material-symbols:align-space-even-rounded'),
     },
     {
       label: hRouter('拖拽', '/list/drag'),

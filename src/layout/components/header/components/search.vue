@@ -1,7 +1,7 @@
 <template>
   <n-tooltip trigger="hover">
     <template #trigger>
-      <n-button text @click="showModal = true">
+      <n-button mr-20 text @click="showModal = true">
         <Icon icon="ant-design:search-outlined" />
       </n-button>
     </template>

@@ -2,7 +2,7 @@
   <Search />
   <n-tooltip trigger="hover">
     <template #trigger>
-      <n-button mx-20 text @click="toggle">
+      <n-button mr-20 text @click="toggle">
         <Icon v-if="!isFullscreen" icon="ant-design:fullscreen-outlined" />
         <Icon v-else icon="ant-design:fullscreen-exit-outlined" />
       </n-button>
@@ -17,6 +17,14 @@
       </n-button>
     </template>
     {{ !themeStore.isDark ? '深色' : '浅色' }}
+  </n-tooltip>
+  <n-tooltip trigger="hover">
+    <template #trigger>
+      <n-button mr-20 text @click="toggleDark">
+        <Icon icon="mdi:github" />
+      </n-button>
+    </template>
+    GitHub仓库
   </n-tooltip>
 </template>
 

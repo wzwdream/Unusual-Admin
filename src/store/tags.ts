@@ -3,17 +3,7 @@ export const useTagStore = defineStore('tags', {
   state: () => {
     return {
       tags: [
-        { key: '1', name: '爱在西元前' },
-        { key: '2', name: '不该' },
-        { key: '3', name: '超人不会飞' },
-        { key: '4', name: '手写的从前' },
-        { key: '5', name: '哪里都是你' },
-        { key: '6', name: '哪里都是你' },
-        { key: '7', name: '哪里都是你' },
-        { key: '8', name: '哪里都是你' },
-        { key: '9', name: '哪里都是你' },
-        { key: '10', name: '哪里都是你' },
-        { key: '11', name: '哪里都是你' },
+        { key: '1', name: '爱在西元前' }
       ],
       activeTag: '',
       showContextMenu: false,

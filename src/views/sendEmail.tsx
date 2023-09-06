@@ -51,7 +51,7 @@ export default defineComponent({
         const small = 'medium'
 
         return () => (
-            <div class='w-full min-h-[calc(100vh-138px)] bg-[#fff]'>
+            <div class='wh-full'>
                 <div class='w-1/3 m-auto p-10 '>
                     <NForm ref={formRef} model={emailData.value} rules={ruleForm} size={small}>
                         <NFormItem path='addressee' label='收件人'>
