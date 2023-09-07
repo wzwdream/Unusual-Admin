@@ -26,6 +26,7 @@
     "sass": "^1.66.1",
     "terser": "^5.19.2",
     "vue": "^3.3.4",
+    "vue-i18n": "^9.3.0",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {

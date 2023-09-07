@@ -18,9 +18,10 @@
     </template>
     {{ !themeStore.isDark ? '深色' : '浅色' }}
   </n-tooltip>
+  <Language />
   <n-tooltip trigger="hover">
     <template #trigger>
-      <n-button mr-20 text @click="toggleDark">
+      <n-button text mr-20 @click="openGithub">
         <Icon icon="mdi:github" />
       </n-button>
     </template>
@@ -32,9 +33,16 @@
 import { useThemeStore } from '@/store/them';
 import { useFullscreen } from '@vueuse/core'
 import Search from './search.vue'
+import Language from './language.vue'
+
 const { isFullscreen, toggle } = useFullscreen()
 const themeStore = useThemeStore()
+
 const toggleDark = () => {
   themeStore.setIsDark()
+}
+
+const openGithub = () => {
+  window.open('https://github.com/wzwdream/widgets-for-windows', '_blank')
 }
 </script>

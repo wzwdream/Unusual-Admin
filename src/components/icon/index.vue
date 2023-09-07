@@ -11,21 +11,21 @@ import { NIcon } from 'naive-ui'
 
 interface IconProps {
   icon: string
-  size?: number
+  size?: number | string
   color?: string
   type?: 'iconify' | 'svg'
 }
 const props = withDefaults(defineProps<IconProps>(), {
   size: 24,
-  color: '#333639',
+  color: '',
   type: 'iconify'
 })
 
-const renderIcon = (icon: string, props: { size: number, color: string }) => {
+const renderIcon = (icon: string, props: { size: number | string, color: string }) => {
   return () => h(NIcon, props, { default: () => h(Icon, { icon }) })
 }
 
-const renderSvgIcon = (icon: string, props: { size: number, color: string }) => {
+const renderSvgIcon = (icon: string, props: { size: number | string, color: string }) => {
   return () => h(NIcon, props, { default: () => h(SvgIcon, { icon }) })
 }
 

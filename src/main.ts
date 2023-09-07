@@ -30,16 +30,17 @@ import 'uno.css' // 引入unocss
 import 'virtual:svg-icons-register' // 本地图标注册
 import App from './App.vue'
 import router from './router' // 引入路由
-import {createPinia} from 'pinia' // 引入pinia
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { useVarCss } from './utils/help'
-import directive from './directive'
-
-const pinia = createPinia() // 创建 Pinia 实例
-pinia.use(piniaPluginPersistedstate)
+import { setupDirective } from './directive'
+import { setupI18n } from './lang/index'
+import { setupPinia } from './store/index'
 
 const app = createApp(App)
 
+// 插件/全局配置
+setupI18n(app)
+setupPinia(app)
+setupDirective(app)
 useVarCss()
 
-app.use(router).use(pinia).use(directive).mount('#app')
+app.use(router).mount('#app')
