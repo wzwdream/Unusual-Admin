@@ -1,11 +1,13 @@
+import { menu } from '@/type/menu'
 import { defineStore } from 'pinia'
+import router from '@/router'
 export const useTagStore = defineStore('tags', {
   state: () => {
     return {
       tags: [
-        { key: '1', name: '爱在西元前' }
-      ],
-      activeTag: '',
+        { key: '/list/baseList', label: '基础列表', icon: 'material-symbols:align-space-even-rounded' }
+      ] as menu[],
+      activeTag: '/list/baseList',
       showContextMenu: false,
       contextMenuX: 0,
       contextMenuY: 0,
@@ -25,12 +27,21 @@ export const useTagStore = defineStore('tags', {
     removeTag(val: string) {
       const tags = this.tags.filter(item => item.key !== val)
       this.setTags(tags)
+      if (val === this.activeTag) this.changeActiveTag(tags[0].key)
     },
-    setTags(val: { key: string; name: string }[]) {
+    addTag(val: menu) {
+      if (this.tags.findIndex(item => item.key === val.key) >= 0) return
+      const tags = [...this.tags, val]
+      this.setTags(tags)
+    },
+    setTags(val: menu[]) {
       this.tags = val
     },
-    changeActiveTag(val: string) {
-      this.activeTag = val
+    changeActiveTag(val: string, jump: boolean = true) {
+      if (this.activeTag !== val) {
+        if(jump) router.push(val)
+        this.activeTag = val
+      }
     },
     handleContextmenu(e: MouseEvent, val: string) {
       this.currentTag = val
@@ -58,7 +69,8 @@ export const useTagStore = defineStore('tags', {
       this.setTags(filterTags)
     },
     removeAll() {
-      this.setTags([])
+      this.setTags([this.tags[0]])
+      this.changeActiveTag(this.tags[0].key)
     }
   },
   persist: true

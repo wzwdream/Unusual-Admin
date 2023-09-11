@@ -11,6 +11,7 @@ declare module 'vue' {
     ColumSetting: typeof import('./src/components/basicTable/components/columSetting.vue')['default']
     Drag: typeof import('./src/components/drag.vue')['default']
     Icon: typeof import('./src/components/icon/index.vue')['default']
+    Link: typeof import('./src/components/link/index.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']
     NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']

@@ -30,7 +30,7 @@ const i18n = createI18n({
   locale: getLanguage(),
   messages: {
     'zh-CN': zhCN,
-    en
+    en: en
   }
 })
 

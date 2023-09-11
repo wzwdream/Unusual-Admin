@@ -1,54 +1,25 @@
 <template>
-  <n-menu :options="menuOptions" :default-expanded-keys="defaultExpandedKeys" :accordion="accordion" />
+  <n-menu v-model:value="menuSotre.activeMenuKey" :options="menuOptions" :accordion="accordion" :on-update-value="activeMenuChange" />
 </template>
 
 <script setup lang="ts" name="Menu">
-import { type MenuOption } from 'naive-ui'
-import { RouterLink } from 'vue-router'
-import { h } from 'vue'
 import { setting } from '@/setting'
-import Icon from '@/components/icon/index.vue';
+import { useMenuStore } from '@/store/menu'
+import { buildMenuOptions, searchMenu } from '@/utils/help'
+import { useTagStore } from '@/store/tags'
+
+
 const { accordion } = setting
-function renderIcon(icon: string) {
-  return () => h(Icon, {icon})
+const menuSotre = useMenuStore()
+const tagStore = useTagStore()
+const activeMenuChange = (key: string) => {
+  const tag = searchMenu(menuSotre.menu, key)
+  if (tag) {
+    tagStore.addTag(tag)
+    tagStore.changeActiveTag(key, false)
+  }
 }
-
-// 使用v-router跳转
-const hRouter = (lable: string, router: string) => {
-return () => h(
-  RouterLink,
-  {
-    to: {
-      path: router
-    }
-  },
-  { default: () => lable }
-)
-}
-
-const menuOptions: MenuOption[] = [
-{
-  label: '列表',
-  key: 'list',
-  icon: renderIcon('material-symbols:align-space-even-rounded'),
-  children: [
-    {
-      label: hRouter('基础列表', '/list'),
-      key: 'list',
-      icon: renderIcon('material-symbols:align-space-even-rounded'),
-    },
-    {
-      label: hRouter('拖拽', '/list/drag'),
-      key: 'drap',
-    }
-  ]
-},
-{
-  label: hRouter('邮件', '/email/sendEmail'),
-  key: 'email',
-  icon: renderIcon('material-symbols:attach-email-outline'),
-}
-]
-const defaultExpandedKeys = ['fish', 'braise']
-
+const menuOptions = computed(() => {
+  return buildMenuOptions(menuSotre.menu)
+})
 </script>

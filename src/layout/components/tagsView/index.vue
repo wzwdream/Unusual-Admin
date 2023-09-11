@@ -8,10 +8,13 @@
         class="cursor-pointer hover:color-primary rd-4 px-10"
         :closable="tagStore.tags.length > 1"
         @close="tagStore.removeTag(tag.key)"
-        @click="tagStore.changeActiveTag(tag.key)"
+        @click="tagClick(tag.key)"
         @contextmenu.prevent="tagStore.handleContextmenu($event, tag.key)"
       >
-        {{ tag.name }}
+        <template #icon>
+          <Icon :icon="(tag.icon as string)" size="14" />
+        </template>
+        {{ tag.label }}
       </n-tag>
     </n-space>
     <Contextmenu />
@@ -22,8 +25,16 @@
 import Contextmenu from './Contextmenu.vue'
 import { useTagStore } from '@/store/tags'
 import { setting } from '@/setting'
+import { useMenuStore } from '@/store/menu'
+
 const { tagsView } = setting
 const tagStore = useTagStore()
+const menuStore = useMenuStore()
+
+const tagClick = (key: string) => {
+  menuStore.setActiveMenuKey(key)
+  tagStore.changeActiveTag(key)
+}
 </script>
 
 <style scoped>
