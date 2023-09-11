@@ -6,7 +6,7 @@
         <Icon v-else icon="ant-design:menu-fold-outlined" />
       </n-button>
     </template>
-    {{ !menuStore.collapsed ? '收起菜单' : '展开菜单' }}
+    {{ !menuStore.collapsed ? $t('header.collapsed') : $t('header.expand') }}
   </n-tooltip>
 </template>
 

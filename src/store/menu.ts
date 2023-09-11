@@ -15,7 +15,6 @@ export const useMenuStore = defineStore('menu', {
       this.collapsed = val
     },
     setActiveMenuKey(val: string) {
-      console.log(val)
       this.activeMenuKey = val
     }
   },

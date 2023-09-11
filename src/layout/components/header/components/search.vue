@@ -5,7 +5,7 @@
         <Icon icon="ant-design:search-outlined" />
       </n-button>
     </template>
-    搜索(Control+K)
+    {{ $t('header.search') }}(Control+K)
   </n-tooltip>
   <n-modal
     v-model:show="showModal"
@@ -21,9 +21,9 @@
       footer-style="padding: 0;"
     >
     <template #header>
-      <n-input v-model:value="searchValue" type="text" placeholder="请输入关键字进行搜索" />
+      <n-input v-model:value="searchValue" type="text" :placeholder="$t('header.seachPlaceholder')" />
     </template>
-    <n-empty v-if="result.length <= 0" description="暂无搜索结果" />
+    <n-empty v-if="result.length <= 0" :description="$t('header.searchEmpty')" />
     <n-scrollbar v-else max-h-300>
       <n-list>
         <n-list-item v-for="(item, index) in result" :key="item.path" mb-5 b-rd-4 :class="{ 'bg-primary': actived === index }" @mouseenter="changeActive(index)" @click="jumpTo">
@@ -41,16 +41,16 @@
       <div class="h-54px flex flex-items-center">
         <span class="mr-14px flex flex-items-center">
           <Icon class="icon text-20px p-2px mr-5px" icon="uil:enter" />
-          <span>确认</span>
+          <span>{{ $t('header.enter') }}</span>
         </span>
         <span class="mr-14px flex flex-items-center">
           <Icon class="icon text-20px p-2px mr-5px" icon="material-symbols:arrow-upward" />
           <Icon class="icon text-20px p-2px mr-5px" icon="material-symbols:arrow-downward" />
-          <span>切换</span>
+          <span>{{ $t('header.toggle') }}</span>
         </span>
         <span class="flex flex-items-center">
           <Icon class="icon text-20px p-2px mr-5px" icon="material-symbols:close-rounded" />
-          <span>关闭</span>
+          <span>{{ $t('header.close') }}</span>
         </span>
       </div>
     </template>
@@ -112,6 +112,7 @@ const handleEnter = (e: KeyboardEvent) => {
   e.preventDefault()
   jumpTo()
 }
+
 const handleUpOrDown = (type: 'up' | 'down') => {
   const length = result.value.length
   if (!showModal.value || length <= 0 || (searchValue.value ?? '') === '') return
@@ -121,12 +122,14 @@ const handleUpOrDown = (type: 'up' | 'down') => {
     actived.value = actived.value === length - 1 ? 0 : actived.value + 1
   }
 }
+
 const openSearch = (e: KeyboardEvent) => {
   if (e.ctrlKey) {
     e.preventDefault()
     showModal.value = true
   }
 }
+
 onKeyStroke('Enter', (e) => handleEnter(e))
 onKeyStroke('ArrowUp', () => handleUpOrDown('up'))
 onKeyStroke('ArrowDown', () => handleUpOrDown('down'))

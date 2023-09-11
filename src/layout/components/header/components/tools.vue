@@ -7,7 +7,7 @@
         <Icon v-else icon="ant-design:fullscreen-exit-outlined" />
       </n-button>
     </template>
-    {{ !isFullscreen ? '全屏' : '退出全屏' }}
+    {{ !isFullscreen ? $t('header.fullscreen') : $t('header.exitFullscreen') }}
   </n-tooltip>
   <n-tooltip trigger="hover">
     <template #trigger>
@@ -16,7 +16,7 @@
         <Icon v-else icon="material-symbols:dark-mode-outline-rounded" />
       </n-button>
     </template>
-    {{ !themeStore.isDark ? '深色' : '浅色' }}
+    {{ !themeStore.isDark ? $t('header.dark') : $t('header.light') }}
   </n-tooltip>
   <Language />
   <n-tooltip trigger="hover">
@@ -25,7 +25,7 @@
         <Icon icon="mdi:github" />
       </n-button>
     </template>
-    GitHub仓库
+    GitHub
   </n-tooltip>
 </template>
 

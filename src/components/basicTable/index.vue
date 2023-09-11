@@ -3,10 +3,10 @@
     <template #header>
       <n-space v-if="props.toolbar" justify="space-between" align="center">
       <n-space>
-        <n-button v-if="props.add" type="info" @click="emit('add')">新增</n-button>
-        <n-button v-if="props.edit && props.selection" :disabled="editDisabled" type="warning" @click="emit('edit', checkedRowKeysRef)">修改</n-button>
-        <n-button v-if="props.del && props.selection" :disabled="delDisabled" type="error" @click="emit('delete', checkedRowKeysRef)">删除</n-button>
-        <n-button v-if="props.download" :disabled="pagination.itemCount <= 0" type="primary" @click="emit('download')">导出</n-button>
+        <n-button v-if="props.add" type="info" @click="emit('add')">{{ $t('add') }}</n-button>
+        <n-button v-if="props.edit && props.selection" :disabled="editDisabled" type="warning" @click="emit('edit', checkedRowKeysRef)">{{ $t('edit') }}</n-button>
+        <n-button v-if="props.del && props.selection" :disabled="delDisabled" type="error" @click="emit('delete', checkedRowKeysRef)">{{ $t('delete') }}</n-button>
+        <n-button v-if="props.download" :disabled="pagination.itemCount <= 0" type="primary" @click="emit('download')">{{ $t('export') }}</n-button>
         <slot name="tableLeft"></slot>
       </n-space>
       <n-space>
@@ -19,7 +19,7 @@
                 <Icon v-else icon="ant-design:fullscreen-exit-outlined" />
             </n-button>
             </template>
-            {{ !isFullscreen ? '全屏' : '退出全屏' }}
+            {{ !isFullscreen ? $t('fullscreen') : $t('exitFullscreen') }}
           </n-tooltip>
           <n-tooltip trigger="hover">
             <template #trigger>
@@ -29,7 +29,7 @@
                 </template>
               </n-button>
             </template>
-            刷新
+            {{ $t('refresh') }}
           </n-tooltip>
           <ColumSetting v-model:columns="columns" />
         </n-button-group>
@@ -56,8 +56,6 @@ import { usePagination } from './hooks/usePagination'
 import { useRequest } from './hooks/useRequest'
 import { useSelection } from './hooks/useSelection'
 import { defualtProps } from './utils/defualtProps'
-// import { FullscreenOutlined, FullscreenExitOutlined } from '@vicons/antd'
-// import { Reload } from '@vicons/ionicons5'
 import { useFullscreen } from '@vueuse/core'
 
 // props

@@ -11,19 +11,19 @@
         <template #icon>
           <Icon icon="material-symbols:manage-accounts-outline" />
         </template>
-        个人设置
+        {{ $t('header.personalSettings') }}
       </n-button>
       <n-button text>
         <template #icon>
           <Icon icon="ri:lock-line" />
         </template>
-        修改密码
+        {{ $t('header.modifyPassword') }}
       </n-button>
       <n-button text>
         <template #icon>
           <Icon icon="material-symbols:logout" />
         </template>
-      退出登录
+        {{ $t('header.logout') }}
     </n-button>
   </n-button-group>
 </n-popover>

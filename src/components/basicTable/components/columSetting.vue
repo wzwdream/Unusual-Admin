@@ -11,7 +11,7 @@
         </template>
         <template #header>
           <n-space justify="space-between">
-            <n-checkbox v-model:checked="checkAll" :indeterminate="indeterminate" @update:checked="onCheckAll">列展示</n-checkbox>
+            <n-checkbox v-model:checked="checkAll" :indeterminate="indeterminate" @update:checked="onCheckAll">{{ $t('colSetting') }}</n-checkbox>
           </n-space>
         </template>
         <n-checkbox-group v-model:value="selectedColums" :on-update:value="selectedChange">
@@ -23,7 +23,7 @@
         </n-checkbox-group>
       </n-popover>
     </template>
-    列设置
+    {{ $t('colShowcase') }}
   </n-tooltip>
 </template>
 

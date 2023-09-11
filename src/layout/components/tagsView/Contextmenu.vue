@@ -13,40 +13,42 @@
 
 <script setup lang="ts" name="Contextmenu">
 import { useTagStore } from '@/store/tags';
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const tagStore = useTagStore()
 const options = computed(() => [
   {
-    label: '内容全屏',
+    label: t('tag.fullScreen'),
     key: 'fullScreen'
   },
   {
-    label: '刷新页面',
+    label: t('tag.refresh'),
     key: 'refresh',
     disabled: tagStore.currentTag !== tagStore.activeTag
   },
   {
-    label: '关闭页面',
+    label: t('tag.close'),
     key: 'close',
     disabled: tagStore.tags.length <= 1
   },
   {
-    label: '关闭其他',
+    label: t('tag.closeOther'),
     key: 'closeOther',
     disabled: tagStore.tags.length <= 1
   },
   {
-    label: '关闭左侧',
+    label: t('tag.closeLeft'),
     key: 'closeLeft',
     disabled: tagStore.tags.length <= 1 || tagStore.currentTagIndex === 0
   },
   {
-    label: '关闭右侧',
+    label: t('tag.closeRight'),
     key: 'closeRight',
     disabled: tagStore.tags.length <= 1 || tagStore.currentTagIndex === tagStore.tags.length - 1
   },
   {
-    label: '关闭全部',
+    label: t('tag.closeAll'),
     key: 'closeAll'
   }
 ])
