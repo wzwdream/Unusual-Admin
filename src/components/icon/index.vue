@@ -16,7 +16,7 @@ interface IconProps {
   type?: 'iconify' | 'svg'
 }
 const props = withDefaults(defineProps<IconProps>(), {
-  size: 24,
+  size: 18,
   color: '',
   type: 'iconify'
 })

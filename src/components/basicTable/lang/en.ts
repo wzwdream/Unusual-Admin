@@ -7,5 +7,7 @@ export default {
   add: 'Add',
   edit: 'Edit',
   delete: 'Delete',
-  export: 'Export'
+  export: 'Export',
+  total: 'Total of',
+  tiao: ''
 }

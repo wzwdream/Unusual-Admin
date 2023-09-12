@@ -1,11 +1,10 @@
-import { type MenuOption, createDiscreteApi } from 'naive-ui'
+import { createDiscreteApi } from 'naive-ui'
 import { setting } from '@/setting'
 import { useCssVar } from '@vueuse/core'
 import { kebabCase } from 'lodash-es'
-import { type RouteRecordRaw, RouterLink } from 'vue-router';
+import { RouterLink } from 'vue-router';
 import { h } from 'vue'
 import Icon from '@/components/icon/index.vue'
-import { type menu } from '@/type/menu';
 
 
 const { message, notification, dialog, loadingBar } = createDiscreteApi(
@@ -42,47 +41,6 @@ export const hRouter = (lable: string, router: string) => {
   )
 }
 
-// 通过路由获取菜单数组
-export const buildMenu = (routes: RouteRecordRaw[]): menu[] => {
-  const result: menu[] = []
-  routes.map(item => {
-    if (item.meta?.visibily) {
-      const r: menu = { label: item.meta.title, key: item.path, ...item.meta }
-      if (item.children) {
-        r.children = buildMenu(item.children)
-      }
-      result.push(r)
-    }
-  })
-  return result
-}
-
-export const buildMenuOptions = (menu: menu[]): MenuOption[] => {
-  const result: MenuOption[] = []
-  menu.map(item => {
-    const r: MenuOption = {
-      label: item.isDir ? item.label : hRouter(item.label as string, item.key),
-      key: item.key,
-      icon: renderIcon(item.icon as string),
-      isDir: item.isDir
-    }
-    if (item.children) r.children = buildMenuOptions(item.children)
-    result.push(r)
-  })
-  return result
-}
-
-export const searchMenu = (menu: menu[], path: string): menu | null => {
-  const queue: menu[] = [...menu]
-
-  while (queue.length > 0) {
-    const node = queue.shift()!
-    if (node.key === path) return node
-    if (node.children) queue.push(...node.children as menu[])
-  }
-
-  return null
-}
 
 // 计算content高度
 export const style = (type: string = '') => {

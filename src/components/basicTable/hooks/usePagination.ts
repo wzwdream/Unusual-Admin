@@ -1,4 +1,6 @@
 import { type PaginationInfo } from 'naive-ui/es/pagination'
+import { useI18n } from 'vue-i18n'
+
 export type Pagination = {
   page: number;
   pageSize: number;
@@ -8,7 +10,16 @@ export type Pagination = {
   pageSizes: number[];
   prefix: ({ itemCount }: PaginationInfo) => string;
 }
+
 export const usePagination = () => {
+  // 国际化
+  const { t } = useI18n()
+  const total = computed(() => {
+    return {
+      total: t('total'),
+      tiao: t('tiao')
+    }
+  })
   const pagination = reactive<Pagination>({
     page: 1,
     pageSize: 10,
@@ -17,7 +28,7 @@ export const usePagination = () => {
     showQuickJumper: true,
     pageSizes: [10, 20, 30, 40, 50, 100],
     prefix: ({ itemCount }: PaginationInfo) => {
-      return `共 ${itemCount} 条`
+      return `${total.value.total} ${itemCount} ${total.value.tiao}`
     }
   })
   return {

@@ -56,6 +56,19 @@ export const routes: RouteRecordRaw[] = [
                 path: '/link/juejing',
                 component: Link,
                 meta: { title: '掘金', visibily: true, icon: 'material-symbols:align-space-even-rounded', isKeepAlive: true, externalLink: true, link: 'https://juejin.cn/' }
+            },
+            // 测试菜单
+            {
+                path: '/a',
+                redirect: '/a/b',
+                meta: { title: 'a', visibily: true, isDir: true, icon: 'material-symbols:align-space-even-rounded' },
+                children: [
+                    {
+                        path: '/a/b',
+                        component: Link,
+                        meta: { title: 'b', visibily: true, icon: 'material-symbols:align-space-even-rounded', isKeepAlive: true, externalLink: true, link: 'https://juejin.cn/' }
+                    }
+                ]
             }
         ]
 

@@ -7,5 +7,7 @@ export default {
   add: '新增',
   edit: '修改',
   delete: '删除',
-  export: '导出'
+  export: '导出',
+  total: '共',
+  tiao: '条'
 }

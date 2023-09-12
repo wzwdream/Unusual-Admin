@@ -1,15 +1,22 @@
 import { defineStore } from 'pinia'
 import { routes } from '@/router/route'
-import { buildMenu } from '@/utils/help'
+import { buildBreadcrumb, buildMenu } from '@/utils/menu'
+import { menu } from '@/type/menu'
+
 export const useMenuStore = defineStore('menu', {
   state: () => {
     return {
       collapsed: false,
       activeMenuKey: '/list/baseList',
-      menu: buildMenu(routes)
+      menu: buildMenu(routes),
     }
   },
-  getters: {},
+  getters: {
+    breadcrumb(): menu[] {
+      const r = buildBreadcrumb(this.menu, this.activeMenuKey)
+      return r
+    }
+  },
   actions: {
     changeCollapsed(val: boolean) {
       this.collapsed = val

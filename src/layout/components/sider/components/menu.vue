@@ -5,7 +5,7 @@
 <script setup lang="ts" name="Menu">
 import { setting } from '@/setting'
 import { useMenuStore } from '@/store/menu'
-import { buildMenuOptions, searchMenu } from '@/utils/help'
+import { buildMenuOptions, searchMenu } from '@/utils/menu'
 import { useTagStore } from '@/store/tags'
 import { MenuInst } from 'naive-ui'
 
