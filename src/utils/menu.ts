@@ -8,7 +8,7 @@ export const buildMenu = (routes: RouteRecordRaw[]): menu[] => {
   const result: menu[] = []
   routes.map(item => {
     if (item.meta?.visibily) {
-      const r: menu = { label: item.meta.title, key: item.path, ...item.meta }
+      const r: menu = { name: item.name as string, label: item.meta.title, key: item.path, ...item.meta }
       if (item.children) {
         r.children = buildMenu(item.children)
       }
@@ -23,6 +23,8 @@ export const buildMenuOptions = (menu: menu[]): MenuOption[] => {
   const result: MenuOption[] = []
   menu.map(item => {
     const r: MenuOption = {
+      name: item.name,
+      keeplive: item.keepAlive,
       label: item.isDir ? item.label : hRouter(item.label as string, item.key),
       key: item.key,
       icon: renderIcon(item.icon as string),

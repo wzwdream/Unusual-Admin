@@ -10,6 +10,7 @@ export const routes: RouteRecordRaw[] = [
         children: [
             {
                 path: 'login',
+                name: 'Login',
                 component: () => import('../views/login.vue'),
                 meta: { title: '登录', visibily: false }
             }
@@ -23,26 +24,30 @@ export const routes: RouteRecordRaw[] = [
         children: [
             {
                 path: '/list/baseList',
+                name: 'BaseList',
                 component: () => import('../views/baseList.vue'),
-                meta: { title: '基础列表', visibily: true, icon: 'material-symbols:align-space-even-rounded', isKeepAlive: true }
+                meta: { title: '基础列表', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true }
             },
             {
                 path: '/list/drag',
+                name: 'Drag',
                 component: () => import('../components/drag.vue'),
-                meta: { title: '拖拽', visibily: true, icon: 'material-symbols:align-space-even-rounded', isKeepAlive: true }
+                meta: { title: '拖拽', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true }
             },
         ]
     },
     {
         path: '/sendEmail',
         redirect: '/email/sendEmail',
+        name: '',
         component: Layout,
         meta: { title: '工具', visibily: true, isDir: true, icon: 'material-symbols:align-space-even-rounded' },
         children: [
             {
                 path: '/email/sendEmail',
+                name: 'SendEmail',
                 component: () => import('../views/sendEmail'),
-                meta: { title: '邮件', visibily: true, icon: 'material-symbols:align-space-even-rounded', isKeepAlive: true }
+                meta: { title: '邮件', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: false }
             }
         ]
     },
@@ -54,8 +59,9 @@ export const routes: RouteRecordRaw[] = [
         children: [
             {
                 path: '/link/juejing',
+                name: 'Juejing',
                 component: Link,
-                meta: { title: '掘金', visibily: true, icon: 'material-symbols:align-space-even-rounded', isKeepAlive: true, externalLink: true, link: 'https://juejin.cn/' }
+                meta: { title: '掘金', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true, externalLink: true, link: 'https://juejin.cn/' }
             },
             // 测试菜单
             {
@@ -65,8 +71,9 @@ export const routes: RouteRecordRaw[] = [
                 children: [
                     {
                         path: '/a/b',
+                        name: 'B',
                         component: Link,
-                        meta: { title: 'b', visibily: true, icon: 'material-symbols:align-space-even-rounded', isKeepAlive: true, externalLink: true, link: 'https://juejin.cn/' }
+                        meta: { title: 'b', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true, externalLink: true, link: 'https://juejin.cn/' }
                     }
                 ]
             }

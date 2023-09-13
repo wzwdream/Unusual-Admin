@@ -1,6 +1,7 @@
 import { menu } from '@/type/menu'
 import { defineStore } from 'pinia'
 import router from '@/router'
+import { loadingBar } from '@/utils/help'
 export const useTagStore = defineStore('tags', {
   state: () => {
     return {
@@ -12,7 +13,8 @@ export const useTagStore = defineStore('tags', {
       contextMenuX: 0,
       contextMenuY: 0,
       currentTag: '',
-      fullContent: false
+      fullContent: false,
+      refreshLoading: true
     }
   },
   getters: {
@@ -53,8 +55,21 @@ export const useTagStore = defineStore('tags', {
     setFullContent(val: boolean) {
       this.fullContent = val
     },
-    refresh() {
-      console.log('refresh')
+    async refresh() {
+      const tag = this.tags[this.activeTagIndex]
+      const { keepAlive } = tag
+      // 去除keeplive的缓存
+      loadingBar.start()
+      if (keepAlive) tag.keepAlive = false
+      this.refreshLoading = false
+      await nextTick()
+      tag.keepAlive = keepAlive
+      this.refreshLoading = true
+
+      // 防止加载条不正确的关闭
+      setTimeout(() => {
+        loadingBar.finish()
+      }, 100)
     },
     removeOther() {
       const tags = this.tags.filter(item => item.key === this.currentTag)

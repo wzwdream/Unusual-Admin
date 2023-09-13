@@ -14,42 +14,51 @@
 <script setup lang="ts" name="Contextmenu">
 import { useTagStore } from '@/store/tags';
 import { useI18n } from 'vue-i18n'
+import { renderIcon } from '@/utils/help'
 
 const { t } = useI18n()
 const tagStore = useTagStore()
 const options = computed(() => [
   {
+    key: 'fullScreen',
     label: t('tag.fullScreen'),
-    key: 'fullScreen'
+    icon: renderIcon('ant-design:fullscreen-outlined')
   },
   {
-    label: t('tag.refresh'),
     key: 'refresh',
+    label: t('tag.refresh'),
+    icon: renderIcon('mdi:refresh'),
     disabled: tagStore.currentTag !== tagStore.activeTag
   },
   {
-    label: t('tag.close'),
     key: 'close',
+    label: t('tag.close'),
+    icon: renderIcon('material-symbols:check-indeterminate-small-rounded'),
     disabled: tagStore.tags.length <= 1
   },
   {
-    label: t('tag.closeOther'),
     key: 'closeOther',
+    label: t('tag.closeOther'),
+    icon: renderIcon('mdi:arrow-expand-horizontal'),
     disabled: tagStore.tags.length <= 1
   },
   {
-    label: t('tag.closeLeft'),
     key: 'closeLeft',
+    label: t('tag.closeLeft'),
+    icon: renderIcon('mdi:arrow-expand-left'),
     disabled: tagStore.tags.length <= 1 || tagStore.currentTagIndex === 0
   },
   {
-    label: t('tag.closeRight'),
     key: 'closeRight',
+    label: t('tag.closeRight'),
+    icon: renderIcon('mdi:arrow-expand-right'),
     disabled: tagStore.tags.length <= 1 || tagStore.currentTagIndex === tagStore.tags.length - 1
   },
   {
+    key: 'closeAll',
     label: t('tag.closeAll'),
-    key: 'closeAll'
+    icon: renderIcon('mdi:close'),
+    disabled: tagStore.tags.length <= 1
   }
 ])
 const handleMap = new Map([

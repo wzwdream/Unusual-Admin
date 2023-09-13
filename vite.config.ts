@@ -37,9 +37,9 @@ export default defineConfig({
         // 自动引入APi
         AutoImport({
             include: [
-                /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
-                /\.vue$/, /\.vue\?vue/, // .vue
-                /\.md$/, // .md
+                /\.[tj]sx?$/,
+                /\.vue$/, /\.vue\?vue/,
+                /\.md$/,
             ],
             imports: [
                 'vue',
@@ -55,7 +55,7 @@ export default defineConfig({
             ],
             // eslint报错处理
             eslintrc: {
-                enabled: true // 报错undefined
+                enabled: true
             }
         }),
         // 自动引入组件
@@ -68,9 +68,9 @@ export default defineConfig({
             ] // 自动导入naive组件库组件
         }),
         createSvgIconsPlugin({
-            iconDirs: [svfIconPath],
-            symbolId: 'icon-[dir]-[name]'
-          }),
+        iconDirs: [svfIconPath],
+        symbolId: 'icon-[dir]-[name]'
+        }),
     ],
     server: {
         port: 8080, //启动端口
@@ -86,7 +86,6 @@ export default defineConfig({
                 changeOrigin: true,
                 rewrite: (path) => {
                     return path.replace(/^\/api/, '/')
-                    // return path
                 }
             }
         }

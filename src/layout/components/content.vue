@@ -3,9 +3,9 @@
     <n-back-top :visibility-height=" 10 " bottom="120" />
     <main ref="contentRef" :style="`min-height: ${style('main')};`" bg-white dark:bg-dark p-10 box-border>
       <router-view v-slot=" { Component, route } ">
-        <Transition :duration=" 550 " name="fade">
-          <KeepAlive>
-            <component :is="Component" :key=" route.fullPath " />
+        <Transition name="slide">
+          <KeepAlive :include="keepAliveNames">
+            <component v-if="tagStore.refreshLoading" :is="Component" :key="route.fullPath" />
           </KeepAlive>
         </Transition>
       </router-view>
@@ -23,6 +23,10 @@ const contentRef = ref<HTMLElement | null>(null)
 const { toggle, isFullscreen } = useFullscreen(contentRef)
 const tagStore = useTagStore()
 
+const keepAliveNames = computed(() => {
+  return tagStore.tags.filter((item) => item.keepAlive).map((item) => item.name) as string[]
+})
+console.log('keepAliveNames', keepAliveNames, tagStore.tags)
 watch(isFullscreen, () => {
   if(!isFullscreen.value) tagStore.setFullContent(isFullscreen.value)
 })
