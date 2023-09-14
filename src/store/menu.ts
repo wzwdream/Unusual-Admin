@@ -7,7 +7,7 @@ export const useMenuStore = defineStore('menu', {
   state: () => {
     return {
       collapsed: false,
-      activeMenuKey: '/list/baseList',
+      activeMenuKey: '',
       menu: buildMenu(routes),
     }
   },

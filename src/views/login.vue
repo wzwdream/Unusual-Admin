@@ -32,6 +32,7 @@
     import { useMessage } from 'naive-ui'
     import Request from '@/utils/request'
     import router from '@/router'
+    import { useUserStore } from '@/store/user'
     let Unencrypted = ref('widgets@123')
     let formValue = reactive({
         userName: 'admin',
@@ -46,7 +47,8 @@
             if (response.code === 200) {
                 message.success('登录成功,欢迎回来')
                 router.push('/list')
-                localStorage.setItem('token', response.data)
+                const userStore = useUserStore()
+                userStore.setToken(response.data)
             } else {
                 message.error('登录失败，请检查账号名或者密码')
             }
@@ -115,10 +117,6 @@
         margin-right: 0;
     }
 
-    .n-form-item .n-form-item-blank :focus-visible {
-        /* //outline: 1px #fe538d !important; */
-    }
-
     .loginButton {
         width: 50%;
         /* //color: #ffffff;
@@ -137,11 +135,6 @@
             -webkit-box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.35);
             box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.35);
         }
-    }
-
-    .n-button:not(.n-button--disabled):active {
-        /* //border: 1px solid #fe538d !important;
-    //color: #fe538d; */
     }
 </style>
 @/router/router1@/router/router

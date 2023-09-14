@@ -25,7 +25,6 @@ router.beforeEach((to, from, next) => {
 
 
 router.afterEach(async (to) => {
-  console.log('luyou', to)
   // 解决浏览器手势返回和点击退回时菜单选择跟tag选择状态不正确
   const menuStore = useMenuStore()
   const tagStore = useTagStore()
