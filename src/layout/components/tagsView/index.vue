@@ -49,7 +49,7 @@ const tagClick = (key: string) => {
 }
 
 watch(() => tagStore.activeTag, () => {
-  if (showWrap && tagBoxRef.value) {
+  if (showWrap.value && tagBoxRef.value) {
     const { x, width } = tagRef.value[tagStore.activeTagIndex].$el.getBoundingClientRect()
     const { x: x1 } = tagBoxRef.value.getBoundingClientRect()
     const movex = x - x1 - width

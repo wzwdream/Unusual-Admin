@@ -20,7 +20,6 @@ const options = computed(() => [
 ])
 
 const languageChange = (language: Local) => {
-  console.log('val', language)
   locale.value = language
   themeStore.setLanguage(language)
 }

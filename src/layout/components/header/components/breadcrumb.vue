@@ -9,5 +9,4 @@
 <script setup lang="ts" name="Breadcrumb">
 import { useMenuStore } from '@/store/menu'
 const menuStore = useMenuStore()
-console.log(menuStore.breadcrumb)
 </script>

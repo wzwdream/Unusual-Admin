@@ -5,10 +5,8 @@ import { loadingBar } from '@/utils/help'
 export const useTagStore = defineStore('tags', {
   state: () => {
     return {
-      tags: [
-        { key: '/list/baseList', label: '基础列表', icon: 'material-symbols:align-space-even-rounded' }
-      ] as menu[],
-      activeTag: '/list/baseList',
+      tags: [] as menu[],
+      activeTag: '',
       showContextMenu: false,
       contextMenuX: 0,
       contextMenuY: 0,
@@ -31,10 +29,12 @@ export const useTagStore = defineStore('tags', {
       this.setTags(tags)
       if (val === this.activeTag) this.changeActiveTag(tags[0].key)
     },
-    addTag(val: menu) {
+    async addTag(val: menu) {
       if (this.tags.findIndex(item => item.key === val.key) >= 0) return
       const tags = [...this.tags, val]
       this.setTags(tags)
+      // 防止点击菜单添加的tag在需要滚动的时候找不到dom元素
+      await nextTick()
     },
     setTags(val: menu[]) {
       this.tags = val

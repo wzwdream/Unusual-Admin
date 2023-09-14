@@ -27,7 +27,6 @@ const tagStore = useTagStore()
 const keepAliveNames = computed(() => {
   return tagStore.tags.filter((item) => item.keepAlive).map((item) => item.name) as string[]
 })
-
 // 全屏参数
 watch(isFullscreen, () => {
   if(!isFullscreen.value) tagStore.setFullContent(isFullscreen.value)
