@@ -23,10 +23,12 @@ const contentRef = ref<HTMLElement | null>(null)
 const { toggle, isFullscreen } = useFullscreen(contentRef)
 const tagStore = useTagStore()
 
+// 需要keep缓存的组件
 const keepAliveNames = computed(() => {
   return tagStore.tags.filter((item) => item.keepAlive).map((item) => item.name) as string[]
 })
-console.log('keepAliveNames', keepAliveNames, tagStore.tags)
+
+// 全屏参数
 watch(isFullscreen, () => {
   if(!isFullscreen.value) tagStore.setFullContent(isFullscreen.value)
 })

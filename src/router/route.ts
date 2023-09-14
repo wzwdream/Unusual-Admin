@@ -34,6 +34,48 @@ export const routes: RouteRecordRaw[] = [
                 component: () => import('../components/drag.vue'),
                 meta: { title: '拖拽', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true }
             },
+            {
+                path: '/c',
+                name: 'c',
+                component: () => import('../views/baseList.vue'),
+                meta: { title: 'c', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true }
+            },
+            {
+                path: '/d',
+                name: 'd',
+                component: () => import('../views/baseList.vue'),
+                meta: { title: 'd', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true }
+            },    {
+                path: '/e',
+                name: 'e',
+                component: () => import('../views/baseList.vue'),
+                meta: { title: 'e', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true }
+            },    {
+                path: '/f',
+                name: 'f',
+                component: () => import('../views/baseList.vue'),
+                meta: { title: 'f', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true }
+            },    {
+                path: '/g',
+                name: 'g',
+                component: () => import('../views/baseList.vue'),
+                meta: { title: 'g', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true }
+            },    {
+                path: '/h',
+                name: 'h',
+                component: () => import('../views/baseList.vue'),
+                meta: { title: 'h', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true }
+            },    {
+                path: '/j',
+                name: 'j',
+                component: () => import('../views/baseList.vue'),
+                meta: { title: 'j', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true }
+            },    {
+                path: '/k',
+                name: 'k',
+                component: () => import('../views/baseList.vue'),
+                meta: { title: 'k', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true }
+            },
         ]
     },
     {
@@ -78,6 +120,5 @@ export const routes: RouteRecordRaw[] = [
                 ]
             }
         ]
-
     }
 ]
