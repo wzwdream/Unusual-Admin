@@ -40,6 +40,7 @@
     "@vitejs/plugin-vue": "^4.3.3",
     "eslint": "^8.48.0",
     "eslint-plugin-vue": "^9.17.0",
+    "mockjs": "^1.1.0",
     "naive-ui": "^2.34.4",
     "typescript": "^5.2.2",
     "unocss": "^0.55.3",
@@ -48,6 +49,7 @@
     "unplugin-vue-components": "^0.25.1",
     "vfonts": "^0.0.3",
     "vite": "^4.4.9",
+    "vite-plugin-mock": "^2.9.8",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-vue-setup-extend": "^0.4.0",
     "vue-tsc": "^1.8.8"

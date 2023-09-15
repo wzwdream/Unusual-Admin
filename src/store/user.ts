@@ -9,6 +9,9 @@ export const useUserStore = defineStore('user', {
   actions: {
     setToken(token: string) {
       this.token = token
+    },
+    restUser() {
+      this.$reset()
     }
   },
   persist: {
