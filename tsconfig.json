@@ -26,5 +26,9 @@
     "./auto-imports.d.ts",
     "./components.d.ts"
   ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "removeComments": true, // 是否移除 TypeScript 代码中的注释
+  "noEmitHelpers": true, // 是否禁止生成 TypeScript 帮助函数
+  "downlevelIteration": true, // 是否将 for...of 循环编译为适用于旧版 JavaScript 的代码
+  "importHelpers": true // 是否使用模块化方式引入帮助函数
 }

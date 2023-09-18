@@ -100,9 +100,7 @@ export default defineConfig(config => {
       }
     },
     build: {
-      /** 消除打包大小超过 500kb 警告 */
       chunkSizeWarningLimit: 2000,
-      /** Vite 2.6.x 以上需要配置 minify: "terser", terserOptions 才能生效 */
       minify: 'terser',
       /** 在打包代码时移除 console.log、debugger 和 注释 */
       terserOptions: {
@@ -112,19 +110,23 @@ export default defineConfig(config => {
           pure_funcs: ['console.log']
         },
         format: {
-          /** 删除注释 */
           comments: true
         }
       },
       //关闭文件计算
       reportCompressedSize: false,
       //关闭生成map文件 可以达到缩小打包体积
-      sourcemap: true,
-      /** 打包后静态资源目录 */
+      sourcemap: false,
       assetsDir: 'static',
       // 打包输出配置
       rollupOptions: {
         output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              // 让每个插件都打包成独立的文件
+              return id .toString().split('node_modules/')[1].split('/')[0].toString()
+            }
+          },
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
           assetFileNames: 'static/[ext]/[name]-[hash].[ext]'

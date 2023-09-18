@@ -1,0 +1,85 @@
+.load-container {
+  /* 去除body自带的外边距 */
+  height: calc(100vh - 16px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.boxLoading {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+}
+.boxLoading:before {
+  content: "";
+  width: 50px;
+  height: 5px;
+  background: #000;
+  opacity: 0.1;
+  position: absolute;
+  top: 59px;
+  left: 0;
+  border-radius: 50%;
+  animation: shadow 0.5s linear infinite;
+}
+.boxLoading:after {
+  content: "";
+  width: 50px;
+  height: 50px;
+  background: #00adb5;
+  animation: animate 0.5s linear infinite;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 3px;
+}
+@keyframes animate {
+  17% {
+    border-bottom-right-radius: 3px;
+  }
+  25% {
+    transform: translateY(9px) rotate(22.5deg);
+  }
+  50% {
+    transform: translateY(18px) scale(1, 0.9) rotate(45deg);
+    border-bottom-right-radius: 40px;
+  }
+  75% {
+    transform: translateY(9px) rotate(67.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(90deg);
+  }
+}
+
+@keyframes shadow {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.2, 1);
+  }
+}
+
+.loadingText {
+  transform: translateY(60px);
+  display: inline-block;
+  font: bold 200% Consolas, Monaco, monospace;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 500;
+  width: 0;
+  border-right: 1px solid transparent;
+  animation: typing 5s steps(12), caret .5s steps(1) infinite;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+@keyframes typing {
+  to { width: 12ch; }
+}
+
+@keyframes caret{
+  0% { border-right-color: currentColor}
+}
