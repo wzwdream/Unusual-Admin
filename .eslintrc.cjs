@@ -24,7 +24,7 @@ module.exports = {
         'vue/multi-word-component-names': 'off', // 关闭组件命名规则
         'semi': [0],
         'quotes': [2, 'single'],
-        '@typescript-eslint/no-explicit-any': ['off'],
+        '@typescript-eslint/no-explicit-any': 'off',
         'vue/no-setup-props-destructure': 'off'
     }
 }

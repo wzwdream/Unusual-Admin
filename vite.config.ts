@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import { resolve } from 'path'
 import { setupPlugins } from './build/plugins/index'
-import { conversionsEnv } from 'build/utils'
+import { conversionsEnv } from './build/utils'
 
 export default defineConfig(({ command, mode }) => {
   const isBuild = command === 'build'

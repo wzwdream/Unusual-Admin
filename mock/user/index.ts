@@ -1,11 +1,11 @@
-import { resultError, resultSuccess, getRequestToken, decrypt } from '../utils'
+import { resultError, resultSuccess, getRequestToken, decrypt, requestParams } from '../utils'
 import { userInfo } from './userInfo'
 export default [
   // 用户登录
   {
     url: '/api/api/login',
     method: 'post',
-    response: ({ body }) => {
+    response: ({ body }: { body: { userName: string, userPassword: string } }) => {
       console.log('123')
       const { userName, userPassword } = body
       const  pwd = decrypt(userPassword)
@@ -25,7 +25,7 @@ export default [
   {
     url: '/api/user/info',
     method: 'get',
-    response: (request) => {
+    response: (request: requestParams) => {
       const token = getRequestToken(request)
       console.log(token)
 

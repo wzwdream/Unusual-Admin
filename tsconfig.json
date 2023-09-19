@@ -13,10 +13,19 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
+    // "noImplicitAny": false,
+    "removeComments": true,
+    "noEmitHelpers": true,
+    "downlevelIteration": true,
+    "importHelpers": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "typeRoots": [
+      "./node_modules/@types/",
+      "./types"
+    ]
   },
   "include": [
     "src/**/*.ts",
@@ -36,13 +45,5 @@
     "node_modules",
     "dist",
     "**/*.js"
-  ],
-  "typeRoots": [
-    "./node_modules/@types/",
-    "./types"
-  ],
-  "removeComments": true,
-  "noEmitHelpers": true,
-  "downlevelIteration": true,
-  "importHelpers": true
+  ]
 }

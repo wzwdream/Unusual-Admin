@@ -30,7 +30,7 @@ export function resultSuccess<T>(data: T, { message = 'ok' } = {}) {
 
 export interface requestParams {
   method: string
-  body: any
+  body: Record<string, unknown>
   headers?: { authorization?: string }
   query: any
 }
