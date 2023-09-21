@@ -1,5 +1,5 @@
 export interface Result {
-  code: string | number
+  code: number
   message: string
   total?: number
 }

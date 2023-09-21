@@ -29,7 +29,7 @@ service.interceptors.response.use(
   (response: AxiosResponse) => {
     if (response.status === 200) {
       const { data } = response
-      if (data.code && data.code !== 200){
+      if (data.code !== 200){
         notification.error({ title: data.code.toString(), content: data.message, duration: 1600 })
         if (data.code === 401) router.replace('/login')
         return Promise.reject(data)
@@ -41,32 +41,32 @@ service.interceptors.response.use(
     }
   },
   (error: AxiosError<Result>) => {
-    let title = error.code
+    let title = error.status || 500
     let content = error.message
     if (error.response?.data) {
-      title = error.response.data.code as string
-      content = error.response.data.message
+      title = error.response.data.code || 500
+      content = error.response.data.message || error.message
     }
-    notification.error({ title: title, content: content, duration: 1600 })
+    notification.error({ title: String(title),  content: content, duration: 1600 })
     return Promise.reject(error)
   }
 )
 
 /* 导出封装的请求方法 */
 const http = {
-  get<T = any>(url: string, params?: object, config?: AxiosRequestConfig): Promise<ResultData<T>> {
+  get<T = any, P = any>(url: string, params?: P, config?: AxiosRequestConfig): Promise<ResultData<T>> {
     return service.get(url, { params, ...config })
   },
 
-  post<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<ResultData<T>> {
+  post<T = any, P = any>(url: string, data?: P, config?: AxiosRequestConfig): Promise<ResultData<T>> {
     return service.post(url, data, config)
   },
 
-  put<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<ResultData<T>> {
+  put<T = any, P = any>(url: string, data?: P, config?: AxiosRequestConfig): Promise<ResultData<T>> {
     return service.put(url, data, config)
   },
 
-  delete<T = any>(url: string, data?: object, config?: AxiosRequestConfig,): Promise<ResultData<T>> {
+  delete<T = any, P = any>(url: string, data?: P, config?: AxiosRequestConfig): Promise<ResultData<T>> {
     return service.delete(url, { data, ...config })
   }
 }

@@ -5,7 +5,7 @@ export default [
   {
     url: '/api/api/login',
     method: 'post',
-    response: ({ body }: { body: { userName: string, userPassword: string } }) => {
+    response: ({ body }: requestParams) => {
       console.log('123')
       const { userName, userPassword } = body
       const  pwd = decrypt(userPassword)
