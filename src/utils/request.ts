@@ -2,7 +2,6 @@ import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } f
 import { notification } from './help'
 import { Result, ResultData } from '@/type/request'
 import { useUserStore } from '@/store/user'
-import router from '@/router/index'
 
 const service: AxiosInstance = axios.create({
   timeout: 60000,
@@ -30,8 +29,9 @@ service.interceptors.response.use(
     if (response.status === 200) {
       const { data } = response
       if (data.code !== 200){
+        const userStore = useUserStore()
         notification.error({ title: data.code.toString(), content: data.message, duration: 1600 })
-        if (data.code === 401) router.replace('/login')
+        if (data.code === 401) userStore.userLogout()
         return Promise.reject(data)
       }
       return data

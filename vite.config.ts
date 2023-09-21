@@ -7,7 +7,7 @@ export default defineConfig(({ command, mode }) => {
   const isBuild = command === 'build'
 
   const viteEnv: ViteEnv = conversionsEnv(loadEnv(mode, process.cwd()))
-  const { VITE_PORT, VITE_PUBLIC_PATH } = viteEnv
+  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_BASE_API } = viteEnv
 
   return {
     base: VITE_PUBLIC_PATH || './',
@@ -24,8 +24,7 @@ export default defineConfig(({ command, mode }) => {
       // 设置代理
       proxy: {
         '/api': {
-          // target: 'http://42.194.198.23:3500',
-          target: 'http://127.0.0.1:4173',
+          target: VITE_BASE_API || 'http://127.0.0.1:3500',
           changeOrigin: true,
           rewrite: (path) => {
             return path.replace(/^\/api/, '/')
