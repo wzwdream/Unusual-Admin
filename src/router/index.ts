@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
 import { loadingBar } from '@/utils/help'
 import { setting } from '@/setting'
 import { routes } from './route'
@@ -6,6 +6,7 @@ import { useMenuStore } from '@/store/menu'
 import { useTagStore } from '@/store/tags'
 import { menu } from '@/type/menu'
 import { useUserStore } from '@/store/user'
+import { filterRoute } from '@/utils/route'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -15,17 +16,33 @@ const router = createRouter({
 
 // 路由白名单
 const whiteList = ['/login']
-
-router.beforeEach((to, from, next) => {
+let updateRoute = true
+router.beforeEach(async (to, from, next) => {
   // 开启加载条
   loadingBar.start()
+  // 免登录白名单直接进入
+  if (whiteList.includes(to.path)) return next()
+
   const userStore = useUserStore()
+  // 是否已经登录
   if (userStore.token) {
     if (to.path === '/login') return next('/')
-    next()
+    await nextTick()
+    if (updateRoute) {
+      const menuStore = useMenuStore()
+      const data = await menuStore.GenerateRoutes()
+      const routers = filterRoute(data)
+      routers.forEach((route: RouteRecordRaw) => {
+        router.addRoute( route)
+      })
+      // 防止死循环
+      updateRoute = false
+      next({ ...to, replace: true })
+    } else {
+      next()
+    }
   } else {
-    // 免登录白名单直接进入
-    if (whiteList.includes(to.path)) return next()
+    // 如果没有登录则重定向登录页面
     next(`/login?redirect=${to.fullPath}`)
   }
 })
@@ -40,6 +57,7 @@ router.afterEach(async (to) => {
   const menuStore = useMenuStore()
   const tagStore = useTagStore()
 
+  // 动态更新tags和选中
   if (to.meta.visibily) {
     const tag: menu = {
       icon: to.meta.icon,
@@ -50,9 +68,9 @@ router.afterEach(async (to) => {
     }
     await tagStore.addTag(tag)
   }
-
   menuStore.setActiveMenuKey(to.path)
   tagStore.changeActiveTag(to.path, false)
+
   // 关闭加载条
   loadingBar.finish()
 })

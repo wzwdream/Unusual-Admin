@@ -12,7 +12,7 @@
           </n-form-item>
           <n-form-item label="验证码" path="user.captchaText" style="width: 80%">
             <n-input v-model:value="formValue.captchaText" placeholder="请输入验证码" />
-            <div @click="getCaptchaCode" v-html="captchaSrc" h-34 cursor-pointer />
+            <div @click="getCaptchaCode" v-html="captchaSrc" h-34 w-100 cursor-pointer />
           </n-form-item>
         </n-form>
         <div style="width: 100%; display: flex; justify-content: center">
@@ -29,6 +29,7 @@ import { useMessage } from 'naive-ui'
 import router from '@/router'
 import { useUserStore } from '@/store/user'
 import { getCaptcha, login } from '@/api/user/login'
+// import { useMenuStore } from '@/store/menu';
 
 let Unencrypted = ref('widgets@123')
 let formValue = reactive({
@@ -41,11 +42,13 @@ const message = useMessage()
 
 const submitLogin = () => {
   formValue.userPassword = encrypt(Unencrypted.value)
-  login(formValue).then((response) => {
+  login(formValue).then(async (response) => {
     message.success('登录成功,欢迎回来')
-    router.push('/list')
     const userStore = useUserStore()
     userStore.setToken(response.data)
+    // const menuStore = useMenuStore()
+    // menuStore.GenerateRoutes()
+    router.push('/')
   }).catch(() => {
     getCaptchaCode()
   })

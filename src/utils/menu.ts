@@ -9,8 +9,11 @@ export const buildMenu = (routes: RouteRecordRaw[]): menu[] => {
   routes.map(item => {
     if (item.meta?.visibily) {
       const r: menu = { name: item.name as string, label: item.meta.title, key: item.path, ...item.meta }
-      if (item.children) {
+      // 如果不是目录则删除children，防止菜单识别为目录
+      if (item.children && item.meta.isDir) {
         r.children = buildMenu(item.children)
+      } else {
+        r.children = undefined
       }
       result.push(r)
     }
@@ -34,19 +37,6 @@ export const buildMenuOptions = (menu: menu[]): MenuOption[] => {
     result.push(r)
   })
   return result
-}
-
-// 通过选中菜单获取对应的tag
-export const searchMenu = (menu: menu[], path: string): menu | null => {
-  const queue: menu[] = [...menu]
-
-  while (queue.length > 0) {
-    const node = queue.shift()!
-    if (node.key === path) return node
-    if (node.children) queue.push(...node.children as menu[])
-  }
-
-  return null
 }
 
 // 通过选中菜单获取面包屑菜单

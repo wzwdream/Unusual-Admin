@@ -31,6 +31,7 @@
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
     "@types/lodash-es": "^4.17.8",
+    "@types/mockjs": "^1.0.7",
     "@types/node": "^20.5.7",
     "@types/qs": "^6.9.7",
     "@typescript-eslint/eslint-plugin": "^6.4.1",

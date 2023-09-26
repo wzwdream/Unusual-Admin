@@ -4,7 +4,8 @@ import { logout } from '@/api/user/login'
 export const useUserStore = defineStore('user', {
   state: () => {
     return {
-      token: ''
+      token: '',
+      userInfo: {}
     }
   },
   actions: {

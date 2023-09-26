@@ -1,4 +1,4 @@
-import { resultError, resultSuccess, getRequestToken, decrypt, requestParams } from '../utils'
+import { resultError, resultSuccess, getRequestToken, requestParams } from '../utils'
 import { userInfo } from './userInfo'
 export default [
   // 用户登录
@@ -6,11 +6,9 @@ export default [
     url: '/api/api/login',
     method: 'post',
     response: ({ body }: requestParams) => {
-      console.log('123')
       const { userName, userPassword } = body
-      const  pwd = decrypt(userPassword)
       const checkUser = userInfo.find(
-        (item) => item.userName === userName && item.userPassword === pwd,
+        (item) => item.userName === userName && item.userPassword === userPassword,
       )
       if (!checkUser) {
         return resultError('用户名或密码错误！')
@@ -18,6 +16,7 @@ export default [
       const { token } = checkUser
       return resultSuccess({
         token,
+        checkUser
       })
     },
   },
@@ -27,7 +26,6 @@ export default [
     method: 'get',
     response: (request: requestParams) => {
       const token = getRequestToken(request)
-      console.log(token)
 
       const checkUser = userInfo.find((item) => item.token === token)
       if (!checkUser) {
@@ -36,6 +34,13 @@ export default [
         )
       }
       return resultSuccess(checkUser)
+    }
+  },
+  {
+    url: '/api/logout',
+    method: 'post',
+    response: () => {
+      return resultSuccess('')
     }
   }
 ]

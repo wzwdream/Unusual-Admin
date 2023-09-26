@@ -9,8 +9,8 @@ export const useRequest = (params: ComputedRef<Record<string, unknown>>, url: st
   const listQuery = () => {
     loading.value = true
     getData(url, params.value).then(res => {
-      listData.value = res.data
-      pagination.itemCount = res.total as number
+      listData.value = res.data || []
+      pagination.itemCount = res.total as number || 0
       loading.value = false
     }).catch((e) => {
       loading.value = false

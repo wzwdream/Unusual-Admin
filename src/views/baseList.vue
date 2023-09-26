@@ -4,7 +4,7 @@ import { type DataTableColumn } from 'naive-ui/es/data-table';
 import { type FormInst } from 'naive-ui/es/form/src/interface'
 // 表单
 const defualtQuery = reactive({
-  name: '',
+  name: null,
   age: null
 })
 const formRef = ref<FormInst | null>(null)

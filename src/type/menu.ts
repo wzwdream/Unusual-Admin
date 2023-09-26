@@ -7,3 +7,19 @@ export interface menu {
   keepAlive?: boolean // 是否keeplive缓存
   name?: string
 }
+
+export interface MenuRouting {
+  id: number
+  pid: number
+  path: string
+  title: string
+  visibily: boolean
+  isDir: boolean
+  icon: string
+  name?: string
+  component?: string
+  keepAlive?: boolean
+  externalLink?: boolean
+  link?: string
+  children?: MenuRouting[]
+}
