@@ -26,11 +26,11 @@
     <n-empty v-if="result.length <= 0" :description="$t('header.searchEmpty')" />
     <n-scrollbar v-else max-h-300>
       <n-list>
-        <n-list-item v-for="(item, index) in result" :key="item.path" mb-5 b-rd-4 :class="{ 'bg-primary': actived === index }" @mouseenter="changeActive(index)" @click="jumpTo">
+        <n-list-item v-for="(item, index) in result" :key="item.key" mb-5 b-rd-4 :class="{ 'bg-primary': actived === index }" @mouseenter="changeActive(index)" @click="jumpTo">
           <n-space justify="space-between" :wrap="false" px-15>
             <div>
-              <span>{{ item.meta?.title }}</span>
-              <span font-size-12 color-blueGray>（{{ item.path }}）</span>
+              <span>{{ item.label }}</span>
+              <span font-size-12 color-blueGray>（{{ item.key }}）</span>
             </div>
             <Icon icon="uil:enter" />
           </n-space>
@@ -59,9 +59,9 @@
 </template>
 
 <script setup lang="ts" name="Search">
-import { routes } from '@/router/route'
-import { type RouteRecordRaw } from 'vue-router'
 import { onKeyStroke } from '@vueuse/core'
+import { useMenuStore } from '../../../../store/menu';
+import { type menu } from '@/type/menu';
 
 const showModal = ref(false)
 const searchValue = ref('')
@@ -72,19 +72,20 @@ const changeActive = (val: number) => {
   actived.value = val
 }
 
+const menuStore = useMenuStore()
 // 查找符合条件的路由
 const result = computed(() => {
-  return searchRoute(searchValue.value, routes)
+  return searchRoute(searchValue.value, menuStore.menu)
 })
-const searchRoute = (val: string, route: RouteRecordRaw[] = []) => {
-  const R: RouteRecordRaw[] = []
+const searchRoute = (val: string, route: menu[] = []) => {
+  const R: menu[] = []
   if ((val ?? '') === '') return R
   route.forEach(item => {
     if (item.children) {
       R.push(...searchRoute(val, item.children))
-    } else if (item.meta) {
-      const title = item.meta.title as string
-      if (item.path.includes(val) || title.includes(val)) {
+    } else {
+      const title = item.label
+      if (item.key.includes(val) || title?.includes(val)) {
         R.push(item)
       }
     }
@@ -100,7 +101,7 @@ const afterCloseModal = () => {
 
 // 点击跳转
 const jumpTo = () => {
-  const path = result.value[actived.value].path
+  const path = result.value[actived.value].key
   showModal.value = false
   router.push(path)
 }

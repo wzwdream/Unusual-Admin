@@ -1,6 +1,11 @@
 import { RouteRecordRaw } from 'vue-router';
 import Layout from '@/layout/index.vue'
 
+export const home = {
+  path: '/worktop',
+  meta: { title: '工作台', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: false },
+  component: () => import('@/views/worktop/index.vue')
+}
 export const routes: RouteRecordRaw[] = [
   {
     path: '/login',
@@ -23,7 +28,9 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/',
-    redirect: '/list/baseList',
-    meta: { visibily: false }
+    redirect: '/worktop',
+    component: Layout,
+    meta: { visibily: true, title: '工作台', isDir: true },
+    children: [home]
   }
 ]

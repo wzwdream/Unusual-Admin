@@ -3,7 +3,7 @@
     <n-back-top :visibility-height=" 10 " bottom="120" />
     <main ref="contentRef" :style="`min-height: ${style('main')};`" bg-white dark:bg-dark p-10 box-border>
       <router-view v-slot=" { Component, route } ">
-        <Transition name="slide">
+        <Transition name="fade-slide" mode="out-in" appear>
           <KeepAlive :include="keepAliveNames">
             <component v-if="tagStore.refreshLoading" :is="Component" :key="route.fullPath" />
           </KeepAlive>

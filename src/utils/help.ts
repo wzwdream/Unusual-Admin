@@ -3,7 +3,7 @@ import { setting } from '@/setting'
 import { useCssVar } from '@vueuse/core'
 import { kebabCase } from 'lodash-es'
 import { RouterLink } from 'vue-router';
-import { h } from 'vue'
+import { type VNodeChild, h } from 'vue'
 import Icon from '@/components/icon/index.vue'
 
 
@@ -24,8 +24,9 @@ export const useVarCss = () => {
 }
 
 // 渲染Icon
-export const renderIcon = (icon: string) => {
-  return () => h(Icon, { icon })
+export const renderIcon = (icon: string): (() => VNodeChild) | undefined => {
+  if (icon) return () => h(Icon, { icon })
+  return undefined
 }
 
 // 使用v-router跳转

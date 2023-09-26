@@ -3,6 +3,7 @@ import { buildBreadcrumb, buildMenu } from '@/utils/menu'
 import { type menu } from '@/type/menu'
 import { getMenu } from '@/api/user/menu'
 import { type RouteRecordRaw } from 'vue-router'
+import { home } from '@/router/route'
 
 export const useMenuStore = defineStore('menu', {
   state: () => {
@@ -18,7 +19,8 @@ export const useMenuStore = defineStore('menu', {
       return r
     },
     menu(): menu[] {
-      return buildMenu(this.treeMenu)
+      const menu = [home, ...this.treeMenu]
+      return buildMenu(menu)
     },
   },
   actions: {

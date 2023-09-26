@@ -46,8 +46,6 @@ const submitLogin = () => {
     message.success('登录成功,欢迎回来')
     const userStore = useUserStore()
     userStore.setToken(response.data)
-    // const menuStore = useMenuStore()
-    // menuStore.GenerateRoutes()
     router.push('/')
   }).catch(() => {
     getCaptchaCode()
