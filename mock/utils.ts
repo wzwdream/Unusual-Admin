@@ -17,7 +17,7 @@ export function resultError(
  * @description: 成功响应结构
  * @returns {*}
  */
-export function resultSuccess<T>(data: T, total?: number) {
+export function resultSuccess<T>(data: T, message?: string, total?: number) {
   return {
     code: 200,
     data,

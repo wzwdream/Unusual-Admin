@@ -29,7 +29,6 @@ import { useMessage } from 'naive-ui'
 import router from '@/router'
 import { useUserStore } from '@/store/user'
 import { getCaptcha, login } from '@/api/user/login'
-// import { useMenuStore } from '@/store/menu';
 
 let Unencrypted = ref('widgets@123')
 let formValue = reactive({

@@ -27,7 +27,7 @@ export default defineConfig(({ command, mode }) => {
           target: VITE_BASE_API || 'http://127.0.0.1:3500',
           changeOrigin: true,
           rewrite: (path) => {
-            return path.replace(/^\/api/, '/')
+            return path.replace(/^\/api/, '')
           }
         }
       }
