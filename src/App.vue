@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import { useThemeStore } from '@/store/them';
 import { setting } from './setting'
+import { THEME_KEY } from 'vue-echarts'
+
 const themeStore = useThemeStore()
 
+// 控制echarts的主题
+const isDark = computed(() => {
+  return themeStore.isDark ? 'dark' : ''
+})
+provide(THEME_KEY, isDark)
 </script>
 
 <template>

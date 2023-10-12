@@ -2,10 +2,11 @@ import { RouteRecordRaw } from 'vue-router';
 import Layout from '@/layout/index.vue'
 
 export const home = {
-  path: '/worktop',
+  path: '/workbenches',
   meta: { title: '工作台', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: false },
-  component: () => import('@/views/worktop/index.vue')
+  component: () => import('@/views/workbenches/index.vue')
 }
+
 export const routes: RouteRecordRaw[] = [
   {
     path: '/login',
@@ -28,7 +29,7 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/',
-    redirect: '/worktop',
+    redirect: '/workbenches',
     component: Layout,
     meta: { visibily: true, title: '工作台', isDir: true },
     children: [home]

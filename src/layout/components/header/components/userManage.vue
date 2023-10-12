@@ -1,9 +1,6 @@
 <template>
   <n-dropdown :options="options" @select="handleSelect">
-    <n-space align="center" class="header-user">
-      <n-avatar round :size="32" src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg" />
-      <span>管理员</span>
-    </n-space>
+    <n-avatar round :size="32" mr-30 src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg" />
   </n-dropdown>
 </template>
 
