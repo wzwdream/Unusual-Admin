@@ -38,8 +38,8 @@ const routes: Route[] = [
   { id: 1, pid: 0, path: '/list', title: '列表', visibily: true, isDir: true, icon: 'material-symbols:align-space-even-rounded', sort: 1 },
   { id: 2, pid: 1, path: '/list/baseList', name: 'BaseList', component: 'views/baseList.vue', title: '基础列表', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true, sort: 1 },
   { id: 3, pid: 1, path: '/list/drag', name: 'Drag', component: 'views/drag.vue', title: '拖拽', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true, sort: 2 },
-  { id: 4, pid: 0, path: '/sendEmail', title: '工具', visibily: true, isDir: true, icon: 'material-symbols:align-space-even-rounded', sort: 2 },
-  { id: 5, pid: 4, path: '/email/sendEmail', name: 'SendEmail', component: 'views/sendEmail.tsx', title: '邮件', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: false, sort: 1 },
+  { id: 4, pid: 0, path: '/email', title: '工具', visibily: true, isDir: true, icon: 'material-symbols:align-space-even-rounded', sort: 2 },
+  { id: 5, pid: 4, path: '/email/email', name: 'email', component: 'views/email.vue', title: '邮件', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: false, sort: 1 },
   { id: 6, pid: 0, path: '/link', title: '外链菜单', visibily: true, isDir: true, icon: 'material-symbols:align-space-even-rounded', sort: 3 },
   { id: 7, pid: 6, path: '/link/juejing', name: 'Juejing', title: '掘金', visibily: true, icon: 'material-symbols:align-space-even-rounded', externalLink: true, link: 'https://juejin.cn/', sort: 1 }
 ]
