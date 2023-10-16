@@ -54,7 +54,7 @@ function sendEmailHandle() {
   formRef.value?.validate((errors) => {
     if (!errors) {
       sendEmail({...emailData.value}).then(res => {
-        if (res.code === 200){
+        if (res.code === 200) {
           message.success('success')
         }
       })
