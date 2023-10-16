@@ -15,8 +15,15 @@
       <n-grid-item>
         <n-card rounded-10 min-h-150>
           <n-space vertical>
-            <span>欢迎使用MineAdmin后台权限管理系统。一个基于 Vue3.0、Vite、Naive UI 的轻量级后台管理模板。</span>
-            <span>喜欢的帮忙点个 ⭐Star。</span>
+            <span>欢迎使用MineAdmin后台权限管理系统。{{ description }}</span>
+            <n-space justify="space-between">
+              <span>喜欢的帮忙点个 ⭐Star。</span>
+              <div>
+                <n-button mr-10>开发文档</n-button>
+                <n-button type="primary"
+                  @click="jumpTo('https://github.com/wzwdream/widgets-for-windows')">代码仓库</n-button>
+              </div>
+            </n-space>
             <n-space>
               <n-tag round type="primary">fork: {{ forks }}</n-tag>
               <n-tag round type="error">star: {{ star }}</n-tag>
@@ -48,7 +55,7 @@
         <n-card title="更新日志" size="small" :segmented="true" rounded-10>
           <n-scrollbar h-500>
             <n-timeline v-if="commits" :horizontal="false">
-              <n-timeline-item v-for="item in commits" :key="item.sha" :title="item.commit.message"
+              <n-timeline-item v-for="item in commits" :key="item.sha" :type="getColor(item.commit.message)" :title="item.commit.message"
                 :content="item.commit.author.name" :time="item.commit.author.date" />
             </n-timeline>
           </n-scrollbar>
@@ -58,25 +65,26 @@
     <n-grid cols="1 s:1 m:2 l:2 xl:2" :x-gap="12" :y-gap="8" mt-15 responsive="screen">
       <n-grid-item>
         <n-card rounded-10>
-          <v-chart w-full h-400 :option="option" :autoresize="true" />
+          <v-chart v-if="option" w-full h-400 :option="option" :autoresize="true" />
         </n-card>
       </n-grid-item>
       <n-grid-item>
         <n-card rounded-10>
-          <v-chart w-full h-400 :option="option" :autoresize="true" />
+          <v-chart v-if="mixedChartOptions" w-full h-400 :option="mixedChartOptions" :autoresize="true" />
         </n-card>
       </n-grid-item>
     </n-grid>
   </div>
 </template>
 
-<script setup name="Workbenches">
+<script setup lang="ts" name="Workbenches">
 import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
-import { PieChart } from 'echarts/charts'
-import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components'
+import { PieChart, LineChart, BarChart } from 'echarts/charts'
+import { TitleComponent, TooltipComponent, LegendComponent, GridComponent } from 'echarts/components'
 import VChart from 'vue-echarts'
-import { getLanguages, getStargazers, getForks, getCommits } from '@/api/github/index'
+import { getLanguages, getCommits, getViews, getInfo } from '@/api/github/index'
+import { type Languages } from '@/api/github/type'
 
 use([
   CanvasRenderer,
@@ -84,6 +92,9 @@ use([
   TitleComponent,
   TooltipComponent,
   LegendComponent,
+  LineChart,
+  BarChart,
+  GridComponent
 ])
 
 // 获取技术栈数据
@@ -91,20 +102,19 @@ const option = ref()
 getLanguages().then(res => {
   const data = res.data
   const seriesData = Object.keys(data).map((item) => {
-    return { value: data[item], name: item }
+    return { value: data[item as keyof Languages], name: item }
   }) || []
   const echartsOption = {
     title: {
       text: '技术栈',
-      left: 'center',
+      left: '0',
     },
     tooltip: {
       trigger: 'item',
       formatter: '{a} <br/>{b} : {c} ({d}%)',
     },
     legend: {
-      show: true,
-      top: '50px'
+      right: '0'
     },
     series: [
       {
@@ -126,30 +136,95 @@ getLanguages().then(res => {
   option.value = echartsOption
 })
 
-// 获取star数量
+// 获取仓库信息
 const star = ref(0)
-getStargazers().then(res => {
-  star.value = res.data.length
+const forks = ref(0)
+const description = ref('')
+getInfo().then(res => {
+  const { data } = res
+  star.value = data.stargazers_count
+  forks.value = data.forks_count
+  description.value = data.description
 })
 
-// 获取fork数量
-const forks = ref(0)
-getForks().then(res => {
-  forks.value = res.data.length
-})
 // 获取提交记录
 const commits = ref()
 getCommits().then(res => {
   commits.value = res.data
 })
 
+// 获取访问数
+const mixedChartOptions = ref()
+getViews().then(res => {
+  const lData: number[] = []
+  const bData: number[] = []
+  const xData: string[] = []
+  res.data.views.forEach(element => {
+    lData.push(element.count)
+    bData.push(element.uniques)
+    xData.push(new Date(element.timestamp).toLocaleDateString())
+  })
+  mixedChartOptions.value = {
+    title: {
+      text: '访客情况',
+      left: 'left',
+    },
+    legend: {
+      show: true,
+      right: '0'
+    },
+    tooltip: {
+      show: true
+    },
+    xAxis: {
+      type: 'category',
+      data: xData,
+    },
+    yAxis: [
+      {
+        type: 'value',
+        name: '访客数量',
+        min: 0,
+        max: 100
+      },
+      {
+        type: 'value',
+        name: '去重的访客数量',
+        min: 0,
+        max: 100
+      },
+    ],
+    series: [
+      {
+        name: '访客数量',
+        type: 'line',
+        yAxisIndex: 0,
+        data: lData
+      },
+      {
+        name: '去重的访客数量',
+        type: 'bar',
+        yAxisIndex: 1,
+        data: bData
+      }
+    ]
+  }
+})
+
+// 跳转外部链接
+const jumpTo = (url: string) => {
+  window.open(url, '_blank')
+}
+
+// 获取时间线的颜色
+const getColor = (type: string) => {
+  // 'default' | 'success' | 'info' | 'warning' | 'error'
+  if (type.includes('feat')) return 'info'
+  if (type.includes('fix')) return 'warning'
+  if (type.includes('refactor')) return 'error'
+  if (type.includes('perf')) return 'success'
+  return 'default'
+}
 </script>
 
-<style scoped>
-.chart {
-  flex: 1 1 400px;
-  max-width: 400px;
-  min-width: 200px;
-  height: 300px;
-}
-</style>
+<style scoped></style>
