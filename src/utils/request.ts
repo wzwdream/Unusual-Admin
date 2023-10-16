@@ -6,7 +6,7 @@ import { useUserStore } from '@/store/user'
 // 用于获取github仓库的一些信息
 export const gitHttp: AxiosInstance = axios.create({
   timeout: 60000,
-  baseURL: 'https://api.github.com/repos/wzwdream/widgets-for-windows',
+  baseURL: 'https://api.github.com/repos/wzwdream',
   headers: {
     common: {
       'Authorization': 'token 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'
