@@ -75,7 +75,8 @@ getCaptchaCode()
   width: 80%;
   text-align: left;
   margin: auto;
-  font-size: 1.5rem;
+  font-size: 26px;
+  font-weight: 600;
   height: 15%;
   display: flex;
   flex-direction: column;
@@ -92,7 +93,7 @@ getCaptchaCode()
   left: 70%;
   transform: translate(-50%, -50%);
   animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  border-radius: 0.8rem;
+  border-radius: 12px;
   justify-content: center;
 }
 
@@ -126,7 +127,8 @@ getCaptchaCode()
   /* //color: #ffffff;
     //background-color: #fe538d; */
   animation: shadow-drop-bottom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  border-radius: 0.3rem;
+  height: 35px;
+  border-radius: 12px;
 }
 
 @keyframes shadow-drop-bottom {
