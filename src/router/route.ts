@@ -3,7 +3,7 @@ import Layout from '@/layout/index.vue'
 
 export const home = {
   path: '/workbenches',
-  meta: { title: '工作台', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: false },
+  meta: { title: '工作台', visibily: true, icon: 'material-symbols:home-outline', keepAlive: false },
   component: () => import('@/views/workbenches/index.vue')
 }
 
