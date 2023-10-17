@@ -43,7 +43,7 @@
           <n-scrollbar h-500>
             <n-grid cols="1 s:1 m:2 l:2 xl:2" :x-gap="12" :y-gap="8" responsive="screen">
               <n-grid-item v-for="i in 5" :key="i">
-                <n-card class="cursor-pointer" hoverable title="Vue Naive Admin" size="small">
+                <n-card class="cursor-pointer" hoverable title="Unusual Admin" size="small">
                   <p op-60>一个基于 Vue3.0、Vite、Naive UI 的轻量级后台管理模板</p>
                 </n-card>
               </n-grid-item>

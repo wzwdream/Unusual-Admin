@@ -2,7 +2,7 @@ export const setting = {
   /**
    * @description 网站标题
    */
-  title: 'Naive Admin',
+  title: 'Unusual Admin',
   /**
    * @description 是否只保持一个子菜单的展开(手风琴)
    */
