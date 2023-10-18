@@ -55,8 +55,8 @@
         <n-card title="更新日志" size="small" :segmented="true" rounded-10>
           <n-scrollbar h-500>
             <n-timeline v-if="commits" :horizontal="false">
-              <n-timeline-item v-for="item in commits" :key="item.sha" :type="getColor(item.commit.message)" :title="item.commit.message"
-                :content="item.commit.author.name" :time="item.commit.author.date" />
+              <n-timeline-item v-for="item in commits" :key="item.sha" :type="getColor(item.commit.message)"
+                :title="item.commit.message" :content="item.commit.author.name" :time="item.commit.author.date" />
             </n-timeline>
           </n-scrollbar>
         </n-card>
@@ -174,7 +174,13 @@ getViews().then(res => {
       right: '0'
     },
     tooltip: {
-      show: true
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross',
+        crossStyle: {
+          color: '#999'
+        }
+      }
     },
     xAxis: {
       type: 'category',
@@ -183,26 +189,26 @@ getViews().then(res => {
     yAxis: [
       {
         type: 'value',
-        name: '访客数量',
+        name: '访问次数',
         min: 0,
-        max: 100
+        max: 200
       },
       {
         type: 'value',
-        name: '去重的访客数量',
+        name: '访客数量',
         min: 0,
-        max: 100
+        max: 200
       },
     ],
     series: [
       {
-        name: '访客数量',
+        name: '访问次数',
         type: 'line',
         yAxisIndex: 0,
         data: lData
       },
       {
-        name: '去重的访客数量',
+        name: '访客数量',
         type: 'bar',
         yAxisIndex: 1,
         data: bData
