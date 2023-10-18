@@ -1,6 +1,6 @@
 <template>
   <n-dropdown :options="options" @select="handleSelect">
-    <n-avatar round :size="32" mr-30 src="/N.png" class="bg-#fff"/>
+    <n-avatar round :size="32" mr-30 src="/logo.jpg" class="bg-#fff"/>
   </n-dropdown>
 </template>
 

@@ -25,6 +25,7 @@ const rules: FormRules = {
   email: [
     {
       required: true,
+      message: '请按规则填写',
       trigger: ['input', 'blur'],
       validator(rule: FormItemRule, value: string) {
         return /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$/.test(value)
@@ -35,13 +36,13 @@ const rules: FormRules = {
     {
       required: true,
       trigger: ['input', 'blur'],
-      message: '请输入密码',
+      message: '请按规则填写',
     },
   ],
   text: [
     {
       required: true,
-      message: '请再次输入密码',
+      message: '请按规则填写',
       trigger: ['input', 'blur'],
     },
   ],
@@ -60,6 +61,7 @@ function sendEmailHandle() {
       })
     } else {
       console.error('Verification failure')
+      message.error('请按规则填写')
     }
   })
 
