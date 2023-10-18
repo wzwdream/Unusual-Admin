@@ -33,7 +33,7 @@ jobs:
           #私钥
           SSH_PRIVATE_KEY: ${{ secrets.SSHPWD }}
           ARGS: "-rltgoDzvO"
-          SOURCE: "docs/.vuepress/dist"
+          SOURCE: "dist"
           REMOTE_HOST: ${{ secrets.HOST }} #服务器ip
           REMOTE_USER: "root"
           TARGET: "/root/web/"
