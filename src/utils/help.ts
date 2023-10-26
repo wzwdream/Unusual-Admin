@@ -24,8 +24,8 @@ export const useVarCss = () => {
 }
 
 // 渲染Icon
-export const renderIcon = (icon: string): (() => VNodeChild) | undefined => {
-  if (icon) return () => h(Icon, { icon })
+export const renderIcon = (icon: string, size: number = 18): (() => VNodeChild) | undefined => {
+  if (icon) return () => h(Icon, { icon, size })
   return undefined
 }
 

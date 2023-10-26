@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BasicModel: typeof import('./src/components/basicModel/index.vue')['default']
     BasicTable: typeof import('./src/components/basicTable/index.vue')['default']
     ColumSetting: typeof import('./src/components/basicTable/components/columSetting.vue')['default']
     Icon: typeof import('./src/components/icon/index.vue')['default']
@@ -31,6 +32,7 @@ declare module 'vue' {
     NGridItem: typeof import('naive-ui')['NGridItem']
     NImage: typeof import('naive-ui')['NImage']
     NInput: typeof import('naive-ui')['NInput']
+    NInputNumber: typeof import('naive-ui')['NInputNumber']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
     NLayoutFooter: typeof import('naive-ui')['NLayoutFooter']
@@ -46,13 +48,17 @@ declare module 'vue' {
     NPopselect: typeof import('naive-ui')['NPopselect']
     NRow: typeof import('naive-ui')['NRow']
     NScrollbar: typeof import('naive-ui')['NScrollbar']
+    NSelect: typeof import('naive-ui')['NSelect']
     NSpace: typeof import('naive-ui')['NSpace']
     NTag: typeof import('naive-ui')['NTag']
     NTimeline: typeof import('naive-ui')['NTimeline']
     NTimelineItem: typeof import('naive-ui')['NTimelineItem']
     NTooltip: typeof import('naive-ui')['NTooltip']
+    NTree: typeof import('naive-ui')['NTree']
+    QueryItem: typeof import('./src/components/queryItem/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/icon/svgIcon.vue')['default']
+    TableAction: typeof import('./src/components/tableAction/index.vue')['default']
   }
 }

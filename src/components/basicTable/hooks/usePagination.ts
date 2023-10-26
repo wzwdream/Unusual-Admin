@@ -1,15 +1,7 @@
 import { type PaginationInfo } from 'naive-ui/es/pagination'
 import { useI18n } from 'vue-i18n'
+import { type Pagination } from '../types'
 
-export type Pagination = {
-  page: number;
-  pageSize: number;
-  itemCount: number;
-  showSizePicker: boolean;
-  showQuickJumper: boolean;
-  pageSizes: number[];
-  prefix: ({ itemCount }: PaginationInfo) => string;
-}
 
 export const usePagination = () => {
   // 国际化

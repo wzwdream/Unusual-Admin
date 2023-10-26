@@ -9,5 +9,9 @@ export default {
   delete: 'Delete',
   export: 'Export',
   total: 'Total of',
-  tiao: ''
+  tiao: '',
+  search: 'Search',
+  reset: 'Reset',
+  expandSearch: 'Expand Search',
+  retractSearch: 'Retract Search'
 }

@@ -43,6 +43,10 @@ export const defualtProps = {
   toolbar: {
     type: Boolean,
     default: true
+  },
+  querybar: {
+    type: Boolean,
+    default: true
   }
 }
 

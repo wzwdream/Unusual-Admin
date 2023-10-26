@@ -1,25 +1,41 @@
 <template>
-  <n-card ref="table" :segmented="{ content: true }">
+  <n-card :segmented="{ content: true }">
     <template #header>
-      <n-space v-if="props.toolbar" justify="space-between" align="center">
-      <n-space>
-        <n-button v-if="props.add" type="info" @click="emit('add')">{{ $t('add') }}</n-button>
-        <n-button v-if="props.edit && props.selection" :disabled="editDisabled" type="warning" @click="emit('edit', checkedRowKeysRef)">{{ $t('edit') }}</n-button>
-        <n-button v-if="props.del && props.selection" :disabled="delDisabled" type="error" @click="emit('delete', checkedRowKeysRef)">{{ $t('delete') }}</n-button>
-        <n-button v-if="props.download" :disabled="pagination.itemCount <= 0" type="primary" @click="emit('download')">{{ $t('export') }}</n-button>
-        <slot name="tableLeft"></slot>
+      <n-space v-show="showSearch" mb-20 align="center">
+        <slot name="queryBar"></slot>
+        <n-space v-if="props.querybar">
+          <n-button type="primary" size="small" secondary :render-icon="renderIcon('mdi:magnify', 14)" @click="listQuery()">{{ $t('search') }}</n-button>
+          <n-button type="warning" size="small" secondary :render-icon="renderIcon('mdi:restore', 14)" @click="emit('reset')">{{ $t('reset') }}</n-button>
+        </n-space>
       </n-space>
+      <n-space v-if="props.toolbar" justify="space-between" align="center">
+        <n-space>
+          <n-button v-if="props.add" type="info" size="small" :render-icon="renderIcon('material-symbols:add-rounded', 14)" @click="emit('add')">{{ $t('add') }}</n-button>
+          <n-button v-if="props.edit && props.selection" :disabled="editDisabled" type="warning" size="small" :render-icon="renderIcon('material-symbols:edit-outline', 14)" @click="emit('edit')">{{ $t('edit') }}</n-button>
+          <n-button v-if="props.del && props.selection" :disabled="delDisabled" type="error" size="small" :render-icon="renderIcon('material-symbols:delete-outline', 14)" @click="emit('delete')">{{ $t('delete') }}</n-button>
+          <n-button v-if="props.download" :disabled="pagination.itemCount <= 0" type="primary" size="small" :render-icon="renderIcon('material-symbols:download-rounded', 14)" @click="emit('download')">{{ $t('export') }}</n-button>
+          <slot name="tableLeft"></slot>
+        </n-space>
       <n-space>
         <slot name="tableRight"></slot>
         <n-button-group>
           <n-tooltip trigger="hover">
             <template #trigger>
+              <n-button ghost @click="showSearch = !showSearch">
+                <Icon v-if="showSearch" icon="ic:outline-search-off" />
+                <Icon v-else icon="ic:outline-search" />
+            </n-button>
+            </template>
+            {{ showSearch ? $t('retractSearch') : $t('expandSearch') }}
+          </n-tooltip>
+          <n-tooltip trigger="hover">
+            <template #trigger>
               <n-button ghost @click="toggle">
-                <Icon v-if="!isFullscreen" icon="ant-design:fullscreen-outlined" />
+                <Icon v-if="!tagStore.fullContent" icon="ant-design:fullscreen-outlined" />
                 <Icon v-else icon="ant-design:fullscreen-exit-outlined" />
             </n-button>
             </template>
-            {{ !isFullscreen ? $t('fullscreen') : $t('exitFullscreen') }}
+            {{ !tagStore.fullContent ? $t('fullscreen') : $t('exitFullscreen') }}
           </n-tooltip>
           <n-tooltip trigger="hover">
             <template #trigger>
@@ -56,18 +72,25 @@ import { usePagination } from './hooks/usePagination'
 import { useRequest } from './hooks/useRequest'
 import { useSelection } from './hooks/useSelection'
 import { defualtProps } from './utils/defualtProps'
-import { useFullscreen } from '@vueuse/core'
+import { renderIcon } from '@/utils/help'
+import { type Action } from './types/index'
+import { useTagStore } from '@/store/tags'
 
 // props
 const props = defineProps(defualtProps)
 
+// 收起/展开搜索栏
+const showSearch = ref(true)
 // 全屏
-const table = ref<HTMLElement | null>(null)
-const { isFullscreen, toggle } = useFullscreen(table)
+const tagStore = useTagStore()
+const toggle = () => {
+  tagStore.setFullContent(!tagStore.fullContent)
+}
 
 // 选中行以及操作按钮
-const emit = defineEmits(['add', 'delete', 'edit', 'download'])
-const { checkedRowKeysRef, changeCheck, editDisabled, delDisabled } = useSelection()
+interface Emit extends /* @vue-ignore */  Action {}
+const emit = defineEmits<Emit>()
+const { changeCheck, editDisabled, delDisabled } = useSelection(emit)
 
 // 表格数据
 const selection: { type: string }[] = []

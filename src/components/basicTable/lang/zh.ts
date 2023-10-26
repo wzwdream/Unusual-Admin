@@ -9,5 +9,9 @@ export default {
   delete: '删除',
   export: '导出',
   total: '共',
-  tiao: '条'
+  tiao: '条',
+  search: '搜索',
+  reset: '重置',
+  expandSearch: '展开搜索栏',
+  retractSearch: '收起搜索栏'
 }

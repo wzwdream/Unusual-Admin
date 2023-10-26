@@ -1,6 +1,6 @@
 import { type ComputedRef } from 'vue'
 import { getData } from '../utils/request'
-import { type Pagination } from './usePagination'
+import { type Pagination } from '../types'
 
 
 export const useRequest = (params: ComputedRef<Record<string, unknown>>, url: string, pagination: Pagination) => {

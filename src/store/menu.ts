@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { buildBreadcrumb, buildMenu } from '@/utils/menu'
 import { type menu } from '@/type/menu'
-import { getMenu } from '@/api/user/menu'
+import { getTreeMenu } from '@/api/user/menu'
 import { type RouteRecordRaw } from 'vue-router'
 import { home } from '@/router/route'
 
@@ -31,9 +31,9 @@ export const useMenuStore = defineStore('menu', {
       this.activeMenuKey = val
     },
     async GenerateRoutes(): Promise<RouteRecordRaw[]> {
-      const { data } = await getMenu()
-      this.treeMenu = data
-      return data
+      const { data } = await getTreeMenu()
+      this.treeMenu = data as RouteRecordRaw[]
+      return data as RouteRecordRaw[]
     }
   },
   persist: true

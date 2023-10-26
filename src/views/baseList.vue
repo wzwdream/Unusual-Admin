@@ -1,6 +1,6 @@
 <script setup lang="ts" name="BaseList">
-import { type BasicTableType } from '@/type/components';
-import { type DataTableColumn } from 'naive-ui/es/data-table';
+import { type BasicTableType } from '@/type/components'
+import { type DataTableColumn } from 'naive-ui/es/data-table'
 import { type FormInst } from 'naive-ui/es/form/src/interface'
 // 表单
 const defualtQuery = reactive({
