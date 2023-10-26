@@ -10,7 +10,8 @@ export const useMenuStore = defineStore('menu', {
     return {
       collapsed: false,
       activeMenuKey: '',
-      treeMenu: [] as RouteRecordRaw[]
+      treeMenu: [] as RouteRecordRaw[],
+      updateRoute: true
     }
   },
   getters: {
@@ -35,6 +36,5 @@ export const useMenuStore = defineStore('menu', {
       this.treeMenu = data as RouteRecordRaw[]
       return data as RouteRecordRaw[]
     }
-  },
-  persist: true
+  }
 })

@@ -5,6 +5,8 @@ import { kebabCase } from 'lodash-es'
 import { RouterLink } from 'vue-router';
 import { type VNodeChild, h } from 'vue'
 import Icon from '@/components/icon/index.vue'
+import { useMenuStore } from '@/store/menu';
+import { useTagStore } from '@/store/tags';
 
 
 const { message, notification, dialog, loadingBar } = createDiscreteApi(
@@ -42,7 +44,6 @@ export const hRouter = (lable: string, router: string) => {
   )
 }
 
-
 // 计算content高度
 export const style = (type: string = '') => {
   const { showFooter, tagsView } = setting
@@ -52,4 +53,14 @@ export const style = (type: string = '') => {
   if (type === 'main') height += 20
   if (type === 'link') height += 50
   return `calc(100vh - ${height}px)`
+}
+
+// 重置sotre
+export const resetStore = () => {
+  const menuStore = useMenuStore()
+  menuStore.$reset()
+  const tagsStore = useTagStore()
+  tagsStore.$reset()
+  const userStore = useMenuStore()
+  userStore.$reset()
 }

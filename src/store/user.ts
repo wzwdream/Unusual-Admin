@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import router from '@/router'
 import { logout } from '@/api/user/login'
+import { resetStore } from '@/utils/help'
 export const useUserStore = defineStore('user', {
   state: () => {
     return {
@@ -12,12 +13,9 @@ export const useUserStore = defineStore('user', {
     setToken(token: string) {
       this.token = token
     },
-    restUser() {
-      this.$reset()
-    },
     async userLogout() {
       await logout()
-      this.restUser()
+      resetStore()
       router.replace('/login')
     }
   },

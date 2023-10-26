@@ -16,7 +16,6 @@ const router = createRouter({
 
 // 路由白名单
 const whiteList = ['/login']
-let updateRoute = true
 router.beforeEach(async (to, from, next) => {
   // 开启加载条
   loadingBar.start()
@@ -28,15 +27,15 @@ router.beforeEach(async (to, from, next) => {
   if (userStore.token) {
     if (to.path === '/login') return next('/')
     await nextTick()
-    if (updateRoute) {
-      const menuStore = useMenuStore()
+    const menuStore = useMenuStore()
+    if (menuStore.updateRoute) {
       const data = await menuStore.GenerateRoutes()
       const routers = filterRoute(data)
       routers.forEach((route: RouteRecordRaw) => {
         router.addRoute( route)
       })
       // 防止死循环
-      updateRoute = false
+      menuStore.updateRoute = false
       next({ ...to, replace: true })
     } else {
       next()
