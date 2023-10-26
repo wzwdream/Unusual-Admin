@@ -21,7 +21,8 @@ export function resultSuccess<T>(data: T, message?: string, total?: number) {
   return {
     code: 200,
     data,
-    total
+    total,
+    message
   }
 }
 

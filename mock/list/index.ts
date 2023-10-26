@@ -20,7 +20,7 @@ export default [
       };
 
       const userList = Mock.mock(template)
-      return resultSuccess(userList.list , '100')
+      return resultSuccess(userList.list , '获取数据成功', 100)
     }
   }
 ]

@@ -71,13 +71,13 @@
   font-weight: 500;
   width: 0;
   border-right: 1px solid transparent;
-  animation: typing 5s steps(12), caret .5s steps(1) infinite;
+  animation: typing 5s steps(14), caret .5s steps(1) infinite;
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
 }
 
 @keyframes typing {
-  to { width: 12ch; }
+  to { width: 14ch; }
 }
 
 @keyframes caret{
