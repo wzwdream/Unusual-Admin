@@ -5,6 +5,13 @@ export default {
   sousuo: 'Search',
   zhongwen: 'Chinese',
   yingwen: 'English',
+  add: 'Add',
+  edit: 'Edit',
+  delete: 'Delete',
+  export: 'Export',
+  search: 'Search',
+  reset: 'Reset',
+  view: 'View',
   ...Layout,
   ...BasicTable
 }

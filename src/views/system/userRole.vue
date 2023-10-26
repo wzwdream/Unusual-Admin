@@ -28,6 +28,7 @@
           :title="modalTitle"
           :loading="modalLoading"
           :show-footer="modalShowFooter"
+          width="550px"
           @save="handleSave"
         >
           <n-form
@@ -141,7 +142,7 @@ const columns: Array<DataTableColumn<RoleList>> = [
           {
             onHandleDelete: () => handleDelete([row.id as number]),
             onEdit: () => handleEdit(row),
-            onLook: () => handleView(row)
+            onView: () => handleView(row)
           },
         )
       ]
