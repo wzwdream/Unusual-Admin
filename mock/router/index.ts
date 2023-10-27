@@ -26,8 +26,8 @@ const routes: Route[] = [
   { id: 5, pid: 4, path: '/email/email', name: 'email', component: 'views/email.vue', title: '邮件', visibily: true, icon: 'material-symbols:stacked-email-outline', keepAlive: false, sort: 1 },
   { id: 6, pid: 0, path: '/link', title: '外链菜单', visibily: true, isDir: true, icon: 'system-uicons:chain', sort: 3 },
   { id: 7, pid: 6, path: '/link/juejing', name: 'Juejing', title: '掘金', visibily: true, icon: 'tabler:brand-juejin', externalLink: true, link: 'https://juejin.cn/', sort: 1 },
-  { id: 7, pid: 0, path: '/system', title: '系统管理', visibily: true, isDir: true, icon: 'basil:settings-alt-outline', sort: 4 },
-  { id: 5, pid: 7, path: '/system/userRole', name: 'userRole', component: 'views/system/userRole.vue', title: '角色管理', visibily: true, icon: 'mdi:account-tag-outline', keepAlive: false, sort: 1 },
+  { id: 8, pid: 0, path: '/system', title: '系统管理', visibily: true, isDir: true, icon: 'basil:settings-alt-outline', sort: 4 },
+  { id: 9, pid: 8, path: '/system/userRole', name: 'userRole', component: 'views/system/userRole.vue', title: '角色管理', visibily: true, icon: 'mdi:account-tag-outline', keepAlive: false, sort: 1 },
 ]
 
 const convertToTree = (routes: Route[]): TreeMenu[] => {

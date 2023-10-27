@@ -7,9 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BasicList: typeof import('./src/components/basicList/index.vue')['default']
     BasicModel: typeof import('./src/components/basicModel/index.vue')['default']
-    BasicTable: typeof import('./src/components/basicTable/index.vue')['default']
-    ColumSetting: typeof import('./src/components/basicTable/components/columSetting.vue')['default']
+    ColumSetting: typeof import('./src/components/basicList/components/columSetting.vue')['default']
     Icon: typeof import('./src/components/icon/index.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']

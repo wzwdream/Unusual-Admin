@@ -1,20 +1,43 @@
+<template>
+  <div>
+    <BasicList
+      ref="testTable"
+      :columns="columns"
+      :data="listData"
+      :pagination="pagination"
+      :loading="loading"
+      :row-key="rowKey"
+      @reset="handlereset"
+      @search="listQuery"
+      @add="handleAdd"
+      @delete="handleDelete"
+      @edit="handleEdit"
+      @download="handleDownload"
+      @change-checkrow="changeCheckRow"
+    >
+      <template #queryBar>
+        <query-item label="姓名">
+          <n-input v-model:value="defualtQuery.name" size="small" placeholder="输入姓名" />
+        </query-item>
+        <query-item label="年龄">
+          <n-input v-model:value="defualtQuery.age" size="small" placeholder="年龄" />
+        </query-item>
+      </template>
+    </BasicList>
+  </div>
+</template>
+
 <script setup lang="ts" name="BaseList">
+import { useBasicList } from '@/hooks/useBasicList/index'
 import { type BasicTableType } from '@/type/components'
 import { type DataTableColumn } from 'naive-ui/es/data-table'
-import { type FormInst } from 'naive-ui/es/form/src/interface'
-// 表单
-const defualtQuery = reactive({
-  name: null,
-  age: null
-})
-const formRef = ref<FormInst | null>(null)
-const handleValidateClick = (e: MouseEvent) => {
-  e.preventDefault()
-  testTable.value?.listQuery()
-}
+
 // 表格
 const testTable = ref<BasicTableType | null>(null)
 const columns: Array<DataTableColumn> = [
+  {
+    type: 'selection'
+  },
   {
     title: 'ID',
     key: 'id'
@@ -28,29 +51,46 @@ const columns: Array<DataTableColumn> = [
     key: 'age'
   }
 ]
-</script>
 
-<template>
-  <div>
-    <n-form ref="formRef" inline :mode="defualtQuery" label-placement="left" label-width="auto">
-      <n-form-item label="姓名" path="user.name">
-        <n-input v-model:value="defualtQuery.name" placeholder="输入姓名" />
-      </n-form-item>
-      <n-form-item label="年龄" path="user.age">
-        <n-input v-model:value="defualtQuery.age" placeholder="输入年龄" />
-      </n-form-item>
-      <n-form-item>
-        <n-button attr-type="button" @click="handleValidateClick">
-          查询
-        </n-button>
-        <n-button attr-type="button" @click="handleValidateClick">
-          重置
-        </n-button>
-      </n-form-item>
-    </n-form>
-    <BasicTable ref="testTable" :columns="columns" :url="'/list/test'" :query-params="defualtQuery" />
-  </div>
-</template>
+// 表格hooks
+const {
+  handleAdd,
+  handleDelete,
+  handleEdit,
+  handleDownload,
+  handlereset,
+  defualtQuery,
+  changeCheckRow,
+  listQuery,
+  listData,
+  pagination,
+  loading,
+  rowKey
+} = useBasicList({
+  name: '角色',
+  url: '/list/test',
+  key: 'id',
+  initForm: { roleName: '', roleStatus: 1, roleSort: null, roleReamark: '' },
+  initQuery: { name: null, age: null },
+  beforeRefresh: (form) => {
+    console.log(form)
+    return {
+      ...form,
+      age: 18
+    }
+  },
+  afterRefresh: (list) => {
+    console.log(list)
+    list.forEach(item => {
+      item.age = 10
+    })
+    return list
+  }
+  // doCreate: addUserRole,
+  // doDelete: deleteUserRole,
+  // doUpdate: updateUserRole
+})
+</script>
 
 <style scoped>
 </style>
