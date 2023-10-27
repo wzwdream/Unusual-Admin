@@ -1,5 +1,5 @@
 import Layout from '@/layout/lang/en'
-import BasicTable from '@/components/basicTable/lang/en'
+import basicList from '@/components/basicList/lang/en'
 export default {
   denglu: 'Login',
   sousuo: 'Search',
@@ -12,6 +12,11 @@ export default {
   search: 'Search',
   reset: 'Reset',
   view: 'View',
+  sucess: 'Sucess',
+  determine: 'Determine',
+  cancellation: 'Cancellation',
+  warn: 'Warn',
+  dureDelete: 'Are you sure to delete it?',
   ...Layout,
-  ...BasicTable
+  ...basicList
 }

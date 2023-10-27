@@ -3,13 +3,6 @@ import { useI18n } from 'vue-i18n'
 import { type Pagination } from '../type'
 import Http from '@/utils/request'
 
-// 操作类型
-export const ACTIONS = {
-  view: '查看',
-  edit: '编辑',
-  add: '新增',
-}
-
 // 请求数据接口
 export const getData = <T extends Record<string, unknown>[]>(url: string, params: Record<string, any>) => {
   return Http.get<T>(url, params)

@@ -93,7 +93,7 @@
 import { type BasicTableType } from '@/type/components'
 import { type DataTableColumn } from 'naive-ui/es/data-table'
 import { NButton, NSwitch } from 'naive-ui'
-import { type RoleList, updateUserRole, addUserRole, deleteUserRole } from '@/api/user/userRole'
+import { type RoleList, type RoleQuery, updateUserRole, addUserRole, deleteUserRole } from '@/api/user/userRole'
 import { renderIcon } from '@/utils/help'
 import { useMenuStore } from '@/store/menu';
 import TableAction from '@/components/tableAction/index.vue'
@@ -233,15 +233,23 @@ const {
   pagination,
   loading,
   rowKey
-} = useBasicList<RoleList>({
+} = useBasicList<RoleList, RoleQuery>({
   name: '角色',
   url: '/userRole',
   key: 'id',
   initForm: { roleName: '', roleStatus: 1, roleSort: null, roleReamark: '' },
-  initQuery: { roleName: '', roleStatus: null },
+  initQuery: { roleName: '', roleStatus: undefined },
   doCreate: addUserRole,
   doDelete: deleteUserRole,
-  doUpdate: updateUserRole
+  doUpdate: updateUserRole,
+  beforeRefresh: (form) => {
+    console.log(form)
+    return true
+  },
+  afterRefresh: (data) => {
+    console.log(data)
+    return data
+  }
 })
 </script>
 

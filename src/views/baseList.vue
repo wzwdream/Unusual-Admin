@@ -67,20 +67,15 @@ const {
   loading,
   rowKey
 } = useBasicList({
-  name: '角色',
+  name: '表格',
   url: '/list/test',
   key: 'id',
-  initForm: { roleName: '', roleStatus: 1, roleSort: null, roleReamark: '' },
-  initQuery: { name: null, age: null },
+  initQuery: { name: '', age: '' },
   beforeRefresh: (form) => {
     console.log(form)
-    return {
-      ...form,
-      age: 18
-    }
+    return true
   },
   afterRefresh: (list) => {
-    console.log(list)
     list.forEach(item => {
       item.age = 10
     })

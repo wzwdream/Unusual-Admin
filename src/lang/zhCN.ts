@@ -1,5 +1,5 @@
 import Layout from '@/layout/lang/zh'
-import BasicTable from '@/components/basicTable/lang/zh'
+import basicList from '@/components/basicList/lang/zh'
 export default {
   denglu: '登录',
   sousuo: '搜索',
@@ -12,6 +12,11 @@ export default {
   search: '搜索',
   reset: '重置',
   view: '查看',
+  sucess: '成功',
+  warn: '警告',
+  dureDelete: '你确定删除？',
+  determine: '确定',
+  cancellation: '取消',
   ...Layout,
-  ...BasicTable
+  ...basicList
 }

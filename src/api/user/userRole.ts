@@ -1,11 +1,17 @@
 import Http from '@/utils/request'
 export interface RoleList {
-  id: number
+  id?: number
   roleName: string
-  roleSort: number
+  roleSort: number | null
   roleStatus: number
-  roleMenu: string
+  roleMenu?: string
   roleReamark: string
+  [key: string]: any
+}
+
+export interface RoleQuery {
+  roleName?: string
+  roleStatus?: number
   [key: string]: any
 }
 

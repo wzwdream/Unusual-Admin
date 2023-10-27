@@ -1,16 +1,18 @@
 import { dialog, message } from '@/utils/help'
 import { type FormInst } from 'naive-ui'
-import { ACTIONS, usePagination } from './utils/index'
+import { usePagination } from './utils/index'
 import { getData } from './utils/index'
 import type { HookParams, Form } from './type'
 import { type RowData } from 'naive-ui/es/data-table/src/interface'
+import { type UnwrapRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-export const useBasicList = <List extends Form>({
+export const useBasicList = <List extends Form = Form, RoleQuery extends Form = Form>({
   name, // 名称
   url, // 查询url
   key,
-  initForm = {} as Form, // 表单初始化数据
-  initQuery = {} as Form, // 查询初始化数据
+  initForm = {} as List, // 表单初始化数据
+  initQuery = {} as RoleQuery, // 查询初始化数据
   doCreate, // 新建
   doDelete, // 删除
   doUpdate, // 编辑
@@ -18,17 +20,29 @@ export const useBasicList = <List extends Form>({
   afterRefresh, // 查询之后
   beforeSave, // 新增/编辑保存之前
   afterSave // 新增/编辑保存之后
-}: HookParams<List>) => {
+}: HookParams<List, RoleQuery>) => {
+
+  // 国际化
+  const { t } = useI18n()
+
+  // 操作类型
+  const ACTIONS = computed(() => {
+    return {
+      view: t('view'),
+      edit: t('edit'),
+      add: t('add')
+    }
+  })
 
   const modalVisible = ref(false)
   const modalAction = ref('')
   const modalLoading = ref(false)
   const modalFormRef = ref<FormInst | null>(null)
-  const modalForm = ref<Form>({ ...initForm })
+  const modalForm = ref<List>({ ...initForm })
 
-  const defualtQuery = ref({ ...initQuery })
+  const defualtQuery = ref<RoleQuery>({ ...initQuery })
 
-  const modalTitle = computed(() => ACTIONS[modalAction.value as keyof typeof ACTIONS] + name)
+  const modalTitle = computed(() => ACTIONS.value[modalAction.value as keyof typeof ACTIONS.value] + ' ' + (name || ''))
   const modalShowFooter = computed(() => modalAction.value !== 'view')
 
   /** 表格需要勾选的话需要设置rowkey */
@@ -36,7 +50,7 @@ export const useBasicList = <List extends Form>({
 
   /** 重置搜索 */
   const handlereset = () => {
-    defualtQuery.value = {...initQuery}
+    defualtQuery.value = {...initQuery} as UnwrapRef<RoleQuery>
   }
 
   /** 选择行变化 */
@@ -48,7 +62,7 @@ export const useBasicList = <List extends Form>({
   const handleAdd = () => {
     modalAction.value = 'add'
     modalVisible.value = true
-    modalForm.value = { ...initForm }
+    modalForm.value = { ...initForm } as UnwrapRef<List>
   }
 
   /** 修改 */
@@ -57,14 +71,14 @@ export const useBasicList = <List extends Form>({
     if (!row && checkedRow.value) rowData = checkedRow.value[0]
     modalAction.value = 'edit'
     modalVisible.value = true
-    modalForm.value = { ...rowData }
+    modalForm.value = rowData as UnwrapRef<List>
   }
 
   /** 查看 */
   const handleView = (row: List) => {
     modalAction.value = 'view'
     modalVisible.value = true
-    modalForm.value = { ...row }
+    modalForm.value = row as UnwrapRef<List>
   }
 
   /** 保存 */
@@ -76,7 +90,7 @@ export const useBasicList = <List extends Form>({
     modalFormRef.value?.validate(async (err: any) => {
       if (err) return
       const action = modalAction.value === 'add' ? doCreate : doUpdate
-      const prompt = modalAction.value === 'add' ? '新增' : '编辑'
+      const prompt = modalAction.value === 'add' ? t('add') : t('edit')
       try {
         modalLoading.value = true
         // 保存之前，如果返回处理后的数据则替换
@@ -85,7 +99,7 @@ export const useBasicList = <List extends Form>({
         action && await action(params)
         // 保存之后
         afterSave && afterSave()
-        message.success(prompt + '成功')
+        message.success(prompt + ' ' + t('sucess'))
         modalLoading.value = modalVisible.value = false
         listQuery()
       } catch (error) {
@@ -105,17 +119,17 @@ export const useBasicList = <List extends Form>({
     let rowKeys = ids
     if (!ids) rowKeys = checkIds.value
     const dia = dialog.warning({
-      title: '警告',
-      content: '确定删除？',
-      positiveText: '确定',
-      negativeText: '取消',
+      title: t('warn'),
+      content: t('dureDelete'),
+      positiveText: t('determine'),
+      negativeText: t('cancellation'),
       onPositiveClick: async () => {
         dia.loading = true
         try {
           modalLoading.value = true
           doDelete && await doDelete(rowKeys as number[])
           dia.loading = false
-          message.success('删除成功')
+          message.success(t('delete') + ' ' + t('sucess'))
           modalLoading.value = false
           listQuery()
         } catch (error) {
@@ -141,7 +155,7 @@ export const useBasicList = <List extends Form>({
         ...defualtQuery.value
       }
       // 查询前，如果返回false则不继续查询
-      const queryParams = beforeRefresh && beforeRefresh(params)
+      const queryParams = beforeRefresh && beforeRefresh(params as RoleQuery)
       if (typeof queryParams === 'boolean' && !queryParams) return
       if (queryParams && typeof queryParams !== 'boolean') params = queryParams as typeof params
 
