@@ -1,6 +1,11 @@
 import { RoleList } from '@/api/user/userRole'
 import { requestParams, resultSuccess } from '../utils'
 
+interface List extends RoleList {
+  id: number
+  roleSort: number
+  roleMenu: string
+}
 const userRole = [
   { id: 1, roleName: '管理员', roleSort: 1, roleStatus: 1, roleMenu: '1', roleReamark: '超级管理员' },
   { id: 2, roleName: '开发', roleSort: 2, roleStatus: 1, roleMenu: '1', roleReamark: '开发工程师' }
@@ -22,7 +27,7 @@ export default [
     method: 'put',
     response: (request: requestParams) => {
       const index: number = userRole.findIndex(role => role.id === Number(request.body.id))
-      const role: RoleList  = userRole[index]
+      const role: List  = userRole[index]
       Object.keys(role).map(key => {
         role[key] = request.body[key]
       })
@@ -42,7 +47,7 @@ export default [
     url: '/api/addRole',
     method: 'post',
     response: (request: requestParams) => {
-      userRole.push(request.body as RoleList)
+      userRole.push(request.body as List)
       return resultSuccess('', '新增数据成功')
     }
   }
