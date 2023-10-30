@@ -1,6 +1,6 @@
 <template>
   <n-space align="center">
-    <label v-if="!!props.label" class="flex-shrink-0 flex justify-end pr-10 text-font" :style="{ width: props.labelWidth + 'px' }">
+    <label v-if="!!props.label" class="flex-shrink-0 flex justify-end pr-10 text-font" :style="{ width: props.labelWidth }">
       <span v-if="props.required" class="color-[#d03050] flex-shrink-0">*&nbsp;</span>
       {{ label }}
     </label>
@@ -13,13 +13,13 @@
 <script setup lang="ts" name="QueryItem">
 interface ItenmProps {
   label?: string
-  labelWidth?: number
+  labelWidth?: string
   contentWidth?: number
   required?: boolean
 }
 const props = withDefaults(defineProps<ItenmProps>(), {
   label: '',
-  labelWidth: 60,
+  labelWidth: 'auto',
   contentWidth: 180,
   required: false
 })

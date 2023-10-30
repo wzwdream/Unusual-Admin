@@ -4,7 +4,7 @@ export interface RoleList {
   roleName: string
   roleSort: number | null
   roleStatus: number
-  roleMenu?: string
+  roleMenu?: string[]
   roleReamark: string
   [key: string]: any
 }
@@ -28,5 +28,5 @@ export const deleteUserRole = (id: number[]) => {
 }
 
 export const addUserRole = (params: RoleList) => {
-  return Http.post('/updateRole', params)
+  return Http.post('/addRole', params)
 }

@@ -4,11 +4,12 @@ import { requestParams, resultSuccess } from '../utils'
 interface List extends RoleList {
   id: number
   roleSort: number
-  roleMenu: string
+  roleMenu: string[]
 }
+const adminMenu = ['/list', '/list/baseList', '/list/drag', '/email', '/email/email', '/link', '/link/juejing', '/system', '/system/userRole']
 const userRole = [
-  { id: 1, roleName: '管理员', roleSort: 1, roleStatus: 1, roleMenu: '1', roleReamark: '超级管理员' },
-  { id: 2, roleName: '开发', roleSort: 2, roleStatus: 1, roleMenu: '1', roleReamark: '开发工程师' }
+  { id: 1, roleName: '管理员', roleSort: 1, roleStatus: 1, roleMenu: adminMenu, roleReamark: '超级管理员' },
+  { id: 2, roleName: '开发', roleSort: 2, roleStatus: 1, roleMenu: adminMenu, roleReamark: '开发工程师' }
 ]
 
 export default [
@@ -47,6 +48,7 @@ export default [
     url: '/api/addRole',
     method: 'post',
     response: (request: requestParams) => {
+      console.log('123', request.body)
       userRole.push(request.body as List)
       return resultSuccess('', '新增数据成功')
     }

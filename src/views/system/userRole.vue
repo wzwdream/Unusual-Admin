@@ -71,8 +71,8 @@
             <n-button type="info" size="small" :render-icon="renderIcon('mingcute:save-2-line')" @click="saveMenu">保存</n-button>
           </template>
           <n-tree
-            ref="treeMenuRef"
             :data="data"
+            :checked-keys="checkedKeys"
             key-field="path"
             label-field="title"
             :selectable="false"
@@ -82,6 +82,7 @@
             cascade
             checkable
             expand-on-click
+            @update:checked-keys="updateCheckedKeys"
           />
         </n-card>
       </n-grid-item>
@@ -167,6 +168,7 @@ const rowProps = (row: RoleList) => {
     style: 'cursor: pointer;',
     onClick: () => {
       selectedRow.value = row
+      checkedKeys.value = row.roleMenu || []
     }
   }
 }
@@ -202,13 +204,16 @@ const handleChangeStatus = async (row: RoleList) => {
 // 右侧菜单
 const menuStore = useMenuStore()
 const data = ref(menuStore.treeMenu)
-const treeMenuRef = ref()
-const saveMenu = () => {
-  const keys = treeMenuRef.value?.getCheckedData()
-  const key = treeMenuRef.value?.getIndeterminateData()
-  console.log('保存', keys, key)
-}
+const checkedKeys = ref<string[]>([])
 
+// 菜单选中更新
+const updateCheckedKeys = (keys: Array<string>) => {
+  checkedKeys.value = keys
+}
+// 保存选中菜单
+const saveMenu = () => {
+  console.log('保存', checkedKeys)
+}
 
 // 表格hooks
 const {
