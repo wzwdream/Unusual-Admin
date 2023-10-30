@@ -10,7 +10,7 @@ import { useI18n } from 'vue-i18n'
 export const useBasicList = <List extends Form = Form, RoleQuery extends Form = Form>({
   name, // 名称
   url, // 查询url
-  key,
+  key, // rowKey
   initForm = {} as List, // 表单初始化数据
   initQuery = {} as RoleQuery, // 查询初始化数据
   doCreate, // 新建
