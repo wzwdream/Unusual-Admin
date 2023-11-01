@@ -50,7 +50,7 @@ export default [
     url: '/api/addRole',
     method: 'post',
     response: (request: requestParams) => {
-      userRole.push(request.body as List)
+      userRole.push({ ...request.body, id: userRole[userRole.length - 1].id + 1 })
       return resultSuccess('', '新增数据成功')
     }
   }

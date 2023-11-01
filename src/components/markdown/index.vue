@@ -35,7 +35,7 @@ interface MarkdownProps {
   methodParams?: Record<string, any> // 上传文件的参数
 }
 const props = withDefaults(defineProps<MarkdownProps>(), {
-  editorId: '',
+  editorId: 'markRaw_MdEditor',
   previewTheme: 'default',
   codeTheme: 'atom',
   contentWidth: 180,
