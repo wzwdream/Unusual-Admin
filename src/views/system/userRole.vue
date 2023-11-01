@@ -3,7 +3,6 @@
     <n-grid cols="3" item-responsive :y-gap="8" :x-gap="10" responsive="screen">
       <n-grid-item span="3 m:2 l:2 xl:2">
         <BasicList
-          ref="testTable"
           :columns="columns"
           :data="listData"
           :pagination="pagination"
@@ -91,7 +90,6 @@
 </template>
 
 <script setup lang="ts" name="BaseList">
-import { type BasicTableType } from '@/type/components'
 import { type DataTableColumn } from 'naive-ui/es/data-table'
 import { NButton, NSwitch } from 'naive-ui'
 import { type RoleList, type RoleQuery, updateUserRole, addUserRole, deleteUserRole } from '@/api/user/userRole'
@@ -101,10 +99,12 @@ import TableAction from '@/components/tableAction/index.vue'
 import { useBasicList } from '@/hooks/useBasicList/index'
 
 // 表格
-const testTable = ref<BasicTableType | null>(null)
 const columns: Array<DataTableColumn<RoleList>> = [
   {
-    type: 'selection'
+    type: 'selection',
+    // disabled: (row) => {
+    //   return row.id === 1
+    // }
   },
   {
     title: 'ID',
@@ -197,7 +197,7 @@ const handleChangeStatus = async (row: RoleList) => {
   row.loading = true
   const params: RoleList = { ...row, roleStatus: row.roleStatus === 0 ? 1 : 0 }
   await updateUserRole(params)
-  await testTable.value?.listQuery()
+  await listQuery()
   row.loading = false
 }
 

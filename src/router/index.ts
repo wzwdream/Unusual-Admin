@@ -1,6 +1,5 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
 import { loadingBar } from '@/utils/help'
-import { setting } from '@/setting'
 import { routes } from './route'
 import { useMenuStore } from '@/store/menu'
 import { useTagStore } from '@/store/tags'
@@ -50,7 +49,7 @@ router.beforeEach(async (to, from, next) => {
 router.afterEach(async (to) => {
   // 设置网页标签名
   if (to.meta.title) {
-    document.title = to.meta.title + ' - ' + setting.title
+    document.title = to.meta.title + ' - ' + import.meta.env.VITE_TITLE
   }
   // 解决浏览器手势返回和点击退回时菜单选择跟tag选择状态不正确
   const menuStore = useMenuStore()

@@ -8,7 +8,6 @@ export default defineConfig(({ command, mode }) => {
 
   const viteEnv: ViteEnv = conversionsEnv(loadEnv(mode, process.cwd()))
   const { VITE_PORT, VITE_PUBLIC_PATH, VITE_BASE_API } = viteEnv
-
   return {
     base: VITE_PUBLIC_PATH || './',
     resolve: {
@@ -23,12 +22,10 @@ export default defineConfig(({ command, mode }) => {
       port: VITE_PORT, // 启动端口
       // 设置代理
       proxy: {
-        '/api': {
-          target: VITE_BASE_API || 'http://127.0.0.1:3500',
+        [VITE_BASE_API]: {
+          target: 'http://127.0.0.1:3500',
           changeOrigin: true,
-          rewrite: (path) => {
-            return path.replace(/^\/api/, '')
-          }
+          rewrite: (path) => path.replace(new RegExp(`^${VITE_BASE_API}`), '')
         }
       }
     },
@@ -42,7 +39,7 @@ export default defineConfig(({ command, mode }) => {
           manualChunks(id) {
             if (id.includes('node_modules')) {
               // 最小化分包
-              return id .toString().split('node_modules/')[1].split('/')[0].toString()
+              return id.toString().split('node_modules/')[1].split('/')[0].toString()
             }
           },
           chunkFileNames: 'static/js/[name]-[hash].js',

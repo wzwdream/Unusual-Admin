@@ -24,7 +24,7 @@ export const updateUserRole = (params: RoleList) => {
 }
 
 export const deleteUserRole = (id: number[]) => {
-  return Http.delete('/updateRole', id)
+  return Http.delete('/deleteRole', id)
 }
 
 export const addUserRole = (params: RoleList) => {

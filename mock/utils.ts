@@ -28,7 +28,7 @@ export function resultSuccess<T>(data: T, message?: string, total?: number) {
 
 export interface requestParams {
   method: string
-  body: Record<string, string>
+  body: any
   headers?: { authorization?: string }
   query: any
 }

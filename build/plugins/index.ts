@@ -8,6 +8,7 @@ import { htmlPlugin } from './html'
 import { autoImport } from './autoImport'
 import { iconPlugins } from './icon'
 import { mockPlugins } from './mock'
+import { createCompression } from './compression'
 
 export const setupPlugins = (isBuild: boolean, viteEnv: ViteEnv) => {
   const plugins: PluginOption[] = [
@@ -23,8 +24,15 @@ export const setupPlugins = (isBuild: boolean, viteEnv: ViteEnv) => {
   const html = htmlPlugin(isBuild, viteEnv)
   plugins.push(html)
 
-  const mock = mockPlugins(isBuild, viteEnv)
-  plugins.push(mock)
+  if (viteEnv.VITE_MOCK) {
+    const mock = mockPlugins(isBuild, viteEnv)
+    plugins.push(mock)
+  }
+
+  if (viteEnv.VITE_COMPRESS) {
+    const compression = createCompression(isBuild)
+    plugins.push(compression)
+  }
 
   return plugins
 }

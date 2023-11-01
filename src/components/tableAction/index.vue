@@ -2,19 +2,19 @@
   <n-space justify="center">
     <n-tooltip v-if="props.view" trigger="hover">
       <template #trigger>
-        <n-button size="small" type="info" secondary round :render-icon="renderIcon('majesticons:eye-line', 14)" @click="emit('view')" />
+        <n-button :disabled="disabled" type="info" text :render-icon="renderIcon('majesticons:eye-line', 18)" @click="emit('view')" />
       </template>
       {{ $t('view') }}
     </n-tooltip>
     <n-tooltip v-if="props.edit" trigger="hover">
       <template #trigger>
-        <n-button size="small" type="primary" secondary round :render-icon="renderIcon('material-symbols:edit-square-outline-sharp', 14)" @click="emit('edit')" />
+        <n-button :disabled="disabled" type="primary" text :render-icon="renderIcon('material-symbols:edit-square-outline-sharp', 18)" @click="emit('edit')" />
       </template>
       {{ $t('edit') }}
     </n-tooltip>
     <n-tooltip v-if="props.delete" trigger="hover">
       <template #trigger>
-        <n-button size="small" type="error" secondary round :render-icon="renderIcon('material-symbols:delete-outline', 14)" @click="hanldDelete" />
+        <n-button :disabled="disabled" type="error" text :render-icon="renderIcon('material-symbols:delete-outline', 18)" @click="hanldDelete" />
       </template>
       {{ $t('delete') }}
     </n-tooltip>
@@ -27,11 +27,13 @@ interface ActionProps {
   view?: boolean
   edit?: boolean
   delete?: boolean
+  disabled?: boolean
 }
 const props = withDefaults(defineProps<ActionProps>(), {
   view: true,
   edit: true,
-  delete: true
+  delete: true,
+  disabled: false
 })
 export type Action = {
   (e: 'handleDelete'): void

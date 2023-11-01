@@ -28,6 +28,9 @@ const routes: Route[] = [
   { id: 7, pid: 6, path: '/link/juejing', name: 'Juejing', title: '掘金', visibily: true, icon: 'tabler:brand-juejin', externalLink: true, link: 'https://juejin.cn/', sort: 1 },
   { id: 8, pid: 0, path: '/system', title: '系统管理', visibily: true, isDir: true, icon: 'basil:settings-alt-outline', sort: 4 },
   { id: 9, pid: 8, path: '/system/userRole', name: 'userRole', component: 'views/system/userRole.vue', title: '角色管理', visibily: true, icon: 'mdi:account-tag-outline', keepAlive: false, sort: 1 },
+  { id: 10, pid: 0, path: '/component', title: '组件管理', visibily: true, isDir: true, icon: 'tabler:components', sort: 5 },
+  { id: 11, pid: 10, path: '/component/markdownDemo', name: 'MarkdownDemo', component: 'views/component/markdownDemo.vue', title: 'Markdown', visibily: true, icon: 'ri:markdown-line', keepAlive: true, sort: 1 },
+  { id: 12, pid: 10, path: '/component/richTextDemo', name: 'RichTextDemo', component: 'views/component/richTextDemo.vue', title: '富文本', visibily: true, icon: 'ic:twotone-text-fields', keepAlive: true, sort: 2 },
 ]
 
 const convertToTree = (routes: Route[]): TreeMenu[] => {

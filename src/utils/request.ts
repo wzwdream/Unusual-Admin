@@ -17,7 +17,7 @@ export const gitHttp: AxiosInstance = axios.create({
 // 正常的axios封装
 const service: AxiosInstance = axios.create({
   timeout: 60000,
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_BASE_API,
 })
 
 // 请求拦截器

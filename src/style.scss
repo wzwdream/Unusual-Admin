@@ -9,6 +9,18 @@ html {
   font-size: 4px; // * 1rem = 4px
 }
 
+/* 富文本编辑器暗色主题 */
+html.dark {
+  --w-e-textarea-bg-color: #333;
+  --w-e-textarea-color: #fff;
+  --w-e-textarea-selected-border-color: #B4D5FF;
+  --w-e-textarea-handler-bg-color: #4290f7;
+  --w-e-toolbar-color: #fff;
+  --w-e-toolbar-bg-color: #333;
+  --w-e-toolbar-active-color: #fff;
+  --w-e-toolbar-active-bg-color: #ccc;
+}
+
 body {
   font-size: 16px;
 }

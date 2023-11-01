@@ -6,8 +6,8 @@ interface List extends RoleList {
   roleSort: number
   roleMenu: string[]
 }
-const adminMenu = ['/list', '/list/baseList', '/list/drag', '/email', '/email/email', '/link', '/link/juejing', '/system', '/system/userRole']
-const userRole = [
+const adminMenu = ['/list', '/list/drag', '/email', '/email/email', '/link', '/link/juejing', '/system', '/system/userRole']
+let userRole = [
   { id: 1, roleName: '管理员', roleSort: 1, roleStatus: 1, roleMenu: adminMenu, roleReamark: '超级管理员' },
   { id: 2, roleName: '开发', roleSort: 2, roleStatus: 1, roleMenu: adminMenu, roleReamark: '开发工程师' }
 ]
@@ -39,8 +39,10 @@ export default [
     url: '/api/deleteRole',
     method: 'delete',
     response: (request: requestParams) => {
-      const index = userRole.findIndex(role => role.id === Number(request.body.id))
-      delete userRole[index]
+      request.body.map((item: number | string) => {
+        const roles = userRole.filter(role => role.id != Number(item))
+        userRole = roles
+      })
       return resultSuccess('', '删除数据成功')
     }
   },
@@ -48,7 +50,6 @@ export default [
     url: '/api/addRole',
     method: 'post',
     response: (request: requestParams) => {
-      console.log('123', request.body)
       userRole.push(request.body as List)
       return resultSuccess('', '新增数据成功')
     }

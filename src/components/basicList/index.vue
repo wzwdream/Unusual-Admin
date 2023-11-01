@@ -1,7 +1,7 @@
 <template>
-  <n-card :segmented="{ content: true }">
+  <n-card :segmented="{ content: true }" content-style="padding: 10px;" header-style="padding: 10px;">
     <template #header>
-      <n-space v-show="showSearch" mb-20 align="center">
+      <n-space v-show="showSearch" mb-10 align="center">
         <slot name="queryBar"></slot>
         <n-space v-if="props.querybar">
           <n-button type="primary" size="small" secondary :render-icon="renderIcon('mdi:magnify', 14)" @click="emit('search')">{{ $t('search') }}</n-button>
@@ -10,15 +10,15 @@
       </n-space>
       <n-space v-if="props.toolbar" justify="space-between" align="center">
         <n-space>
-          <n-button v-if="props.add" type="info" size="small" :render-icon="renderIcon('material-symbols:add-rounded', 14)" @click="emit('add')">{{ $t('add') }}</n-button>
-          <n-button v-if="props.edit" :disabled="editDisabled" type="warning" size="small" :render-icon="renderIcon('material-symbols:edit-outline', 14)" @click="emit('edit')">{{ $t('edit') }}</n-button>
-          <n-button v-if="props.del" :disabled="delDisabled" type="error" size="small" :render-icon="renderIcon('material-symbols:delete-outline', 14)" @click="emit('delete')">{{ $t('delete') }}</n-button>
-          <n-button v-if="props.download" :disabled="pagination.itemCount <= 0" type="primary" size="small" :render-icon="renderIcon('material-symbols:download-rounded', 14)" @click="emit('download')">{{ $t('export') }}</n-button>
+          <n-button v-if="props.add" type="info" size="tiny" :render-icon="renderIcon('material-symbols:add-rounded', 14)" @click="emit('add')">{{ $t('add') }}</n-button>
+          <n-button v-if="props.edit" :disabled="editDisabled" type="warning" size="tiny" :render-icon="renderIcon('material-symbols:edit-outline', 14)" @click="emit('edit')">{{ $t('edit') }}</n-button>
+          <n-button v-if="props.del" :disabled="delDisabled" type="error" size="tiny" :render-icon="renderIcon('material-symbols:delete-outline', 14)" @click="emit('delete')">{{ $t('delete') }}</n-button>
+          <n-button v-if="props.download" :disabled="pagination.itemCount <= 0" type="primary" size="tiny" :render-icon="renderIcon('material-symbols:download-rounded', 14)" @click="emit('download')">{{ $t('export') }}</n-button>
           <slot name="toolbarLeft"></slot>
         </n-space>
         <n-space>
           <slot name="toolbarRight"></slot>
-          <n-button-group>
+          <n-button-group size="tiny">
             <n-tooltip trigger="hover">
               <template #trigger>
                 <n-button ghost @click="showSearch = !showSearch">

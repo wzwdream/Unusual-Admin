@@ -20,7 +20,6 @@ export default {
   setup() {
     // 定义响应式数据 ref对象
     const count = ref(1)
-    let dragging = false
     let cloneEl = null
     let initial = {}
     let queue = []
@@ -28,7 +27,6 @@ export default {
       count.value++
     }
     function onDrag($event){
-      console.log($event,'e')
       $event.preventDefault()
       if ($event.target.classList.contains('item') && !cloneEl) {
         document.getElementById('app').classList.add('active')
@@ -43,7 +41,6 @@ export default {
         simulate(cloneEl.src.replace(/w=100/g, 'w=' + fakeSize), initial.flag)
 
         $event.target.parentElement.appendChild(cloneEl)
-        dragging = true
         $event.target.classList.add('hide') // 放在最后
         queue.push(() => {
           $event.target.classList.remove('hide')

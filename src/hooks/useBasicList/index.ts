@@ -6,6 +6,7 @@ import type { HookParams, Form } from './type'
 import { type RowData } from 'naive-ui/es/data-table/src/interface'
 import { type UnwrapRef } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { cloneDeep } from 'lodash-es'
 
 export const useBasicList = <List extends Form = Form, RoleQuery extends Form = Form>({
   name, // 名称
@@ -56,7 +57,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
   /** 选择行变化 */
   const checkedRow = ref<List[]>()
   const changeCheckRow = (row: List[]) => {
-    checkedRow.value = row
+    checkedRow.value = cloneDeep(row)
   }
   /** 新增 */
   const handleAdd = () => {
@@ -67,7 +68,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
 
   /** 修改 */
   const handleEdit = (row?: List) => {
-    let rowData = row
+    let rowData = cloneDeep(row)
     if (!row && checkedRow.value) rowData = checkedRow.value[0]
     modalAction.value = 'edit'
     modalVisible.value = true
@@ -78,7 +79,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
   const handleView = (row: List) => {
     modalAction.value = 'view'
     modalVisible.value = true
-    modalForm.value = row as UnwrapRef<List>
+    modalForm.value = cloneDeep(row) as UnwrapRef<List>
   }
 
   /** 保存 */

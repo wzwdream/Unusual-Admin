@@ -50,8 +50,8 @@ export const style = (type: string = '') => {
   let height = 60
   if (showFooter) height += 30
   if (tagsView) height += 48
-  if (type === 'main') height += 20
-  if (type === 'link') height += 50
+  if (type === 'page') height += 20
+  if (type === 'link') height += 30
   return `calc(100vh - ${height}px)`
 }
 
