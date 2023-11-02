@@ -2,7 +2,6 @@ import { type PluginOption } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
-import viteCompression from 'vite-plugin-compression'
 import UnoCSS from 'unocss/vite'
 import { htmlPlugin } from './html'
 import { autoImport } from './autoImport'
@@ -19,7 +18,6 @@ export const setupPlugins = (isBuild: boolean, viteEnv: ViteEnv) => {
     ...autoImport(),
     ...iconPlugins()
   ]
-  if (viteEnv.VITE_COMPRESS) plugins.push(viteCompression()) // 开启文件压缩
 
   const html = htmlPlugin(isBuild, viteEnv)
   plugins.push(html)
