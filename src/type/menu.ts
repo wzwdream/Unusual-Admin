@@ -1,11 +1,26 @@
-export interface menu {
-  label?: string
+export interface Tag {
+  label: string
   key: string
+  icon: string
+  keepAlive: boolean // 是否keeplive缓存
+  name: string
+}
+export interface TreeMenu {
+  id?: number
+  pid?: number
+  path: string
+  title: string
+  visibily?: boolean
+  isDir?: boolean
   icon?: string
-  children?: menu[]
-  isDir?: boolean // 是否目录
-  keepAlive?: boolean // 是否keeplive缓存
   name?: string
+  component?: any
+  keepAlive?: boolean
+  externalLink?: boolean
+  link?: string
+  sort?: number
+  isLeaf?: boolean
+  children?: TreeMenu[]
 }
 
 export interface MenuRouting {

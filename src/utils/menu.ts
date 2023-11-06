@@ -1,35 +1,16 @@
-import { type menu } from '@/type/menu'
+import { type TreeMenu } from '@/type/menu'
 import { type MenuOption } from 'naive-ui'
-import { type RouteRecordRaw } from 'vue-router'
 import { hRouter, renderIcon } from './help'
 
-// 通过路由获取菜单数组
-export const buildMenu = (routes: RouteRecordRaw[]): menu[] => {
-  const result: menu[] = []
-  routes.map(item => {
-    if (item.meta?.visibily) {
-      const r: menu = { name: item.name as string, label: item.meta.title, key: item.path, ...item.meta }
-      // 如果不是目录则删除children，防止菜单识别为目录
-      if (item.children && item.meta.isDir) {
-        r.children = buildMenu(item.children)
-      } else {
-        r.children = undefined
-      }
-      result.push(r)
-    }
-  })
-  return result
-}
-
 // 根据路由生成菜单配置
-export const buildMenuOptions = (menu: menu[]): MenuOption[] => {
+export const buildMenuOptions = (menu: TreeMenu[]): MenuOption[] => {
   const result: MenuOption[] = []
   menu.map(item => {
     const r: MenuOption = {
       name: item.name,
       keeplive: item.keepAlive,
-      label: item.isDir ? item.label : hRouter(item.label as string, item.key),
-      key: item.key,
+      title: item.isDir ? item.title : hRouter(item.title as string, item.path),
+      path: item.path,
       icon: renderIcon(item.icon as string),
       isDir: item.isDir
     }
@@ -40,9 +21,9 @@ export const buildMenuOptions = (menu: menu[]): MenuOption[] => {
 }
 
 // 通过选中菜单获取面包屑菜单
-export const buildBreadcrumb = (menu: menu[], targetPath: string, ancestors: menu[] = []): menu[] => {
+export const buildBreadcrumb = (menu: TreeMenu[], targetPath: string, ancestors: TreeMenu[] = []): TreeMenu[] => {
   for (const item of menu) {
-    if (item.key === targetPath) {
+    if (item.path === targetPath) {
       return [...ancestors, item]
     }
 

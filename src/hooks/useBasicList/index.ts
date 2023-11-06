@@ -12,6 +12,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
   name, // 名称
   url, // 查询url
   key, // rowKey
+  isPagination = true, // 是否需要分页
   initForm = {} as List, // 表单初始化数据
   initQuery = {} as RoleQuery, // 查询初始化数据
   doCreate, // 新建
@@ -151,9 +152,14 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
     loading.value = true
     try {
       let params = {
-        page: pagination?.page || 0,
-        pageSize: pagination?.pageSize || 10,
         ...defualtQuery.value
+      }
+      if (isPagination) {
+        params = {
+          page: pagination?.page || 0,
+          pageSize: pagination?.pageSize || 10,
+          ...defualtQuery.value
+        }
       }
       // 查询前，如果返回false则不继续查询
       const queryParams = beforeRefresh && beforeRefresh(params as RoleQuery)
@@ -169,7 +175,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
       } else {
         listData.value = data || []
       }
-      pagination.itemCount = total as number || 0
+      if (isPagination) pagination.itemCount = total as number || 0
       loading.value = false
     } catch(e) {
       loading.value = false

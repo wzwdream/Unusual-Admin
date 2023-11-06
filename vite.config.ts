@@ -31,8 +31,16 @@ export default defineConfig(({ command, mode }) => {
     },
     build: {
       reportCompressedSize: false, // 是否开启计算文件大小，项目过大会影响打包效率
+      minify: 'terser',
       sourcemap: !isBuild,
       assetsDir: 'static',
+      // 去除项目中的console.log跟debugger
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        }
+      },
       // 打包输出配置
       rollupOptions: {
         output: {

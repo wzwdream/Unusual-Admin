@@ -1,27 +1,31 @@
 import { defineStore } from 'pinia'
-import { buildBreadcrumb, buildMenu } from '@/utils/menu'
-import { type menu } from '@/type/menu'
+import { buildBreadcrumb } from '@/utils/menu'
+import type { TreeMenu } from '@/type/menu'
 import { getTreeMenu } from '@/api/user/menu'
 import { type RouteRecordRaw } from 'vue-router'
 import { home } from '@/router/route'
+import { buildRoute } from '@/utils/route'
 
 export const useMenuStore = defineStore('menu', {
   state: () => {
     return {
       collapsed: false,
       activeMenuKey: '',
-      treeMenu: [] as RouteRecordRaw[],
+      treeMenu: [] as TreeMenu[],
       updateRoute: true
     }
   },
   getters: {
-    breadcrumb(): menu[] {
+    breadcrumb(): TreeMenu[] {
       const r = buildBreadcrumb(this.menu, this.activeMenuKey)
       return r
     },
-    menu(): menu[] {
-      const menu = [home, ...this.treeMenu]
-      return buildMenu(menu)
+    menu(): TreeMenu[] {
+      const homeMenu = {
+        path: home.path,
+        title: home.title
+      }
+      return [homeMenu, ...this.treeMenu]
     },
   },
   actions: {
@@ -33,8 +37,8 @@ export const useMenuStore = defineStore('menu', {
     },
     async GenerateRoutes(): Promise<RouteRecordRaw[]> {
       const { data } = await getTreeMenu()
-      this.treeMenu = data as RouteRecordRaw[]
-      return data as RouteRecordRaw[]
+      this.treeMenu = data
+      return buildRoute(this.treeMenu) as RouteRecordRaw[]
     }
   }
 })

@@ -6,10 +6,13 @@ interface List extends RoleList {
   roleSort: number
   roleMenu: string[]
 }
-const adminMenu = ['/list', '/list/drag', '/email', '/email/email', '/link', '/link/juejing', '/system', '/system/userRole']
+const adminRole = ['/tools', '/tools/email', '/link', '/link/juejing', '/system', '/system/userRole', '/component', '/component/baseList', '/component/markdownDemo', '/component/richTextDemo']
+const exploitRole = ['/tools', '/tools/email', '/link', '/link/juejing', '/component', '/component/baseList', '/component/markdownDemo', '/component/richTextDemo']
+const testRole = ['/component', '/component/baseList', '/component/markdownDemo', '/component/richTextDemo']
 let userRole = [
-  { id: 1, roleName: '管理员', roleSort: 1, roleStatus: 1, roleMenu: adminMenu, roleReamark: '超级管理员' },
-  { id: 2, roleName: '开发', roleSort: 2, roleStatus: 1, roleMenu: adminMenu, roleReamark: '开发工程师' }
+  { id: 1, roleName: '管理员', roleSort: 1, roleStatus: 1, roleMenu: adminRole, roleReamark: '超级管理员' },
+  { id: 2, roleName: '开发', roleSort: 2, roleStatus: 1, roleMenu: exploitRole, roleReamark: '开发工程师' },
+  { id: 3, roleName: '测试', roleSort: 3, roleStatus: 1, roleMenu: testRole, roleReamark: '测试工程师' },
 ]
 
 export default [
@@ -32,6 +35,7 @@ export default [
       Object.keys(role).map(key => {
         role[key] = request.body[key]
       })
+      role.roleMenu = request.body.roleMenu
       return resultSuccess('', '修改数据成功')
     }
   },

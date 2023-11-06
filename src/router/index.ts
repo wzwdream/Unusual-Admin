@@ -3,7 +3,7 @@ import { loadingBar } from '@/utils/help'
 import { routes } from './route'
 import { useMenuStore } from '@/store/menu'
 import { useTagStore } from '@/store/tags'
-import { menu } from '@/type/menu'
+import { Tag } from '@/type/menu'
 import { useUserStore } from '@/store/user'
 import { filterRoute } from '@/utils/route'
 
@@ -57,11 +57,11 @@ router.afterEach(async (to) => {
 
   // 动态更新tags和选中
   if (to.meta.visibily) {
-    const tag: menu = {
-      icon: to.meta.icon,
-      keepAlive: to.meta.keepAlive,
+    const tag: Tag = {
+      icon: to.meta.icon || '',
+      keepAlive: to.meta.keepAlive || false,
       key: to.fullPath,
-      label: to.meta.title,
+      label: to.meta.title || '',
       name: to.name as string
     }
     await tagStore.addTag(tag)

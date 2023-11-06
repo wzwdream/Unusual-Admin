@@ -19,7 +19,7 @@
  *                        '.:::::'                    ':'````..
  */
 
-import { App } from 'vue'
+import { type App } from 'vue'
 import debounce from './debounce'
 type stringKey = Record<string, object>
 const directives: stringKey = {

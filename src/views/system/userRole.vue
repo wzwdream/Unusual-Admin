@@ -67,7 +67,12 @@
       <n-grid-item span="3 m:1 l:1 xl:1">
         <n-card title="菜单分配" size="small" :segmented="true">
           <template #header-extra>
-            <n-button type="info" size="small" :render-icon="renderIcon('mingcute:save-2-line')" @click="saveMenu">保存</n-button>
+            <n-button type="info" size="small" :loading="saveLoading" @click="saveMenu">
+              <template #icon>
+                <Icon icon="mingcute:save-2-line" />
+              </template>
+              保存
+            </n-button>
           </template>
           <n-tree
             :data="data"
@@ -89,14 +94,14 @@
   </div>
 </template>
 
-<script setup lang="ts" name="BaseList">
+<script setup lang="ts" name="UserRole">
 import { type DataTableColumn } from 'naive-ui/es/data-table'
 import { NButton, NSwitch } from 'naive-ui'
 import { type RoleList, type RoleQuery, updateUserRole, addUserRole, deleteUserRole } from '@/api/user/userRole'
-import { renderIcon } from '@/utils/help'
 import { useMenuStore } from '@/store/menu';
 import TableAction from '@/components/tableAction/index.vue'
 import { useBasicList } from '@/hooks/useBasicList/index'
+import { message } from '@/utils/help'
 
 // 表格
 const columns: Array<DataTableColumn<RoleList>> = [
@@ -161,6 +166,25 @@ const columns: Array<DataTableColumn<RoleList>> = [
   }
 ]
 
+// 更改角色状态
+const statusOptions = [
+  {
+    label: '启用',
+    value: 1
+  },
+  {
+    label: '禁用',
+    value: 0
+  }
+]
+const handleChangeStatus = async (row: RoleList) => {
+  row.loading = true
+  const params: RoleList = { ...row, roleStatus: row.roleStatus === 0 ? 1 : 0 }
+  await updateUserRole(params)
+  await listQuery()
+  row.loading = false
+}
+
 // 点击表格的某一行，添加选中效果，并存储行数据
 const selectedRow = ref<RoleList>()
 const rowProps = (row: RoleList) => {
@@ -182,25 +206,6 @@ const getRowClassName = computed(() => {
   }
 })
 
-// 更改角色状态
-const statusOptions = [
-  {
-    label: '启用',
-    value: 1
-  },
-  {
-    label: '禁用',
-    value: 0
-  }
-]
-const handleChangeStatus = async (row: RoleList) => {
-  row.loading = true
-  const params: RoleList = { ...row, roleStatus: row.roleStatus === 0 ? 1 : 0 }
-  await updateUserRole(params)
-  await listQuery()
-  row.loading = false
-}
-
 // 右侧菜单
 const menuStore = useMenuStore()
 const data = ref(menuStore.treeMenu)
@@ -211,8 +216,21 @@ const updateCheckedKeys = (keys: Array<string>) => {
   checkedKeys.value = keys
 }
 // 保存选中菜单
+const saveLoading = ref(false)
 const saveMenu = () => {
-  console.log('保存', checkedKeys)
+  if (selectedRow.value && checkedKeys.value) {
+    saveLoading.value = true
+    const params = { ...selectedRow.value, roleMenu: checkedKeys.value }
+    updateUserRole(params).then(res => {
+      saveLoading.value = false
+      message.success(res.message)
+      listQuery()
+    }).catch(() => {
+      saveLoading.value = false
+    })
+  } else {
+    message.warning('请选择数据')
+  }
 }
 
 // 表格hooks
@@ -247,13 +265,9 @@ const {
   doCreate: addUserRole,
   doDelete: deleteUserRole,
   doUpdate: updateUserRole,
-  beforeRefresh: (form) => {
+  beforeSave: (form) => {
     console.log(form)
-    return true
-  },
-  afterRefresh: (data) => {
-    console.log(data)
-    return data
+    return form
   }
 })
 </script>

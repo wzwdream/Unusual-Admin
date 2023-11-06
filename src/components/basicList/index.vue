@@ -3,7 +3,7 @@
     <template #header>
       <n-space v-show="showSearch" mb-10 align="center">
         <slot name="queryBar"></slot>
-        <n-space v-if="props.querybar">
+        <n-space v-if="props.querybar" translate-y-3>
           <n-button type="primary" size="small" secondary :render-icon="renderIcon('mdi:magnify', 14)" @click="emit('search')">{{ $t('search') }}</n-button>
           <n-button type="warning" size="small" secondary :render-icon="renderIcon('mdi:restore', 14)" @click="emit('reset')">{{ $t('reset') }}</n-button>
         </n-space>

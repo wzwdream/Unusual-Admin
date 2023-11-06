@@ -1,6 +1,32 @@
 import { type RouteRecordRaw } from 'vue-router'
+import { type TreeMenu } from '@/type/menu'
 import Layout from '@/layout/index.vue'
 import Link from '@/views/link/index.vue'
+
+// 通过menu数据生成路由数据
+export const buildRoute = (routes: TreeMenu[]): RouteRecordRaw[] => {
+  const result: RouteRecordRaw[] = []
+  routes.map(item => {
+    result.push({
+      path: item.path,
+      name: item.name,
+      component: item.component,
+      redirect: '',
+      meta: {
+        title: item.title,
+        visibily: item.visibily || false,
+        icon: item.icon || '',
+        keepAlive: item.keepAlive || false,
+        isDir: item.isDir || false,
+        externalLink: item.externalLink || false,
+        link: item.link || '',
+        sort: item.sort || 1
+      },
+      children: item.children && buildRoute(item.children)
+    })
+  })
+  return result
+}
 
 // 匹配views里面所有的.vue、.jsx、.tsx文件
 const modules = import.meta.glob(['../views/**/*.vue', '../views/**/*.jsx', '../views/**/*.tsx'])

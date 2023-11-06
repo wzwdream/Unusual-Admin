@@ -1,10 +1,12 @@
 import { RouteRecordRaw } from 'vue-router';
 import Layout from '@/layout/index.vue'
+import Home from '@/views/workbenches/index.vue'
 
 export const home = {
   path: '/workbenches',
+  title: '工作台',
   meta: { title: '工作台', visibily: true, icon: 'material-symbols:home-outline', keepAlive: false },
-  component: () => import('@/views/workbenches/index.vue')
+  component: Home
 }
 
 export const routes: RouteRecordRaw[] = [

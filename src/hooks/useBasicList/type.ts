@@ -19,7 +19,8 @@ export type Form = Record<string, any>
 // Hook传入的参数
 export interface HookParams<List extends Form, RoleQuery extends Form> {
   name?: string
-  key: string,
+  key: string
+  isPagination?: boolean
   url: string
   initForm?: List
   initQuery?: RoleQuery

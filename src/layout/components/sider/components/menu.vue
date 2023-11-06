@@ -1,5 +1,12 @@
 <template>
-  <n-menu ref="menuInstRef" v-model:value="menuSotre.activeMenuKey" :options="menuOptions" :accordion="accordion" />
+  <n-menu
+    ref="menuInstRef"
+    v-model:value="menuSotre.activeMenuKey"
+    :options="menuOptions"
+    :accordion="accordion"
+    key-field="path"
+    label-field="title"
+  />
 </template>
 
 <script setup lang="ts" name="Menu">
@@ -18,6 +25,7 @@ watch(() => menuSotre.activeMenuKey, (newKey) => {
 })
 
 const menuOptions = computed(() => {
+  console.log(menuSotre.menu, buildMenuOptions(menuSotre.menu), 'menuOptions')
   return buildMenuOptions(menuSotre.menu)
 })
 </script>
