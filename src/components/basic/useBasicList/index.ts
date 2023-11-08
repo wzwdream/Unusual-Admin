@@ -2,11 +2,12 @@ import { dialog, message } from '@/utils/help'
 import { type FormInst } from 'naive-ui'
 import { usePagination } from './utils/index'
 import { getData } from './utils/index'
-import type { HookParams, Form } from './type'
+import type { HookParams, Form } from './utils/type'
 import { type RowData } from 'naive-ui/es/data-table/src/interface'
 import { type UnwrapRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash-es'
+import { useSelection } from './utils/useSelection'
 
 export const useBasicList = <List extends Form = Form, RoleQuery extends Form = Form>({
   name, // 名称
@@ -56,10 +57,8 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
   }
 
   /** 选择行变化 */
-  const checkedRow = ref<List[]>()
-  const changeCheckRow = (row: List[]) => {
-    checkedRow.value = cloneDeep(row)
-  }
+  const { changeCheckRow, checkedRowKeys, checkedRow } = useSelection<List>()
+
   /** 新增 */
   const handleAdd = () => {
     modalAction.value = 'add'
@@ -101,7 +100,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
         action && await action(params)
         // 保存之后
         afterSave && afterSave()
-        message.success(prompt + ' ' + t('sucess'))
+        action && message.success(prompt + ' ' + t('sucess'))
         modalLoading.value = modalVisible.value = false
         listQuery()
       } catch (error) {
@@ -128,14 +127,11 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
       onPositiveClick: async () => {
         dia.loading = true
         try {
-          modalLoading.value = true
           doDelete && await doDelete(rowKeys as number[])
           dia.loading = false
-          message.success(t('delete') + ' ' + t('sucess'))
-          modalLoading.value = false
+          doDelete && message.success(t('delete') + ' ' + t('sucess'))
           listQuery()
         } catch (error) {
-          modalLoading.value = false
           dia.loading = false
         }
       },
@@ -193,6 +189,15 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
     console.log('handleDownload')
   }
 
+  // 操作按钮禁用
+  const btnDisabled = computed(() => {
+    return {
+      edit: !(checkedRowKeys.value.length === 1),
+      del: !(checkedRowKeys.value.length > 0),
+      download: isPagination && pagination.itemCount <= 0
+    }
+  })
+
   return {
     modalVisible,
     modalAction,
@@ -214,6 +219,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
     listData,
     pagination,
     listQuery,
-    rowKey
+    rowKey,
+    btnDisabled
   }
 }

@@ -5,53 +5,54 @@ interface Menu {
   pid: number
   path: string
   title: string
-  visibily: boolean
-  isDir: boolean
+  visibily: 0 | 1
+  isDir: 0 | 1
   icon: string
   name?: string
   component?: string
-  keepAlive?: boolean
-  externalLink: boolean
+  keepAlive: 0 | 1
+  externalLink: 0 | 1
   link?: string
   sort: number
   isLeaf?: boolean
   children?: Menu[]
 }
 
-const menus: Menu[] = [
-  { id: 1, pid: 0, path: '/tools', title: '工具', visibily: true, isDir: true, externalLink: false, icon: 'iconoir:tools', sort: 1 },
-  { id: 2, pid: 1, path: '/tools/email', name: 'email', isDir: false, externalLink: false, component: 'views/tools/email.vue', title: '邮件', visibily: true, icon: 'material-symbols:stacked-email-outline', keepAlive: false, sort: 1 },
-  { id: 3, pid: 0, path: '/link', title: '外链菜单', visibily: true, isDir: true, externalLink: false, icon: 'system-uicons:chain', sort: 2 },
-  { id: 4, pid: 3, path: '/link/juejing', name: 'Juejing', title: '掘金', visibily: true, isDir: false, icon: 'tabler:brand-juejin', externalLink: true, link: 'https://juejin.cn/', sort: 1 },
-  { id: 5, pid: 0, path: '/system', title: '系统管理', visibily: true, isDir: true, externalLink: false, icon: 'basil:settings-alt-outline', sort: 3 },
-  { id: 6, pid: 5, path: '/system/userRole', name: 'userRole', isDir: false, externalLink: false, component: 'views/system/userRole.vue', title: '角色管理', visibily: true, icon: 'mdi:account-tag-outline', keepAlive: false, sort: 1 },
-  { id: 7, pid: 0, path: '/component', title: '组件管理', visibily: true, externalLink: false, isDir: true, icon: 'tabler:components', sort: 3 },
-  { id: 8, pid: 7, path: '/component/baseList', name: 'BaseList', isDir: false, externalLink: false, component: 'views/component/baseList.vue', title: '列表组件', visibily: true, icon: 'material-symbols:align-space-even-rounded', keepAlive: true, sort: 1 },
-  { id: 9, pid: 7, path: '/component/markdownDemo', name: 'MarkdownDemo', isDir: false, externalLink: false, component: 'views/component/markdownDemo.vue', title: 'Markdown', visibily: true, icon: 'ri:markdown-line', keepAlive: true, sort: 2 },
-  { id: 10, pid: 7, path: '/component/richTextDemo', name: 'RichTextDemo', isDir: false, externalLink: false, component: 'views/component/richTextDemo.vue', title: '富文本', visibily: true, icon: 'ic:twotone-text-fields', keepAlive: true, sort: 3 },
+let menus: Menu[] = [
+  { id: 1, pid: 0, path: '/tools', title: '工具', visibily: 1, isDir: 1, externalLink: 0, keepAlive: 0, icon: 'iconoir:tools', sort: 1 },
+  { id: 2, pid: 1, path: '/tools/email', name: 'email', isDir: 0, externalLink: 0, component: 'views/tools/email.vue', title: '邮件', visibily: 1, icon: 'material-symbols:stacked-email-outline', keepAlive: 0, sort: 1 },
+  { id: 3, pid: 0, path: '/link', title: '外链菜单', visibily: 1, isDir: 1, externalLink: 0, keepAlive: 0, icon: 'system-uicons:chain', sort: 2 },
+  { id: 4, pid: 3, path: '/link/juejing', name: 'Juejing', title: '掘金', visibily: 1, isDir: 0, keepAlive: 0, icon: 'tabler:brand-juejin', externalLink: 1, link: 'https://juejin.cn/', sort: 1 },
+  { id: 5, pid: 0, path: '/system', title: '系统管理', visibily: 1, isDir: 1, externalLink: 0, keepAlive: 0, icon: 'basil:settings-alt-outline', sort: 3 },
+  { id: 6, pid: 5, path: '/system/userRole', name: 'userRole', isDir: 0, externalLink: 0, component: 'views/system/userRole.vue', title: '角色管理', visibily: 1, icon: 'mdi:account-tag-outline', keepAlive: 0, sort: 1 },
+  { id: 7, pid: 0, path: '/component', title: '组件管理', visibily: 1, externalLink: 0, isDir: 1, keepAlive: 0, icon: 'tabler:components', sort: 3 },
+  { id: 8, pid: 7, path: '/component/baseList', name: 'BaseList', isDir: 0, externalLink: 0, component: 'views/component/baseList.vue', title: '列表组件', visibily: 1, icon: 'material-symbols:align-space-even-rounded', keepAlive: 1, sort: 1 },
+  { id: 9, pid: 7, path: '/component/markdownDemo', name: 'MarkdownDemo', isDir: 0, externalLink: 0, component: 'views/component/markdownDemo.vue', title: 'Markdown', visibily: 1, icon: 'ri:markdown-line', keepAlive: 1, sort: 2 },
+  { id: 10, pid: 7, path: '/component/richTextDemo', name: 'RichTextDemo', isDir: 0, externalLink: 0, component: 'views/component/richTextDemo.vue', title: '富文本', visibily: 1, icon: 'ic:twotone-text-fields', keepAlive: 1, sort: 3 },
+  { id: 11, pid: 5, path: '/system/userMenu', name: 'userMenu', isDir: 0, externalLink: 0, component: 'views/system/userMenu.vue', title: '菜单管理', visibily: 1, icon: 'material-symbols:lists', keepAlive: 0, sort: 2 },
 ]
 
 const convertToTree = (menus: Menu[]): Menu[] => {
   const map: Record<number, Menu> = {}
   const tree: Menu[] = []
 
-  menus.forEach(route => {
-    const { id, pid } = route
+  menus.forEach(menu => {
+    const { id, pid } = menu
 
     map[id] = {
-      id: route.id,
-      pid: route.pid,
-      path: route.path,
-      name: route.name,
-      component: route.component,
-      title: route.title,
-      visibily: route.visibily,
-      icon: route.icon || '',
-      keepAlive: route.keepAlive || false,
-      isDir: route.isDir,
-      externalLink: route.externalLink || false,
-      link: route.link || '',
-      sort: route.sort,
+      id: menu.id,
+      pid: menu.pid,
+      path: menu.path,
+      name: menu.name,
+      component: menu.component,
+      title: menu.title,
+      visibily: menu.visibily,
+      icon: menu.icon || '',
+      keepAlive: menu.keepAlive || 0,
+      isDir: menu.isDir,
+      externalLink: menu.externalLink || 0,
+      link: menu.link || '',
+      sort: menu.sort,
       children: map[id]?.children || []
     }
     if (pid === 0) {
@@ -65,43 +66,32 @@ const convertToTree = (menus: Menu[]): Menu[] => {
     }
   })
 
-  return removeEmptyAndSort(tree)
+  return removeEmptyAndSortTree(tree)
 }
 
 // 排序和去除空children，同时生成树型数据懒加载需要的结构
-const removeEmptyAndSort = (tree: Menu[]) => {
-  tree.sort((a, b) => {
-    if(a.sort && b.sort) return a.sort - b.sort
-    return 0
-  })
+const removeEmptyAndSortTree = (tree: Menu[]) => {
+  tree.sort((a, b) => a.sort - b.sort)
   tree.forEach(item => {
     if (!item.children || item.children.length === 0) {
-      item.isLeaf = true
       return item.children = undefined
     } else {
-      item.isLeaf = false
-      removeEmptyAndSort(item.children)
+      removeEmptyAndSortTree(item.children)
     }
   })
   return tree
 }
 
+// 生成懒加载结构跟排序
+const sortMenu = (menu: Menu[], menus: Menu[]) => {
+  menu.sort((a, b) => a.sort - b.sort )
+  menu.map(item => {
+    const children = menus.filter(menu => item.id === menu.pid)
+    item.isLeaf = children.length > 0 ? false : true
+  })
+  return menu
+}
 export default [
-  // 用户登录
-  {
-    url: '/api/userMenu',
-    method: 'get',
-    response: (request: requestParams) => {
-      const { page, pageSize, pid } = request.query
-      let allMenu = menus
-      if (pid) {
-        allMenu = allMenu.filter(item => item.pid = pid)
-      }
-      const total = allMenu.length
-      const resultData = allMenu.slice(page - 1, pageSize)
-      return resultSuccess(resultData, '获取数据成功', total)
-    }
-  },
   {
     url: '/api/treeMenu',
     method: 'get',
@@ -109,4 +99,48 @@ export default [
       return resultSuccess(convertToTree(menus))
     }
   },
+  {
+    url: '/api/userMenu',
+    method: 'get',
+    response: (request: requestParams) => {
+      const { pid, title } = request.query
+      let resultData = menus
+      if (title) {
+        resultData = resultData.filter((item: Menu) => item.title.includes(title))
+      }
+      if (pid !== undefined) {
+        resultData = resultData.filter((item: Menu) => item.pid == pid)
+      }
+      const total = resultData.length
+      return resultSuccess(sortMenu(resultData, menus), '获取数据成功', total)
+    }
+  },
+  {
+    url: '/api/userMenu',
+    method: 'delete',
+    response: (request: requestParams) => {
+      request.body.map((item: number | string) => {
+        const menu = menus.filter(role => role.id != Number(item))
+        menus = menu
+      })
+      return resultSuccess('', '删除数据成功')
+    }
+  },
+  {
+    url: '/api/userMenu',
+    method: 'put',
+    response: (request: requestParams) => {
+      const index: number = menus.findIndex(menu => menu.id === Number(request.body.id))
+      menus[index] = request.body
+      return resultSuccess('', '修改数据成功')
+    }
+  },
+  {
+    url: '/api/userMenu',
+    method: 'post',
+    response: (request: requestParams) => {
+      menus.push({ ...request.body, id: menus[menus.length - 1].id + 1 })
+      return resultSuccess('', '新增数据成功')
+    }
+  }
 ]

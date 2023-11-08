@@ -1,5 +1,5 @@
 import Layout from '@/layout/lang/en'
-import basicList from '@/components/basicList/lang/en'
+
 export default {
   denglu: 'Login',
   sousuo: 'Search',
@@ -17,6 +17,14 @@ export default {
   cancellation: 'Cancellation',
   warn: 'Warn',
   dureDelete: 'Are you sure to delete it?',
-  ...Layout,
-  ...basicList
+  fullscreen: 'Fullscreen',
+  exitFullscreen: 'Exit fullscreen',
+  refresh: 'Refresh',
+  colSetting: 'Columns setting',
+  colShowcase: 'Columns showcase',
+  total: 'Total of',
+  tiao: '',
+  expandSearch: 'Expand Search',
+  retractSearch: 'Retract Search',
+  ...Layout
 }

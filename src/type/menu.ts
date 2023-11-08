@@ -10,15 +10,15 @@ export interface TreeMenu {
   pid?: number
   path: string
   title: string
-  visibily?: boolean
-  isDir?: boolean
-  icon?: string
+  visibily: 0 | 1
+  isDir: 0 | 1
+  icon: string
   name?: string
-  component?: any
-  keepAlive?: boolean
-  externalLink?: boolean
+  component?: string
+  keepAlive: 0 | 1
+  externalLink: 0 | 1
   link?: string
-  sort?: number
+  sort: number
   isLeaf?: boolean
   children?: TreeMenu[]
 }

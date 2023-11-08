@@ -2,21 +2,15 @@
   <div>
     <n-grid cols="3" item-responsive :y-gap="8" :x-gap="10" responsive="screen">
       <n-grid-item span="3 m:2 l:2 xl:2">
-        <BasicList
-          :columns="columns"
-          :data="listData"
-          :pagination="pagination"
-          :loading="loading"
-          :row-key="rowKey"
-          :row-props="rowProps"
-          :row-class-name="getRowClassName"
+        <BasicLayout
+          v-model:columns="columns"
+          :btnDisabled="btnDisabled"
           @search="listQuery"
           @reset="handlereset"
           @add="handleAdd"
           @delete="handleDelete"
           @edit="handleEdit"
           @download="handleDownload"
-          @change-checkrow="changeCheckRow"
         >
           <template #queryBar>
             <query-item label="角色名称">
@@ -26,7 +20,19 @@
               <n-select v-model:value="defualtQuery.roleStatus" placeholder="选择角色状态" :options="statusOptions" />
             </query-item>
           </template>
-        </BasicList>
+          <n-data-table
+            :columns="columns"
+            :data="listData"
+            :pagination="pagination"
+            :loading="loading"
+            :row-key="rowKey"
+            :row-props="rowProps"
+            :row-class-name="getRowClassName"
+            striped
+            :remote="true"
+            @update:checked-row-keys="changeCheckRow"
+          />
+        </BasicLayout>
         <BasicModel
           v-model:visible="modalVisible"
           :title="modalTitle"
@@ -99,12 +105,12 @@ import { type DataTableColumn } from 'naive-ui/es/data-table'
 import { NButton, NSwitch } from 'naive-ui'
 import { type RoleList, type RoleQuery, updateUserRole, addUserRole, deleteUserRole } from '@/api/user/userRole'
 import { useMenuStore } from '@/store/menu';
-import TableAction from '@/components/tableAction/index.vue'
-import { useBasicList } from '@/hooks/useBasicList/index'
+import TableAction from '@/components/basic/tableAction.vue'
+import { useBasicList } from '@/components/basic/useBasicList/index'
 import { message } from '@/utils/help'
 
 // 表格
-const columns: Array<DataTableColumn<RoleList>> = [
+const columns = ref<DataTableColumn<RoleList>[]>([
   {
     type: 'selection',
     // disabled: (row) => {
@@ -115,7 +121,6 @@ const columns: Array<DataTableColumn<RoleList>> = [
     title: 'ID',
     key: 'id'
   },
-
   {
     title: '角色名称',
     key: 'roleName'
@@ -132,7 +137,7 @@ const columns: Array<DataTableColumn<RoleList>> = [
         NSwitch,
         {
           rubberBand: false,
-          value: row['roleStatus'] as number,
+          value: Number(row['roleStatus']),
           loading: !!row.loading,
           checkedValue: 1,
           uncheckedValue: 0,
@@ -164,7 +169,7 @@ const columns: Array<DataTableColumn<RoleList>> = [
       ]
     }
   }
-]
+])
 
 // 更改角色状态
 const statusOptions = [
@@ -255,7 +260,8 @@ const {
   listData,
   pagination,
   loading,
-  rowKey
+  rowKey,
+  btnDisabled
 } = useBasicList<RoleList, RoleQuery>({
   name: '角色',
   url: '/userRole',

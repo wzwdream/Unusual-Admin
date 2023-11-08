@@ -1,30 +1,39 @@
 <template>
   <div>
-    <BasicList
-      :columns="columns"
-      :data="listData"
-      :loading="loading"
-      :row-key="rowKey"
+    <BasicLayout
+      v-model:columns="columns"
+      :btnDisabled="btnDisabled"
       @search="listQuery"
       @reset="handlereset"
       @add="handleAdd"
       @delete="handleDelete"
       @edit="handleEdit"
       @download="handleDownload"
-      @change-checkrow="changeCheckRow"
     >
       <template #queryBar>
-        <query-item label="角色名称">
-          <n-input v-model:value="defualtQuery.roleName" size="small" placeholder="输入角色名称" />
+        <query-item label="菜单名称">
+          <n-input v-model:value="defualtQuery.title" size="small" clearable placeholder="输入菜单名称，模糊搜索" />
         </query-item>
       </template>
-    </BasicList>
+      <n-data-table
+        :columns="columns"
+        :data="listData"
+        :loading="loading"
+        :row-key="rowKey"
+        striped
+        :remote="true"
+        :cascade="false"
+        allow-checking-not-loaded
+        @load="onLoad"
+        @update:checked-row-keys="changeCheckRow"
+      />
+    </BasicLayout>
     <BasicModel
       v-model:visible="modalVisible"
       :title="modalTitle"
       :loading="modalLoading"
       :show-footer="modalShowFooter"
-      width="550px"
+      width="600px"
       @save="handleSave"
     >
       <n-form
@@ -35,24 +44,90 @@
         :model="modalForm"
         :disabled="modalAction === 'view'"
       >
-        <n-form-item label="角色名称" path="roleName">
-          <n-input v-model:value="modalForm.roleName" />
-        </n-form-item>
-        <n-space justify="space-between">
-          <n-form-item label="角色排序" path="roleSort">
-            <n-input-number v-model:value="modalForm.roleSort" clearable />
-          </n-form-item>
-          <n-form-item label="角色状态" path="roleStatus">
-            <n-switch
-              :checked-value="1"
-              :unchecked-value="0"
-              v-model:value="modalForm.roleStatus"
-            />
-          </n-form-item>
-        </n-space>
-        <n-form-item label="备注" path="roleReamark">
-          <n-input v-model:value="modalForm.roleReamark" />
-        </n-form-item>
+        <n-grid x-gap="12" :cols="6">
+          <n-gi span="6">
+            <n-form-item label="菜单类型" path="isDir">
+              <n-radio-group v-model:value="modalForm.isDir" name="isDir">
+                <n-radio-button :key="1" :value="1" label="目录" />
+                <n-radio-button :key="0" :value="0" label="菜单" />
+              </n-radio-group>
+            </n-form-item>
+          </n-gi>
+          <n-gi span="6">
+            <n-form-item label="菜单图标" path="icon">
+              <n-input v-model:value="modalForm.icon" clearable />
+            </n-form-item>
+          </n-gi>
+          <n-gi span="2">
+            <n-form-item label="菜单可见" path="visibily">
+              <n-radio-group v-model:value="modalForm.visibily" name="visibily">
+                <n-radio-button :key="1" :value="1" label="是" />
+                <n-radio-button :key="0" :value="0" label="否" />
+              </n-radio-group>
+            </n-form-item>
+          </n-gi>
+          <n-gi v-show="!modalForm.isDir" span="2">
+            <n-form-item label="菜单缓存" path="keepAlive">
+              <n-radio-group v-model:value="modalForm.keepAlive" name="keepAlive">
+                <n-radio-button :key="1" :value="1" label="是" />
+                <n-radio-button :key="0" :value="0" label="否" />
+              </n-radio-group>
+            </n-form-item>
+          </n-gi>
+          <n-gi span="2" v-show="!modalForm.isDir">
+            <n-form-item label="外链菜单" path="externalLink">
+              <n-radio-group v-model:value="modalForm.externalLink" name="externalLink">
+                <n-radio-button :key="1" :value="1" label="是" />
+                <n-radio-button :key="0" :value="0" label="否" />
+              </n-radio-group>
+            </n-form-item>
+          </n-gi>
+          <n-gi v-show="!!modalForm.externalLink" span="3">
+            <n-form-item label="外链菜单链接" path="link">
+              <n-input v-model:value="modalForm.link" clearable />
+            </n-form-item>
+          </n-gi>
+          <n-gi span="6">
+            <n-form-item label="菜单标题" path="title">
+              <n-input v-model:value="modalForm.title" clearable />
+            </n-form-item>
+          </n-gi>
+          <n-gi span="3">
+            <n-form-item label="菜单排序" path="sort">
+              <n-input-number v-model:value="modalForm.sort" clearable />
+            </n-form-item>
+          </n-gi>
+          <n-gi span="3">
+            <n-form-item label="路由地址" path="path">
+              <n-input v-model:value="modalForm.path" clearable />
+            </n-form-item>
+          </n-gi>
+          <n-gi v-show="!modalForm.isDir" span="3">
+            <n-form-item label="组件名称" path="name">
+              <n-input v-model:value="modalForm.name" clearable />
+            </n-form-item>
+          </n-gi>
+          <n-gi v-show="!modalForm.isDir" span="3">
+            <n-form-item label="组件路径" path="component">
+              <n-input v-model:value="modalForm.component" clearable />
+            </n-form-item>
+          </n-gi>
+          <n-gi span="6">
+            <n-form-item label="上级菜单" path="pid">
+              <n-tree-select
+                :options="options"
+                filterable
+                clearable
+                :default-value="modalForm.pid"
+                label-field="title"
+                key-field="id"
+              />
+            </n-form-item>
+          </n-gi>
+        </n-grid>
+        <!-- <n-form-item label="权限标识" path="title">
+          <n-input v-model:value="modalForm.title" clearable />
+        </n-form-item> -->
       </n-form>
     </BasicModel>
   </div>
@@ -60,13 +135,16 @@
 
 <script setup lang="ts" name="UserMenu">
 import { type DataTableColumn } from 'naive-ui/es/data-table'
-import { NSwitch } from 'naive-ui'
-import { type RoleList, type RoleQuery, updateUserRole, addUserRole, deleteUserRole } from '@/api/user/userRole'
-import TableAction from '@/components/tableAction/index.vue'
-import { useBasicList } from '@/hooks/useBasicList/index'
+import TableAction from '@/components/basic/tableAction.vue'
+import Icon from '@/components/icon/index.vue'
+import { useBasicList } from '@/components/basic/useBasicList/index'
+import { type TreeMenu } from '@/type/menu'
+import { addUserMenu, delUserMenu, editUserMenu, getUserMenu } from '@/api/user/menu'
+import { useMenuStore } from '@/store/menu'
+import { TreeSelectOption } from 'naive-ui/es/tree-select/src/interface'
 
 // 表格
-const columns: Array<DataTableColumn<RoleList>> = [
+const columns = ref<Array<DataTableColumn<TreeMenu>>>([
   {
     type: 'selection',
     // disabled: (row) => {
@@ -84,7 +162,10 @@ const columns: Array<DataTableColumn<RoleList>> = [
   },
   {
     title: '图标',
-    key: 'icon'
+    key: 'icon',
+    render(row) {
+      return h(Icon, { icon: row.icon || '' })
+    }
   },
   {
     title: '排序',
@@ -96,15 +177,24 @@ const columns: Array<DataTableColumn<RoleList>> = [
   },
   {
     title: '外链',
-    key: 'externalLink'
+    key: 'externalLink',
+    render(row) {
+      return h('span',row.externalLink === 0 ? '否' : '是')
+    }
   },
   {
     title: '缓存',
-    key: 'keepAlive'
+    key: 'keepAlive',
+    render(row) {
+      return h('span',row.keepAlive === 0 ? '否' : '是')
+    }
   },
   {
     title: '可见',
-    key: 'visibily'
+    key: 'visibily',
+    render(row) {
+      return h('span',row.visibily === 0 ? '否' : '是')
+    }
   },
   {
     title: '创建日期',
@@ -129,9 +219,24 @@ const columns: Array<DataTableColumn<RoleList>> = [
       ]
     }
   }
-]
+])
 
+// 树形表格懒加载
+const onLoad = (row: Record<string, unknown>) => {
+  return getUserMenu({ pid: row.id }).then(res => {
+    row.children = res.data
+  })
+}
+
+// 上级菜单选择
+const menuStore = useMenuStore()
+const menu = [{id: 0, title: '顶级菜单', isLeaf: false, children: menuStore.treeMenu}] as unknown as TreeSelectOption[]
+const options = ref(menu)
 // 表格hooks
+interface Query {
+  title?: string
+  pid?: number
+}
 const {
   modalVisible,
   modalAction,
@@ -152,21 +257,25 @@ const {
   listQuery,
   listData,
   loading,
-  rowKey
-} = useBasicList<RoleList, RoleQuery>({
+  rowKey,
+  btnDisabled
+} = useBasicList<TreeMenu, Query>({
   name: '菜单',
   url: '/userMenu',
   key: 'id',
   isPagination: false,
-  initForm: { roleName: '', roleStatus: 1, roleSort: null, roleReamark: '' },
-  initQuery: { roleName: '', roleStatus: undefined },
-  doCreate: addUserRole,
-  doDelete: deleteUserRole,
-  doUpdate: updateUserRole,
-  beforeSave: (form) => {
-    console.log(form)
-    return form
-  }
+  initForm: { pid: 0, path: '', title: '', visibily: 1, isDir: 1, icon: '', name: '', component: '', keepAlive: 0, externalLink: 0, link: '', sort: 1 },
+  initQuery: { pid: 0, title: '' },
+  // 搜索前
+  beforeRefresh: (query) => {
+    if (query && query.title) {
+      query.pid = undefined
+    }
+    return query
+  },
+  doDelete: delUserMenu,
+  doCreate: addUserMenu,
+  doUpdate: editUserMenu
 })
 </script>
 

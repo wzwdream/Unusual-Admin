@@ -9,15 +9,14 @@
         </n-space>
       </n-space>
       <n-space v-if="props.toolbar" justify="space-between" align="center">
+        <slot name="toolbarLeft"></slot>
         <n-space>
-          <n-button v-if="props.add" type="info" size="tiny" :render-icon="renderIcon('material-symbols:add-rounded', 14)" @click="emit('add')">{{ $t('add') }}</n-button>
-          <n-button v-if="props.edit" :disabled="editDisabled" type="warning" size="tiny" :render-icon="renderIcon('material-symbols:edit-outline', 14)" @click="emit('edit')">{{ $t('edit') }}</n-button>
-          <n-button v-if="props.del" :disabled="delDisabled" type="error" size="tiny" :render-icon="renderIcon('material-symbols:delete-outline', 14)" @click="emit('delete')">{{ $t('delete') }}</n-button>
-          <n-button v-if="props.download" :disabled="pagination.itemCount <= 0" type="primary" size="tiny" :render-icon="renderIcon('material-symbols:download-rounded', 14)" @click="emit('download')">{{ $t('export') }}</n-button>
-          <slot name="toolbarLeft"></slot>
+          <n-button v-if="props.optShow.add" type="info" size="tiny" :render-icon="renderIcon('material-symbols:add-rounded', 14)" @click="emit('add')">{{ $t('add') }}</n-button>
+          <n-button v-if="props.optShow.edit" :disabled="props.btnDisabled.edit" type="warning" size="tiny" :render-icon="renderIcon('material-symbols:edit-outline', 14)" @click="emit('edit')">{{ $t('edit') }}</n-button>
+          <n-button v-if="props.optShow.del" :disabled="props.btnDisabled.del" type="error" size="tiny" :render-icon="renderIcon('material-symbols:delete-outline', 14)" @click="emit('delete')">{{ $t('delete') }}</n-button>
+          <n-button v-if="props.optShow.download" :disabled="props.btnDisabled.download" type="primary" size="tiny" :render-icon="renderIcon('material-symbols:download-rounded', 14)" @click="emit('download')">{{ $t('export') }}</n-button>
         </n-space>
         <n-space>
-          <slot name="toolbarRight"></slot>
           <n-button-group size="tiny">
             <n-tooltip trigger="hover">
               <template #trigger>
@@ -45,36 +44,56 @@
               </template>
               {{ $t('refresh') }}
             </n-tooltip>
-            <ColumSetting v-model:columns="columns" />
+            <ColumSetting :columns="props.columns" @updateColumns="(columns: TableColumn<any>[]) => emit('update:columns', columns)" />
           </n-button-group>
         </n-space>
+        <slot name="toolbarRight"></slot>
       </n-space>
     </template>
-    <n-data-table
-      v-bind="props"
-      striped
-      :remote="true"
-      :columns="columns"
-      @update:checked-row-keys="changeCheck"
-    />
+    <slot></slot>
   </n-card>
 </template>
 
-<script lang="ts" setup name="BasicList">
-import { useSelection } from './hooks/useSelection'
-import { defualtProps } from './defualtProps'
+<script lang="ts" setup name="BasicLayout">
 import { renderIcon } from '@/utils/help'
-import { type Action } from './types/index'
 import { useTagStore } from '@/store/tags'
+import { type TableColumn } from 'naive-ui/es/data-table/src/interface';
 
-// props
-const props = defineProps(defualtProps)
-
-// 表格列展示
-const columns = ref([...props.columns])
-watch(props, (newColumns) => {
-  columns.value = [...newColumns.columns]
-}, { deep: true })
+interface ListProps {
+  columns: TableColumn<any>[]
+  optShow?: {
+    add?: boolean
+    edit?: boolean
+    del?: boolean
+    download?: boolean
+  }
+  toolbar?: boolean
+  querybar?: boolean
+  btnDisabled: {
+    edit: boolean
+    del: boolean
+    download: boolean
+  }
+}
+const props = withDefaults(defineProps<ListProps>(), {
+  optShow: () => {
+    return {
+      add: true,
+      edit: true,
+      del: true,
+      download: true
+    }
+  },
+  btnDisabled: () => {
+    return {
+      edit: false,
+      del: false,
+      download: false
+    }
+  },
+  toolbar: true,
+  querybar: true,
+})
 
 // 收起/展开搜索栏
 const showSearch = ref(true)
@@ -86,11 +105,14 @@ const toggle = () => {
 }
 
 // 选中行以及操作按钮
-interface Emit extends /* @vue-ignore */  Action {}
-const emit = defineEmits<Emit>()
-const { changeCheck, editDisabled, delDisabled } = useSelection(emit)
+const emit = defineEmits<{
+  (e: 'add'): void
+  (e: 'delete', ids?: number[]): void // 为了类型兼容设置的参数类型
+  (e: 'edit', row?: undefined): void// 为了类型兼容设置的参数类型
+  (e: 'download'): void
+  (e: 'reset'): void
+  (e: 'search'): void
+  (e: 'update:columns', colums: TableColumn<any>[]): void
+}>()
 
 </script>
-
-<style scoped>
-</style>./defualtProps

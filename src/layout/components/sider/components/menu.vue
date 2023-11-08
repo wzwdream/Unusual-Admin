@@ -25,7 +25,6 @@ watch(() => menuSotre.activeMenuKey, (newKey) => {
 })
 
 const menuOptions = computed(() => {
-  console.log(menuSotre.menu, buildMenuOptions(menuSotre.menu), 'menuOptions')
   return buildMenuOptions(menuSotre.menu)
 })
 </script>

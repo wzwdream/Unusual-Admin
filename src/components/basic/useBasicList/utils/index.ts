@@ -1,6 +1,6 @@
 import { type PaginationInfo } from 'naive-ui/es/pagination'
 import { useI18n } from 'vue-i18n'
-import { type Pagination } from '../type'
+import { type Pagination } from './type'
 import Http from '@/utils/request'
 
 // 请求数据接口

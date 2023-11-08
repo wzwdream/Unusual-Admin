@@ -1,5 +1,5 @@
 import Layout from '@/layout/lang/zh'
-import basicList from '@/components/basicList/lang/zh'
+
 export default {
   denglu: '登录',
   sousuo: '搜索',
@@ -17,6 +17,14 @@ export default {
   dureDelete: '你确定删除？',
   determine: '确定',
   cancellation: '取消',
+  fullscreen: '全屏',
+  exitFullscreen: '退出全屏',
+  refresh: '刷新',
+  colSetting: '列设置',
+  colShowcase: '列展示',
+  total: '共',
+  tiao: '条',
+  expandSearch: '展开搜索栏',
+  retractSearch: '收起搜索栏',
   ...Layout,
-  ...basicList
 }

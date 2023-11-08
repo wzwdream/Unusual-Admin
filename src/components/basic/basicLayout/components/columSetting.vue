@@ -31,11 +31,11 @@
 import { type DataTableColumn } from 'naive-ui/es/data-table'
 
 const props =  defineProps<{ columns: Array<DataTableColumn> }>()
-const emit = defineEmits(['update:columns'])
+const emit = defineEmits(['updateColumns'])
 const checkAll = ref(true)
 const indeterminate = ref(false)
 const selectedColums = ref<(string | number)[]>([])
-// 保留初始数据
+// 保留初始数据，并全部选中
 const deepColumns = [...props.columns.map((item: any) => {
   selectedColums.value.push(item.key)
   return { ...item }
@@ -46,12 +46,12 @@ const onCheckAll = (val: boolean) => {
   indeterminate.value = false
   if (!val) {
     selectedColums.value = []
-    emit('update:columns', [])
+    emit('updateColumns', [])
   } else {
     deepColumns.map(item => {
       selectedColums.value.push(item.key)
     })
-    emit('update:columns', deepColumns)
+    emit('updateColumns', deepColumns)
   }
 }
 // 单选
@@ -59,6 +59,6 @@ const selectedChange = (val: (string | number)[]) => {
   selectedColums.value = val
   indeterminate.value = selectedColums.value?.length === deepColumns.length ? false : true
   const colunms = deepColumns.filter(item => selectedColums.value.includes(item.key))
-  emit('update:columns', colunms)
+  emit('updateColumns', colunms)
 }
 </script>
