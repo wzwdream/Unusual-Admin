@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts" name="BaseList">
-import { useBasicList } from '@/hooks/useBasicList/index'
+import { useBasicList } from '@/components/basic/useBasicList/index'
 import { type BasicTableType } from '@/type/components'
 import { type DataTableColumn } from 'naive-ui/es/data-table'
 

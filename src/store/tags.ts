@@ -1,11 +1,11 @@
-import { menu } from '@/type/menu'
+import { type Tag } from '@/type/menu'
 import { defineStore } from 'pinia'
 import router from '@/router'
 import { loadingBar } from '@/utils/help'
 export const useTagStore = defineStore('tags', {
   state: () => {
     return {
-      tags: [] as menu[],
+      tags: [] as Tag[],
       activeTag: '',
       showContextMenu: false,
       contextMenuX: 0,
@@ -29,14 +29,14 @@ export const useTagStore = defineStore('tags', {
       this.setTags(tags)
       if (val === this.activeTag) this.changeActiveTag(tags[0].key)
     },
-    async addTag(val: menu) {
+    async addTag(val: Tag) {
       if (this.tags.findIndex(item => item.key === val.key) >= 0) return
       const tags = [...this.tags, val]
       this.setTags(tags)
       // 防止点击菜单添加的tag在需要滚动的时候找不到dom元素
       await nextTick()
     },
-    setTags(val: menu[]) {
+    setTags(val: Tag[]) {
       this.tags = val
     },
     changeActiveTag(val: string, jump: boolean = true) {

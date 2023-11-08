@@ -10,15 +10,15 @@ export const buildRoute = (routes: TreeMenu[]): RouteRecordRaw[] => {
     result.push({
       path: item.path,
       name: item.name,
-      component: item.component,
+      component: item.component as any,
       redirect: '',
       meta: {
         title: item.title,
-        visibily: item.visibily || false,
+        visibily: Boolean(item.visibily) || false,
         icon: item.icon || '',
-        keepAlive: item.keepAlive || false,
-        isDir: item.isDir || false,
-        externalLink: item.externalLink || false,
+        keepAlive: Boolean(item.keepAlive) || false,
+        isDir: Boolean(item.isDir) || false,
+        externalLink: Boolean(item.externalLink) || false,
         link: item.link || '',
         sort: item.sort || 1
       },

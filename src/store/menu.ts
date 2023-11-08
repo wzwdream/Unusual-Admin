@@ -24,7 +24,7 @@ export const useMenuStore = defineStore('menu', {
       const homeMenu = {
         path: home.path,
         title: home.title
-      }
+      } as TreeMenu
       return [homeMenu, ...this.treeMenu]
     },
   },

@@ -26,11 +26,11 @@
     <n-empty v-if="result.length <= 0" :description="$t('header.searchEmpty')" />
     <n-scrollbar v-else max-h-300>
       <n-list>
-        <n-list-item v-for="(item, index) in result" :key="item.key" mb-5 b-rd-4 :class="{ 'bg-primary': actived === index }" @mouseenter="changeActive(index)" @click="jumpTo">
+        <n-list-item v-for="(item, index) in result" :key="item.path" mb-5 b-rd-4 :class="{ 'bg-primary': actived === index }" @mouseenter="changeActive(index)" @click="jumpTo">
           <n-space justify="space-between" :wrap="false" px-15>
             <div>
-              <span>{{ item.label }}</span>
-              <span font-size-12 color-blueGray>（{{ item.key }}）</span>
+              <span>{{ item.title }}</span>
+              <span font-size-12 color-blueGray>（{{ item.title }}）</span>
             </div>
             <Icon icon="uil:enter" />
           </n-space>
@@ -38,18 +38,18 @@
       </n-list>
     </n-scrollbar>
     <template #footer>
-      <div class="h-54px flex flex-items-center">
-        <span class="mr-14px flex flex-items-center">
-          <Icon class="icon text-20px p-2px mr-5px" icon="uil:enter" />
+      <div class="h-[54px] flex flex-items-center">
+        <span class="mr-[14px] flex flex-items-center">
+          <Icon class="icon text-[20px] p-[2px] mr-[5px]" icon="uil:enter" />
           <span>{{ $t('header.enter') }}</span>
         </span>
-        <span class="mr-14px flex flex-items-center">
-          <Icon class="icon text-20px p-2px mr-5px" icon="material-symbols:arrow-upward" />
-          <Icon class="icon text-20px p-2px mr-5px" icon="material-symbols:arrow-downward" />
+        <span class="mr-[14px] flex flex-items-center">
+          <Icon class="icon text-[20px] p-[2px] mr-[5px]" icon="material-symbols:arrow-upward" />
+          <Icon class="icon text-[20px] p-[2px] mr-[5px]" icon="material-symbols:arrow-downward" />
           <span>{{ $t('header.toggle') }}</span>
         </span>
         <span class="flex flex-items-center">
-          <Icon class="icon text-20px p-2px mr-5px" icon="material-symbols:close-rounded" />
+          <Icon class="icon text-[20px] p-[2px] mr-[5px]" icon="material-symbols:close-rounded" />
           <span>{{ $t('header.close') }}</span>
         </span>
       </div>
@@ -61,7 +61,7 @@
 <script setup lang="ts" name="Search">
 import { onKeyStroke } from '@vueuse/core'
 import { useMenuStore } from '../../../../store/menu';
-import { type menu } from '@/type/menu';
+import { type TreeMenu } from '@/type/menu'
 
 const showModal = ref(false)
 const searchValue = ref('')
@@ -77,15 +77,15 @@ const menuStore = useMenuStore()
 const result = computed(() => {
   return searchRoute(searchValue.value, menuStore.menu)
 })
-const searchRoute = (val: string, route: menu[] = []) => {
-  const R: menu[] = []
+const searchRoute = (val: string, route: TreeMenu[] = []) => {
+  const R: TreeMenu[] = []
   if ((val ?? '') === '') return R
   route.forEach(item => {
     if (item.children) {
       R.push(...searchRoute(val, item.children))
     } else {
-      const title = item.label
-      if (item.key.includes(val) || title?.includes(val)) {
+      const title = item.title
+      if (item.path.includes(val) || title?.includes(val)) {
         R.push(item)
       }
     }
@@ -101,7 +101,7 @@ const afterCloseModal = () => {
 
 // 点击跳转
 const jumpTo = () => {
-  const path = result.value[actived.value].key
+  const path = result.value[actived.value].path
   showModal.value = false
   router.push(path)
 }
