@@ -1,4 +1,4 @@
-import { resultSuccess, type requestParams } from 'mock/utils'
+import { resultSuccess, type requestParams } from '../utils'
 
 interface UserList {
   id?: number
