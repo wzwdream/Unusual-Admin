@@ -1,6 +1,6 @@
 <template>
   <n-space justify="center">
-    <n-button v-if="props.view" :disabled="disabled" type="info" text size="small" @click="emit('handleView')">{{ $t('view') }}</n-button>
+    <n-button v-if="props.view" type="info" text size="small" @click="emit('handleView')">{{ $t('view') }}</n-button>
     <n-button v-if="props.edit" :disabled="disabled" type="primary" text size="small" @click="emit('handleEdit')">{{ $t('edit') }}</n-button>
     <n-button v-if="props.del" :disabled="disabled" type="error" text size="small" @click="emit('handleDelete')">{{ $t('delete') }}</n-button>
   </n-space>

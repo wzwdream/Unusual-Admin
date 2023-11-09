@@ -5,7 +5,7 @@
         <template #trigger>
           <n-button ghost>
             <template #icon>
-              <Icon icon="ant-design:setting-outlined" />
+              <Icon icon="basil:settings-alt-outline" />
             </template>
           </n-button>
         </template>

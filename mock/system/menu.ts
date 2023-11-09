@@ -26,10 +26,10 @@ let menus: Menu[] = [
   { id: 5, pid: 0, path: '/system', title: '系统管理', visibily: 1, isDir: 1, externalLink: 0, keepAlive: 0, icon: 'basil:settings-alt-outline', sort: 3 },
   { id: 6, pid: 5, path: '/system/userRole', name: 'userRole', isDir: 0, externalLink: 0, component: 'views/system/userRole.vue', title: '角色管理', visibily: 1, icon: 'mdi:account-tag-outline', keepAlive: 0, sort: 1 },
   { id: 7, pid: 0, path: '/component', title: '组件管理', visibily: 1, externalLink: 0, isDir: 1, keepAlive: 0, icon: 'tabler:components', sort: 3 },
-  { id: 8, pid: 7, path: '/component/baseList', name: 'BaseList', isDir: 0, externalLink: 0, component: 'views/component/baseList.vue', title: '列表组件', visibily: 1, icon: 'material-symbols:align-space-even-rounded', keepAlive: 1, sort: 1 },
-  { id: 9, pid: 7, path: '/component/markdownDemo', name: 'MarkdownDemo', isDir: 0, externalLink: 0, component: 'views/component/markdownDemo.vue', title: 'Markdown', visibily: 1, icon: 'ri:markdown-line', keepAlive: 1, sort: 2 },
-  { id: 10, pid: 7, path: '/component/richTextDemo', name: 'RichTextDemo', isDir: 0, externalLink: 0, component: 'views/component/richTextDemo.vue', title: '富文本', visibily: 1, icon: 'ic:twotone-text-fields', keepAlive: 1, sort: 3 },
-  { id: 11, pid: 5, path: '/system/userMenu', name: 'userMenu', isDir: 0, externalLink: 0, component: 'views/system/userMenu.vue', title: '菜单管理', visibily: 1, icon: 'material-symbols:lists', keepAlive: 0, sort: 2 },
+  { id: 8, pid: 7, path: '/component/markdownDemo', name: 'MarkdownDemo', isDir: 0, externalLink: 0, component: 'views/component/markdownDemo.vue', title: 'Markdown', visibily: 1, icon: 'ri:markdown-line', keepAlive: 1, sort: 2 },
+  { id: 9, pid: 7, path: '/component/richTextDemo', name: 'RichTextDemo', isDir: 0, externalLink: 0, component: 'views/component/richTextDemo.vue', title: '富文本', visibily: 1, icon: 'ic:twotone-text-fields', keepAlive: 1, sort: 3 },
+  { id: 10, pid: 5, path: '/system/userMenu', name: 'userMenu', isDir: 0, externalLink: 0, component: 'views/system/userMenu.vue', title: '菜单管理', visibily: 1, icon: 'material-symbols:lists', keepAlive: 0, sort: 2 },
+  { id: 11, pid: 5, path: '/system/user', name: 'user', isDir: 0, externalLink: 0, component: 'views/system/user.vue', title: '用户管理', visibily: 1, icon: 'material-symbols:manage-accounts-outline', keepAlive: 0, sort: 3 },
 ]
 
 const convertToTree = (menus: Menu[]): Menu[] => {
@@ -69,7 +69,7 @@ const convertToTree = (menus: Menu[]): Menu[] => {
   return removeEmptyAndSortTree(tree)
 }
 
-// 排序和去除空children，同时生成树型数据懒加载需要的结构
+// 排序和去除空children
 const removeEmptyAndSortTree = (tree: Menu[]) => {
   tree.sort((a, b) => a.sort - b.sort)
   tree.forEach(item => {

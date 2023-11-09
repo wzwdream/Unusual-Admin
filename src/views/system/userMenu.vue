@@ -39,13 +39,13 @@
       <n-form
         ref="modalFormRef"
         label-placement="left"
-        label-align="left"
+        label-align="right"
         :label-width="80"
         :model="modalForm"
         :disabled="modalAction === 'view'"
       >
         <n-grid x-gap="12" :cols="6">
-          <n-gi span="6">
+          <n-gi span="3">
             <n-form-item label="菜单类型" path="isDir">
               <n-radio-group v-model:value="modalForm.isDir" name="isDir">
                 <n-radio-button :key="1" :value="1" label="目录" />
@@ -53,9 +53,9 @@
               </n-radio-group>
             </n-form-item>
           </n-gi>
-          <n-gi span="6">
+          <n-gi span="3">
             <n-form-item label="菜单图标" path="icon">
-              <n-input v-model:value="modalForm.icon" clearable />
+              <n-select v-model:value="modalForm.icon" :options="icons" :renderLabel="renderLabel" filterable clearable />
             </n-form-item>
           </n-gi>
           <n-gi span="2">
@@ -142,6 +142,7 @@ import { type TreeMenu } from '@/type/menu'
 import { addUserMenu, delUserMenu, editUserMenu, getUserMenu } from '@/api/user/menu'
 import { useMenuStore } from '@/store/menu'
 import { TreeSelectOption } from 'naive-ui/es/tree-select/src/interface'
+import { icons, renderLabel } from '@/utils/icon'
 
 // 表格
 const columns = ref<Array<DataTableColumn<TreeMenu>>>([

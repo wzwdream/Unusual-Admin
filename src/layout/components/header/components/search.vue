@@ -2,7 +2,7 @@
   <n-tooltip trigger="hover">
     <template #trigger>
       <n-button mr-20 text @click="showModal = true">
-        <Icon icon="ant-design:search-outlined" />
+        <Icon icon="mdi:magnify" />
       </n-button>
     </template>
     {{ $t('header.search') }}(Control+K)

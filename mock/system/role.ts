@@ -6,7 +6,7 @@ interface List extends RoleList {
   roleSort: number
   roleMenu: string[]
 }
-const adminRole = ['/tools', '/tools/email', '/link', '/link/juejing', '/system', '/system/userRole', '/component', '/component/baseList', '/component/markdownDemo', '/component/richTextDemo']
+const adminRole = ['/tools', '/tools/email', '/link', '/link/juejing', '/system', '/system/userRole', '/system/user', '/system/userMenu', '/component', '/component/baseList', '/component/markdownDemo', '/component/richTextDemo']
 const exploitRole = ['/tools', '/tools/email', '/link', '/link/juejing', '/component', '/component/baseList', '/component/markdownDemo', '/component/richTextDemo']
 const testRole = ['/component', '/component/baseList', '/component/markdownDemo', '/component/richTextDemo']
 let userRole = [
@@ -21,8 +21,11 @@ export default [
     method: 'get',
     response: (request: requestParams) => {
       const { page, pageSize } = request.query
+      let resultData = userRole
+      if (page && pageSize) {
+        resultData = resultData.slice((page - 1) * pageSize, page * pageSize)
+      }
       const total = userRole.length
-      const resultData = userRole.slice(page - 1, pageSize)
       return resultSuccess(resultData, '获取数据成功', total)
     }
   },

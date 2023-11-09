@@ -44,7 +44,7 @@
           <n-form
             ref="modalFormRef"
             label-placement="left"
-            label-align="left"
+            label-align="right"
             :label-width="80"
             :model="modalForm"
             :disabled="modalAction === 'view'"

@@ -27,7 +27,7 @@ const options = computed(() => [
   {
     key: 'refresh',
     label: t('tag.refresh'),
-    icon: renderIcon('mdi:refresh'),
+    icon: renderIcon('ant-design:reload-outlined'),
     disabled: tagStore.currentTag !== tagStore.activeTag
   },
   {
@@ -57,7 +57,7 @@ const options = computed(() => [
   {
     key: 'closeAll',
     label: t('tag.closeAll'),
-    icon: renderIcon('mdi:close'),
+    icon: renderIcon('material-symbols:close-rounded'),
     disabled: tagStore.tags.length <= 1
   }
 ])

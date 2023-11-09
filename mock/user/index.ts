@@ -9,7 +9,7 @@ export default [
     response: ({ body }: requestParams) => {
       const { userName, userPassword } = body
       const checkUser = userInfo.find(
-        (item) => item.userName === userName && item.userPassword === decrypt(userPassword),
+        (item) => item.userName === userName && item.password === decrypt(userPassword),
       )
       if (!checkUser) {
         return resultError('用户名或密码错误！')

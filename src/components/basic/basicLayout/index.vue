@@ -22,7 +22,7 @@
               <template #trigger>
                 <n-button ghost @click="showSearch = !showSearch">
                   <Icon v-if="showSearch" icon="ic:outline-search-off" />
-                  <Icon v-else icon="ic:outline-search" />
+                  <Icon v-else icon="mdi:magnify" />
                 </n-button>
               </template>
               {{ showSearch ? $t('retractSearch') : $t('expandSearch') }}
