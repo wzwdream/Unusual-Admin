@@ -43,7 +43,8 @@ export const icons = [
   { label: 'expand', value: 'mdi:arrow-expand-horizontal' },
   { label: 'expand-left', value: 'mdi:arrow-expand-left' },
   { label: 'expand-right', value: 'mdi:arrow-expand-right' },
-  { label: 'save', value: 'mingcute:save-2-line' }
+  { label: 'save', value: 'mingcute:save-2-line' },
+  { label: 'colordict', value: 'arcticons:colordict' },
 ]
 
 // 下拉标签渲染自定义

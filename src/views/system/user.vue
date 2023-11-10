@@ -73,8 +73,9 @@
           <n-gi>
             <n-form-item label="状态" path="status">
               <n-radio-group v-model:value="modalForm.status" name="status">
-                <n-radio :key="0" :value="1" label="正常" />
-                <n-radio :key="1" :value="0" label="禁用" />
+                <n-radio v-for="item in dict?.status" :key="item.id" :value="Number(item.value)" :label="item.label"></n-radio>
+                <!-- <n-radio :key="0" :value="1" label="正常" />
+                <n-radio :key="1" :value="0" label="禁用" /> -->
               </n-radio-group>
             </n-form-item>
           </n-gi>
@@ -94,15 +95,19 @@ import { type DataTableColumn } from 'naive-ui/es/data-table'
 import TableAction from '@/components/basic/tableAction.vue'
 import { useBasicList } from '@/components/basic/useBasicList/index'
 import { type Query, type UserList, addUser, delUser, editUser } from '@/api/user/user'
-import { getUserRole } from '@/api/user/userRole';
-import { type RoleList } from '../../api/user/userRole';
-import { NSwitch } from 'naive-ui/es/components';
+import { getUserRole } from '@/api/user/userRole'
+import { type RoleList } from '../../api/user/userRole'
+import { NSwitch } from 'naive-ui/es/components'
+import { useDict } from '@/hooks/useDict'
 
 // 获取角色
 const roles = ref<RoleList[]>([])
 getUserRole().then(res => {
   roles.value = res.data
 })
+
+// 获取dict
+const { dict } =  useDict(['status'])
 
 // 表格
 const columns = ref<Array<DataTableColumn<UserList>>>([

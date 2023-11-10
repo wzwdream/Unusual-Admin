@@ -21,6 +21,7 @@ export interface HookParams<List extends Form, RoleQuery extends Form> {
   name?: string
   key: string
   isPagination?: boolean
+  isInitQuery?: boolean
   url: string
   initForm?: List
   initQuery?: RoleQuery
@@ -28,7 +29,7 @@ export interface HookParams<List extends Form, RoleQuery extends Form> {
   doDelete?: (id: number[]) => Promise<any>
   doUpdate?: (form: List) => Promise<any>
   beforeRefresh?: (form: RoleQuery) => RoleQuery | boolean
-  afterRefresh?: (listData: List[]) => List[]
-  beforeSave?: (listData: List) => List
+  afterRefresh?: (listData: List[]) => List[] | undefined
+  beforeSave?: (listData: List) => List | undefined
   afterSave?: () => void
 }

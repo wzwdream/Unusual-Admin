@@ -14,6 +14,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
   url, // 查询url
   key, // rowKey
   isPagination = true, // 是否需要分页
+  isInitQuery = true, // 是否初始化查询
   initForm = {} as List, // 表单初始化数据
   initQuery = {} as RoleQuery, // 查询初始化数据
   doCreate, // 新建
@@ -182,7 +183,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
   const { pagination } = usePagination(listQuery)
 
   // 初始化查询
-  listQuery()
+  isInitQuery && listQuery()
 
   /** 导出 */
   const handleDownload = () => {

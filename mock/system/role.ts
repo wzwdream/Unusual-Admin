@@ -6,7 +6,7 @@ interface List extends RoleList {
   roleSort: number
   roleMenu: string[]
 }
-const adminRole = ['/tools', '/tools/email', '/link', '/link/juejing', '/system', '/system/userRole', '/system/user', '/system/userMenu', '/component', '/component/baseList', '/component/markdownDemo', '/component/richTextDemo']
+const adminRole = ['/tools', '/tools/email', '/link', '/link/juejing', '/system', '/system/userRole', '/system/user', '/system/userMenu', '/system/dict', '/component', '/component/baseList', '/component/markdownDemo', '/component/richTextDemo']
 const exploitRole = ['/tools', '/tools/email', '/link', '/link/juejing', '/component', '/component/baseList', '/component/markdownDemo', '/component/richTextDemo']
 const testRole = ['/component', '/component/baseList', '/component/markdownDemo', '/component/richTextDemo']
 let userRole = [
