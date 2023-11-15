@@ -36,6 +36,8 @@ export const icons = [
   { label: 'dark', value: 'material-symbols:dark-mode-outline-rounded' },
   { label: 'github', value: 'mdi:github' },
   { label: 'juejin', value: 'tabler:brand-juejin' },
+  { label: 'qq', value: 'bi:tencent-qq' },
+  { label: 'wechat', value: 'tabler:brand-wechat' },
   { label: 'manageAccounts', value: 'material-symbols:manage-accounts-outline' },
   { label: 'lock', value: 'ri:lock-line' },
   { label: 'logout', value: 'material-symbols:logout' },

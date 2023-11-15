@@ -21,6 +21,14 @@ html.dark {
   --w-e-toolbar-active-bg-color: #ccc;
 }
 
+// 表格选中行样式
+.selected-row > .n-data-table-td {
+  background-color: #e8f4ff!important;
+}
+.dark .selected-row > .n-data-table-td {
+  background-color: #5a5a5a!important;
+}
+
 body {
   font-size: 16px;
 }
@@ -71,5 +79,3 @@ textarea {
   opacity: 0;
   transform: translateX(30px);
 }
-
-

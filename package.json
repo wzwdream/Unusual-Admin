@@ -9,7 +9,7 @@
     "dev:docs": "cd site && yarn docs:dev",
     "build:docs": "cd site && yarn docs:build",
     "preview": "vite preview",
-    "eslint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
+    "eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@iconify/vue": "^4.1.1",

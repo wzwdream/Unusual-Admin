@@ -73,7 +73,7 @@
       <n-grid-item span="3 m:1 l:1 xl:1">
         <n-card title="菜单分配" size="small" :segmented="true">
           <template #header-extra>
-            <n-button type="info" size="small" :loading="saveLoading" @click="saveMenu">
+            <n-button type="primary" size="small" :loading="saveLoading" @click="saveMenu">
               <template #icon>
                 <Icon icon="mingcute:save-2-line" />
               </template>
@@ -277,9 +277,3 @@ const {
   }
 })
 </script>
-
-<style scoped>
-:deep(.selected-row > .n-data-table-td) {
-  background-color: #e8f4ff !important;
-}
-</style>

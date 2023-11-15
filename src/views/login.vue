@@ -1,53 +1,120 @@
 <template>
-  <div class="base">
-    <div class="loginForm">
-      <div class="loginForm_title" ref="title"><span>登录</span></div>
-      <n-space vertical>
-        <n-form ref="formRef" inline :label-width="150" :model="formValue">
-          <n-form-item label="账户" path="user.name" style="width: 80%">
-            <n-input v-model:value="formValue.userName" placeholder="请输入账户名称" />
+  <div wh-full f-c-c>
+    <div class="bg-white rd-10 relative w768 max-w-full min-h-480 card-shadow dark:bg-dark" :class="{'right-panel-active': active === 'signIn'}">
+      <div class="form-container  sign-in-container">
+        <n-form ref="loginFormRef" size="small" :show-label="false" :model="loginForm" :rules="loginRules" class="flex-col-c bg-white h-full">
+          <h1 m-0>登录</h1>
+          <n-space my-20>
+            <n-button circle>
+              <template #icon>
+                <Icon icon="bi:tencent-qq" />
+              </template>
+            </n-button>
+            <n-button circle>
+              <template #icon>
+                <Icon icon="tabler:brand-wechat" />
+              </template>
+            </n-button>
+            <n-button circle>
+              <template #icon>
+                <Icon icon="mdi:github" />
+              </template>
+            </n-button>
+          </n-space>
+          <span mb-10 font-size-12>或者使用你的账号</span>
+          <n-form-item path="userName" class="w-[80%]">
+            <n-input v-model:value="loginForm.userName" placeholder="请输入账户名称" />
           </n-form-item>
-          <n-form-item label="密码" path="user.pwd" style="width: 80%">
-            <n-input v-model:value="Unencrypted" type="password" show-password-on="mousedown" placeholder="请输入账户密码" :maxlength="12" />
+          <n-form-item path="userPassword" class="w-[80%]">
+            <n-input v-model:value="loginForm.userPassword" type="password" show-password-on="mousedown" placeholder="请输入账户密码" :maxlength="12" />
           </n-form-item>
-          <n-form-item label="验证码" path="user.captchaText" style="width: 80%">
-            <n-input v-model:value="formValue.captchaText" placeholder="请输入验证码" />
-            <div @click="getCaptchaCode" v-html="captchaSrc" h-34 w-100 cursor-pointer />
+          <n-form-item path="captchaText" class="w-[80%]">
+            <n-input v-model:value="loginForm.captchaText" placeholder="请输入验证码" />
+            <div @click="getCaptchaCode" v-html="captchaSrc" h-28 w-100 cursor-pointer />
           </n-form-item>
+          <div flex mb-10 min-w-308><span font-size-12>忘记密码？</span></div>
+          <n-button class="w-[40%] font-bold" round type="primary" :loading="loginLoading" @click="submitLogin" @keyup.enter="submitLogin">登录</n-button>
         </n-form>
-        <div style="width: 100%; display: flex; justify-content: center">
-          <n-button class="loginButton" type="primary" v-debounce:click="submitLogin" @keyup.enter="submitLogin">确认</n-button>
+      </div>
+      <div class="form-container sign-up-container">
+        <n-form ref="registFormRef" size="small" :show-label="false" :model="registForm" :rules="registFormRules" class="flex-col-c bg-white h-full">
+          <h1 m-0>注册</h1>
+          <n-form-item path="userName" class="w-[80%]">
+            <n-input v-model:value="registForm.userName" placeholder="请输入账户名称" />
+          </n-form-item>
+          <n-form-item path="pwd" class="w-[80%]">
+            <n-input v-model:value="registForm.pwd" type="password" show-password-on="click" placeholder="请输入账户密码" :maxlength="12" />
+          </n-form-item>
+          <n-form-item path="email" class="w-[80%]">
+            <n-input v-model:value="registForm.email" placeholder="请输入邮箱" />
+          </n-form-item>
+          <n-form-item path="phone" class="w-[80%]">
+            <n-input v-model:value="registForm.phone" placeholder="请输入手机号" />
+          </n-form-item>
+          <n-button class="w-[40%] font-bold" round type="primary" :loading="registLoading" @keyup.enter="submitRegist" @click="submitRegist">注册</n-button>
+        </n-form>
+      </div>
+      <div class="overlay-container">
+        <div class="overlay">
+          <div class="overlay-panel overlay-left">
+            <h1>欢迎回来！</h1>
+            <p>要与我们保持联系，请使用您的个人信息登录</p>
+            <n-button ghost round color="#fff" @click="active ='signUp'">去登录</n-button>
+          </div>
+          <div class="overlay-panel overlay-right">
+            <h1>你好，朋友！</h1>
+            <p>非常感谢您选择我们！我们将竭诚为您提供最优质、最全面的服务。</p>
+            <n-button ghost round color="#fff" @click="active ='signIn'">去注册</n-button>
+          </div>
         </div>
-      </n-space>
+      </div>
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
+<script setup lang="ts" name="Login">
 import { encrypt } from '@/utils/aes'
 import { useMessage } from 'naive-ui'
 import router from '@/router'
 import { useUserStore } from '@/store/user'
 import { getCaptcha, login } from '@/api/user/login'
+import { FormInst, FormRules } from 'naive-ui'
 
-let Unencrypted = ref('widgets@123')
-let formValue = reactive({
+// 页面切换
+const active = ref('signUp')
+
+// 登录
+const loginForm = reactive({
   userName: 'admin',
-  userPassword: '',
-  captchaText: ''
+  userPassword: 'widgets@123',
+  captchaText: 'eybk'
 })
-const title = ref('title')
+const loginFormRef = ref<FormInst | null>(null)
+const loginLoading = ref(false)
 const message = useMessage()
-
+const loginRules: FormRules = {
+  userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+  userPassword: [{required: true, message: '请输入密码', trigger: 'blur'}],
+  captchaText: [{required: true, message: '请输入验证码', trigger: 'blur'}],
+}
 const submitLogin = () => {
-  formValue.userPassword = encrypt(Unencrypted.value)
-  login(formValue).then(async (response) => {
-    message.success('登录成功,欢迎回来')
-    const userStore = useUserStore()
-    userStore.setToken(response.data)
-    router.push('/')
-  }).catch(() => {
-    getCaptchaCode()
+  loginFormRef.value?.validate((errors) => {
+    if (!errors) {
+      loginLoading.value = true
+      const params = {
+        ...loginForm,
+        userPassword: encrypt(loginForm.userPassword)
+      }
+      login(params).then(async (response) => {
+        loginLoading.value = false
+        message.success('登录成功,欢迎回来')
+        const userStore = useUserStore()
+        userStore.setToken(response.data)
+        router.push('/')
+      }).catch(() => {
+        loginLoading.value = false
+        getCaptchaCode()
+      })
+    }
   })
 }
 
@@ -59,89 +126,168 @@ const getCaptchaCode = () => {
   })
 }
 getCaptchaCode()
+
+// 注册
+const registForm = reactive({
+  userName: '',
+  pwd: '',
+  email: '',
+  phone: ''
+})
+const registFormRules: FormRules = {
+  userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+  pwd: [{required: true, message: '请输入密码', trigger: 'blur'}],
+  email: [{required: true, message: '请输入邮箱', trigger: 'blur'}],
+  phone: [{required: true, message: '请输入手机号', trigger: 'blur'}],
+}
+const registFormRef = ref<FormInst | null>(null)
+const registLoading = ref(false)
+
+const submitRegist = () => {
+  registFormRef.value?.validate((errors) => {
+    if (!errors) {
+      console.log(registForm, '注册')
+    }
+  })
+}
 </script>
 
 <style scoped>
-.base {
-  width: 100vw;
-  height: 100vh;
-  background-image: url('@/assets/login_bg2.jpg');
+.form-container {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	transition: all 0.6s ease-in-out;
+}
+.sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.right-panel-active .sign-in-container {
+  transform: translateX(100%);
+}
+
+.sign-up-container {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.right-panel-active .sign-up-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: show 0.6s;
+}
+
+@keyframes show {
+
+  0%,
+  49.99% {
+    opacity: 0;
+    z-index: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  animation: toggleRight 0.6s;
+  border-radius: 0 10px 10px 0;
+  z-index: 100;
+}
+
+.right-panel-active .overlay-container {
+  animation: toggleLeft 0.6s;
+  border-radius: 10px 0 0 10px;
+  transform: translateX(-100%);
+}
+
+@keyframes toggleRight {
+  0%,
+  49.99% {
+    border-radius: 10px 0 0 10px;
+  }
+  50%,
+  100% {
+    border-radius: 0 10px 10px 0;
+  }
+}
+@keyframes toggleLeft {
+  0%,
+  49.99% {
+    border-radius: 0 10px 10px 0;
+  }
+  50%,
+  100% {
+    border-radius: 10px 0 0 10px;
+  }
+}
+
+.overlay {
+  background: var(--primary-color);
+  background: -webkit-linear-gradient(to right, var(--primary-color-pressed), var(--primary-color));
+  background: linear-gradient(to right, var(--primary-color-pressed), var(--primary-color));
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: 0 0;
+  color: #FFFFFF;
   position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
 }
 
-.loginForm_title {
-  width: 80%;
-  text-align: left;
-  margin: auto;
-  font-size: 26px;
-  font-weight: 600;
-  height: 15%;
+.right-panel-active .overlay {
+  transform: translateX(50%);
+}
+
+.overlay-panel {
+  box-sizing: border-box;
+  position: absolute;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-  justify-content: center;
-  color: #333333;
-}
-
-.loginForm {
-  width: 100rem;
-  height: 120rem;
-  background-color: #fff;
-  position: relative;
-  top: 50%;
-  left: 70%;
-  transform: translate(-50%, -50%);
-  animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  border-radius: 12px;
-  justify-content: center;
-}
-
-@keyframes shadow-drop-center {
-  0% {
-    -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-  }
-
-  100% {
-    -webkit-box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.35);
-    box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.35);
-  }
-}
-
-.n-form.n-form--inline {
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.n-form.n-form--inline .n-form-item {
-  margin-right: 0;
-}
-
-.n-form.n-form--inline .n-form-item:last-child {
-  margin-right: 0;
-}
-
-.loginButton {
+  text-align: center;
+  padding: 0 40px;
+  top: 0;
+  height: 100%;
   width: 50%;
-  /* //color: #ffffff;
-    //background-color: #fe538d; */
-  animation: shadow-drop-bottom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  height: 35px;
-  border-radius: 12px;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
 }
 
-@keyframes shadow-drop-bottom {
-  0% {
-    -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-  }
+.overlay-left {
+  transform: translateX(-20%);
+}
 
-  100% {
-    -webkit-box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.35);
-    box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.35);
-  }
+.right-panel-active .overlay-left {
+  transform: translateX(0);
+}
+
+.overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.right-panel-active .overlay-right {
+  transform: translateX(20%);
 }
 </style>
-@/router/router1@/router/router
-@/api/user/user

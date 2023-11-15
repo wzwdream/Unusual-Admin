@@ -39,31 +39,27 @@ export const setting = {
    * 主题颜色
    */
   naiveThemeOverrides: {
-    common: {
-      primaryColor: '#18a058',
-      primaryColorHover: '#36ad6a',
-      primaryColorPressed: '#0c7a43',
-      primaryColorSuppl: '#36ad6a',
-
-      infoColor: '#2080f0',
-      infoColorHover: '#4098fc',
-      infoColorPressed: '#1060c9',
-      infoColorSuppl: '#4098fc',
-
-      successColor: '#18a058',
-      successColorHover: '#36ad6a',
-      successColorPressed: '#0c7a43',
-      successColorSuppl: '#36ad6a',
-
-      warningColor: '#f0a020',
-      warningColorHover: '#fcb040',
-      warningColorPressed: '#c97c10',
-      warningColorSuppl: '#fcb040',
-
-      errorColor: '#d03050',
-      errorColorHover: '#de576d',
-      errorColorPressed: '#ab1f3f',
-      errorColorSuppl: '#de576d'
+    'common': {
+      'primaryColor': '#4d9078',
+      'primaryColorHover': '#6b9c89',
+      'primaryColorSuppl': '#6b9c89',
+      'primaryColorPressed': '#326957',
+      'infoColor': '#118ab2',
+      'infoColorHover': '#32a1bf',
+      'infoColorSuppl': '#32a1bf',
+      'infoColorPressed': '#07668c',
+      'successColor': '#3ab795',
+      'successColorHover': '#5ec4a6',
+      'successColorSuppl': '#5ec4a6',
+      'successColorPressed': '#279179',
+      'warningColor': '#ffb703',
+      'warningColorHover': '#ffca2b',
+      'warningColorSuppl': '#ffca2b',
+      'warningColorPressed': '#d99400',
+      'errorColor': '#ff3c38',
+      'errorColorHover': '#ff6961',
+      'errorColorSuppl': '#ff6961',
+      'errorColorPressed': '#d92528'
     }
   }
 }

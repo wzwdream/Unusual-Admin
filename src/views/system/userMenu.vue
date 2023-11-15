@@ -82,8 +82,8 @@
               </n-radio-group>
             </n-form-item>
           </n-gi>
-          <n-gi v-show="!!modalForm.externalLink" span="3">
-            <n-form-item label="外链菜单链接" path="link">
+          <n-gi v-show="!!modalForm.externalLink && !modalForm.isDir" span="6">
+            <n-form-item label="外链链接" path="link">
               <n-input v-model:value="modalForm.link" clearable />
             </n-form-item>
           </n-gi>
@@ -102,12 +102,12 @@
               <n-input v-model:value="modalForm.path" clearable />
             </n-form-item>
           </n-gi>
-          <n-gi v-show="!modalForm.isDir" span="3">
+          <n-gi v-show="!modalForm.isDir && !modalForm.externalLink" span="3">
             <n-form-item label="组件名称" path="name">
               <n-input v-model:value="modalForm.name" clearable />
             </n-form-item>
           </n-gi>
-          <n-gi v-show="!modalForm.isDir" span="3">
+          <n-gi v-show="!modalForm.isDir && !modalForm.externalLink" span="3">
             <n-form-item label="组件路径" path="component">
               <n-input v-model:value="modalForm.component" clearable />
             </n-form-item>
@@ -279,9 +279,3 @@ const {
   doUpdate: editUserMenu
 })
 </script>
-
-<style scoped>
-:deep(.selected-row > .n-data-table-td) {
-  background-color: #e8f4ff !important;
-}
-</style>

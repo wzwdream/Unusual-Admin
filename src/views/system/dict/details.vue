@@ -1,7 +1,7 @@
 <template>
   <n-card title="字典详情" size="small" :segmented="true">
     <template #header-extra>
-      <n-button type="info" size="small" @click="handleAdd">
+      <n-button type="primary" size="small" @click="handleAdd">
         <template #icon>
           <Icon icon="material-symbols:add-rounded" />
         </template>

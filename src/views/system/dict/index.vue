@@ -35,7 +35,7 @@
           :title="modalTitle"
           :loading="modalLoading"
           :show-footer="modalShowFooter"
-          width="550px"
+          width="450px"
           @save="handleSave"
         >
           <n-form
@@ -170,9 +170,3 @@ const {
   }
 })
 </script>
-
-<style scoped>
-:deep(.selected-row > .n-data-table-td) {
-  background-color: #e8f4ff !important;
-}
-</style>
