@@ -16,8 +16,8 @@ export interface UserList {
 
 export interface Query {
   userName?: string
-  email?: string
   iphone?: string
+  status?: 0 | 1
   [key: string]: any
 }
 

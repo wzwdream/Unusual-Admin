@@ -11,8 +11,14 @@
       @download="handleDownload"
     >
       <template #queryBar>
-        <query-item label="菜单名称">
-          <n-input v-model:value="defualtQuery.title" size="small" clearable placeholder="输入菜单名称，模糊搜索" />
+        <query-item label="用户名称">
+          <n-input v-model:value="defualtQuery.userName" size="small" clearable placeholder="输入用户名称，模糊搜索" />
+        </query-item>
+        <query-item label="手机号">
+          <n-input v-model:value="defualtQuery.iphone" size="small" clearable placeholder="输入手机号，模糊搜索" />
+        </query-item>
+        <query-item label="用户状态">
+          <n-select v-model:value="defualtQuery.status" placeholder="选择用户状态" :options="dict?.status" clearable />
         </query-item>
       </template>
       <n-data-table
@@ -39,6 +45,7 @@
         label-align="right"
         :label-width="80"
         :model="modalForm"
+        :rules="formRules"
         :disabled="modalAction === 'view'"
       >
         <n-grid x-gap="12" :cols="2">
@@ -65,8 +72,7 @@
           <n-gi>
             <n-form-item label="性别" path="sex">
               <n-radio-group v-model:value="modalForm.sex" name="sex">
-                <n-radio :key="0" :value="0" label="男" />
-                <n-radio :key="1" :value="1" label="女" />
+                <n-radio v-for="item in dict?.sex" :key="item.id" :value="Number(item.value)" :label="item.label"></n-radio>
               </n-radio-group>
             </n-form-item>
           </n-gi>
@@ -74,8 +80,6 @@
             <n-form-item label="状态" path="status">
               <n-radio-group v-model:value="modalForm.status" name="status">
                 <n-radio v-for="item in dict?.status" :key="item.id" :value="Number(item.value)" :label="item.label"></n-radio>
-                <!-- <n-radio :key="0" :value="1" label="正常" />
-                <n-radio :key="1" :value="0" label="禁用" /> -->
               </n-radio-group>
             </n-form-item>
           </n-gi>
@@ -96,9 +100,10 @@ import TableAction from '@/components/basic/tableAction.vue'
 import { useBasicList } from '@/components/basic/useBasicList/index'
 import { type Query, type UserList, addUser, delUser, editUser } from '@/api/user/user'
 import { getUserRole } from '@/api/user/userRole'
-import { type RoleList } from '../../api/user/userRole'
-import { NSwitch } from 'naive-ui/es/components'
+import { type RoleList } from '@/api/user/userRole'
+import { type FormRules, NSwitch } from 'naive-ui/es/components'
 import { useDict } from '@/hooks/useDict'
+import { checkPassword, checkEmail, checkPhone } from '@/utils/calibrationRules';
 
 // 获取角色
 const roles = ref<RoleList[]>([])
@@ -107,7 +112,7 @@ getUserRole().then(res => {
 })
 
 // 获取dict
-const { dict } =  useDict(['status'])
+const { dict, getDictLabel } =  useDict(['status', 'sex'])
 
 // 表格
 const columns = ref<Array<DataTableColumn<UserList>>>([
@@ -133,7 +138,7 @@ const columns = ref<Array<DataTableColumn<UserList>>>([
     title: '性别',
     key: 'sex',
     render(row) {
-      return h('span',row.sex === 0 ? '男' : '女')
+      return h('span', getDictLabel('sex', String(row.sex)))
     }
   },
   {
@@ -192,6 +197,23 @@ const handleChangeStatus = async (row: UserList) => {
   await listQuery()
   row.loading = false
 }
+
+// 表单规则
+const formRules: FormRules = {
+  userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+  pwd: [
+    {required: true, message: '请输入密码', trigger: 'blur'},
+    {validator: checkPassword, message: '密码格式不正确', trigger: 'input' }
+  ],
+  email: [
+    {required: true, message: '请输入邮箱', trigger: 'blur'},
+    {validator: checkEmail, message: '请输入正确的邮箱', trigger: 'input' }
+  ],
+  iphone: [
+    {required: true, message: '请输入手机号', trigger: 'blur'},
+    {validator: checkPhone, message: '请输入正确的手机号', trigger: 'input' }
+  ],
+}
 // 表格hooks
 const {
   modalVisible,
@@ -221,7 +243,7 @@ const {
   key: 'id',
   isPagination: false,
   initForm: { userName: '', name: '', iphone: '', email: '', sex: 0, status: 1, roles: [] },
-  initQuery: { userName: '', email: '', iphone: '' },
+  initQuery: { userName: undefined, iphone: undefined, status: undefined },
   // 搜索前
   beforeRefresh: (query) => {
     if (query && query.title) {

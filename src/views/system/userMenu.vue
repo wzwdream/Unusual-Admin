@@ -42,6 +42,7 @@
         label-align="right"
         :label-width="80"
         :model="modalForm"
+        :rules="formRules"
         :disabled="modalAction === 'view'"
       >
         <n-grid x-gap="12" :cols="6">
@@ -143,6 +144,7 @@ import { addUserMenu, delUserMenu, editUserMenu, getUserMenu } from '@/api/user/
 import { useMenuStore } from '@/store/menu'
 import { TreeSelectOption } from 'naive-ui/es/tree-select/src/interface'
 import { icons, renderLabel } from '@/utils/icon'
+import { type FormRules } from 'naive-ui/es/form/src/interface'
 
 // 表格
 const columns = ref<Array<DataTableColumn<TreeMenu>>>([
@@ -233,6 +235,15 @@ const onLoad = (row: Record<string, unknown>) => {
 const menuStore = useMenuStore()
 const menu = [{id: 0, title: '顶级菜单', isLeaf: false, children: menuStore.treeMenu}] as unknown as TreeSelectOption[]
 const options = ref(menu)
+
+// 表单规则
+const formRules: FormRules = {
+  title: [{required: true, message: '请输入菜单标题', trigger: 'blur'}],
+  path: [{required: true, message: '请输入路由地址', trigger: 'blur'}],
+  name: [{required: true, message: '请输入组件名称', trigger: 'blur'}],
+  component: [{required: true, message: '请输入组件地址', trigger: 'blur'}],
+  link: [{required: true, message: '请输入外链菜单地址', trigger: 'blur'}]
+}
 // 表格hooks
 interface Query {
   title?: string

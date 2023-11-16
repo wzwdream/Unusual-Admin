@@ -1,8 +1,8 @@
-// 存储一些常用的图标，预设的icon
 import { type SelectOption } from 'naive-ui/es/select/src/interface'
 import { type VNodeChild } from 'vue'
 import Icon from '@/components/icon/index.vue'
 
+// 存储一些常用的图标，预设的icon
 export const icons = [
   { label: 'tools', value: 'iconoir:tools' },
   { label: 'email', value: 'material-symbols:stacked-email-outline' },
@@ -48,6 +48,12 @@ export const icons = [
   { label: 'save', value: 'mingcute:save-2-line' },
   { label: 'colordict', value: 'arcticons:colordict' },
 ]
+
+// 渲染Icon
+export const renderIcon = (icon: string, size: number = 18): (() => VNodeChild) | undefined => {
+  if (icon) return () => h(Icon, { icon, size })
+  return undefined
+}
 
 // 下拉标签渲染自定义
 export const renderLabel = (option: SelectOption): VNodeChild => {

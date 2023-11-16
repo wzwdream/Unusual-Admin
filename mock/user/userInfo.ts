@@ -51,9 +51,19 @@ export default [
     url: '/api/user',
     method: 'get',
     response: (request: requestParams) => {
-      const { page, pageSize } = request.query
-      const total = userInfo.length
-      const resultData = userInfo.slice(page - 1, pageSize)
+      const { page, pageSize, userName, iphone, status } = request.query
+      let resultData = userInfo
+      if (userName) {
+        resultData = resultData.filter(item => (item.userName.includes(userName) || item.name.includes(userName)))
+      }
+      if (iphone) {
+        resultData = resultData.filter(item => item.iphone.includes(iphone))
+      }
+      if (status) {
+        resultData = resultData.filter(item => item.status === Number(status))
+      }
+      const total = resultData.length
+      resultData = resultData.slice(page - 1, pageSize)
       return resultSuccess(resultData, '获取数据成功', total)
     }
   },

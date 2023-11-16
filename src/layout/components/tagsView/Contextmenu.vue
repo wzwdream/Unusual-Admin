@@ -14,7 +14,7 @@
 <script setup lang="ts" name="Contextmenu">
 import { useTagStore } from '@/store/tags';
 import { useI18n } from 'vue-i18n'
-import { renderIcon } from '@/utils/help'
+import { renderIcon } from '@/utils/icon'
 
 const { t } = useI18n()
 const tagStore = useTagStore()

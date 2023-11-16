@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts" setup name="BasicLayout">
-import { renderIcon } from '@/utils/help'
+import { renderIcon } from '@/utils/icon'
 import { useTagStore } from '@/store/tags'
 import { type TableColumn } from 'naive-ui/es/data-table/src/interface';
 

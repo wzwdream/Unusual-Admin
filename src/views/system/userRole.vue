@@ -17,7 +17,7 @@
               <n-input v-model:value="defualtQuery.roleName" size="small" placeholder="输入角色名称" />
             </query-item>
             <query-item label="角色状态">
-              <n-select v-model:value="defualtQuery.roleStatus" placeholder="选择角色状态" :options="statusOptions" />
+              <n-select v-model:value="defualtQuery.roleStatus" placeholder="选择角色状态" :options="dict?.status" />
             </query-item>
           </template>
           <n-data-table
@@ -47,6 +47,7 @@
             label-align="right"
             :label-width="80"
             :model="modalForm"
+            :rules="formRules"
             :disabled="modalAction === 'view'"
           >
             <n-form-item label="角色名称" path="roleName">
@@ -102,13 +103,16 @@
 
 <script setup lang="ts" name="UserRole">
 import { type DataTableColumn } from 'naive-ui/es/data-table'
-import { NButton, NSwitch } from 'naive-ui'
+import { type FormRules, NButton, NSwitch } from 'naive-ui'
 import { type RoleList, type RoleQuery, updateUserRole, addUserRole, deleteUserRole } from '@/api/user/userRole'
-import { useMenuStore } from '@/store/menu';
+import { useMenuStore } from '@/store/menu'
 import TableAction from '@/components/basic/tableAction.vue'
 import { useBasicList } from '@/components/basic/useBasicList/index'
 import { message } from '@/utils/help'
+import { useDict } from '@/hooks/useDict'
 
+// 获取dict
+const { dict } =  useDict(['status'])
 // 表格
 const columns = ref<DataTableColumn<RoleList>[]>([
   {
@@ -171,17 +175,6 @@ const columns = ref<DataTableColumn<RoleList>[]>([
   }
 ])
 
-// 更改角色状态
-const statusOptions = [
-  {
-    label: '启用',
-    value: 1
-  },
-  {
-    label: '禁用',
-    value: 0
-  }
-]
 const handleChangeStatus = async (row: RoleList) => {
   row.loading = true
   const params: RoleList = { ...row, roleStatus: row.roleStatus === 0 ? 1 : 0 }
@@ -236,6 +229,11 @@ const saveMenu = () => {
   } else {
     message.warning('请选择数据')
   }
+}
+
+// 表单规则
+const formRules: FormRules = {
+  roleName: [{required: true, message: '请输入角色名称', trigger: 'blur'}]
 }
 
 // 表格hooks

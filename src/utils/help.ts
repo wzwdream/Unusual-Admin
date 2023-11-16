@@ -3,8 +3,7 @@ import { setting } from '@/setting'
 import { useCssVar } from '@vueuse/core'
 import { kebabCase } from 'lodash-es'
 import { RouterLink } from 'vue-router';
-import { type VNodeChild, h } from 'vue'
-import Icon from '@/components/icon/index.vue'
+import { h } from 'vue'
 import { useMenuStore } from '@/store/menu';
 import { useTagStore } from '@/store/tags';
 
@@ -23,12 +22,6 @@ export const useVarCss = () => {
   for (const key in common) {
     useCssVar(`--${kebabCase(key)}`, document.documentElement).value = common[key] || ''
   }
-}
-
-// 渲染Icon
-export const renderIcon = (icon: string, size: number = 18): (() => VNodeChild) | undefined => {
-  if (icon) return () => h(Icon, { icon, size })
-  return undefined
 }
 
 // 使用v-router跳转

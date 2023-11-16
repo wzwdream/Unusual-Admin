@@ -1,6 +1,7 @@
 import { type TreeMenu } from '@/type/menu'
 import { type MenuOption } from 'naive-ui'
-import { hRouter, renderIcon } from './help'
+import { hRouter } from './help'
+import { renderIcon } from './icon'
 
 // 根据路由生成菜单配置
 export const buildMenuOptions = (menu: TreeMenu[]): MenuOption[] => {

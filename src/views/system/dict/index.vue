@@ -1,65 +1,64 @@
 <template>
-  <div>
-    <n-grid cols="4" item-responsive :y-gap="8" :x-gap="10" responsive="screen">
-      <n-gi span="4 m:2 l:2 xl:2">
-        <BasicLayout
-          v-model:columns="columns"
-          :btnDisabled="btnDisabled"
-          @search="listQuery"
-          @reset="handlereset"
-          @add="handleAdd"
-          @delete="handleDelete"
-          @edit="handleEdit"
-          @download="handleDownload"
+  <n-grid cols="4" item-responsive :y-gap="8" :x-gap="10" responsive="screen">
+    <n-gi span="4 m:2 l:2 xl:2">
+      <BasicLayout
+        v-model:columns="columns"
+        :btnDisabled="btnDisabled"
+        @search="listQuery"
+        @reset="handlereset"
+        @add="handleAdd"
+        @delete="handleDelete"
+        @edit="handleEdit"
+        @download="handleDownload"
+      >
+        <template #queryBar>
+          <query-item label="名称">
+            <n-input v-model:value="defualtQuery.name" size="small" placeholder="输入字典名称或者描述" />
+          </query-item>
+        </template>
+        <n-data-table
+          :columns="columns"
+          :data="listData"
+          :pagination="pagination"
+          :loading="loading"
+          :row-key="rowKey"
+          :row-props="rowProps"
+          :row-class-name="getRowClassName"
+          striped
+          :remote="true"
+          @update:checked-row-keys="changeCheckRow"
+        />
+      </BasicLayout>
+      <BasicModel
+        v-model:visible="modalVisible"
+        :title="modalTitle"
+        :loading="modalLoading"
+        :show-footer="modalShowFooter"
+        width="450px"
+        @save="handleSave"
+      >
+        <n-form
+          ref="modalFormRef"
+          label-placement="left"
+          label-align="right"
+          :label-width="80"
+          :model="modalForm"
+          :rules="formRules"
+          :disabled="modalAction === 'view'"
         >
-          <template #queryBar>
-            <query-item label="名称">
-              <n-input v-model:value="defualtQuery.name" size="small" placeholder="输入字典名称或者描述" />
-            </query-item>
-          </template>
-          <n-data-table
-            :columns="columns"
-            :data="listData"
-            :pagination="pagination"
-            :loading="loading"
-            :row-key="rowKey"
-            :row-props="rowProps"
-            :row-class-name="getRowClassName"
-            striped
-            :remote="true"
-            @update:checked-row-keys="changeCheckRow"
-          />
-        </BasicLayout>
-        <BasicModel
-          v-model:visible="modalVisible"
-          :title="modalTitle"
-          :loading="modalLoading"
-          :show-footer="modalShowFooter"
-          width="450px"
-          @save="handleSave"
-        >
-          <n-form
-            ref="modalFormRef"
-            label-placement="left"
-            label-align="right"
-            :label-width="80"
-            :model="modalForm"
-            :disabled="modalAction === 'view'"
-          >
-            <n-form-item label="字典名称" path="name">
-              <n-input v-model:value="modalForm.name" />
-            </n-form-item>
-            <n-form-item label="描述" path="description">
-              <n-input v-model:value="modalForm.description" />
-            </n-form-item>
-          </n-form>
-        </BasicModel>
-      </n-gi>
-      <n-gi span="4 m:2 l:2 xl:2">
-        <Details :pid="selectedRow?.id" :name="selectedRow?.name" />
-      </n-gi>
-    </n-grid>
-  </div>
+          <n-form-item label="字典名称" path="name">
+            <n-input v-model:value="modalForm.name" />
+          </n-form-item>
+          <n-form-item label="描述" path="description">
+            <n-input v-model:value="modalForm.description" />
+          </n-form-item>
+        </n-form>
+      </BasicModel>
+    </n-gi>
+    <n-gi span="4 m:2 l:2 xl:2">
+      <Details :pid="selectedRow?.id" :name="selectedRow?.name" />
+    </n-gi>
+  </n-grid>
 </template>
 
 <script setup lang="ts" name="Dict">
@@ -68,6 +67,7 @@ import { type DictList, type DictQuery, editDict, delDict, addDict } from '@/api
 import TableAction from '@/components/basic/tableAction.vue'
 import { useBasicList } from '@/components/basic/useBasicList/index'
 import Details from './details.vue'
+import { type FormRules } from 'naive-ui/es/form/src/interface'
 
 // 表格
 const columns = ref<DataTableColumn<DictList>[]>([
@@ -129,6 +129,11 @@ const getRowClassName = computed(() => {
     return ''
   }
 })
+
+// 表单规则
+const formRules: FormRules = {
+  name: [{required: true, message: '请输入字典名称', trigger: 'blur'}],
+}
 
 // 表格hooks
 const {

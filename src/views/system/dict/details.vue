@@ -1,7 +1,7 @@
 <template>
   <n-card title="字典详情" size="small" :segmented="true">
     <template #header-extra>
-      <n-button type="primary" size="small" @click="handleAdd">
+      <n-button type="primary" :disabled="props.pid === undefined" size="small" @click="handleAdd">
         <template #icon>
           <Icon icon="material-symbols:add-rounded" />
         </template>
@@ -11,24 +11,16 @@
     <n-h3 v-if="props.pid === undefined" prefix="bar">
       <n-text type="primary"> 点击字典查看详情</n-text>
     </n-h3>
-    <BasicLayout
+    <n-data-table
       v-else
-      v-model:columns="columns"
-      :btnDisabled="btnDisabled"
-      :querybar="false"
-      :toolbar="false"
-      :opt-show="{ add: false, edit: false, del: false, download: false }"
-    >
-      <n-data-table
-        :columns="columns"
-        :data="listData"
-        :pagination="pagination"
-        :loading="loading"
-        :row-key="rowKey"
-        striped
-        :remote="true"
-      />
-    </BasicLayout>
+      :columns="columns"
+      :data="listData"
+      :pagination="pagination"
+      :loading="loading"
+      :row-key="rowKey"
+      striped
+      :remote="true"
+    />
     <BasicModel
       v-model:visible="modalVisible"
       :title="modalTitle"
@@ -43,6 +35,7 @@
         label-align="right"
         :label-width="80"
         :model="modalForm"
+        :rules="formRules"
         :disabled="modalAction === 'view'"
       >
         <n-form-item label="字典标签" path="label">
@@ -64,6 +57,7 @@ import { type DataTableColumn } from 'naive-ui/es/data-table'
 import { type Details, type DictDetailQuery, editDictDetails, delDictDetails, addDictDetails } from '@/api/system/dict'
 import TableAction from '@/components/basic/tableAction.vue'
 import { useBasicList } from '@/components/basic/useBasicList/index'
+import { type FormRules } from 'naive-ui/es/form/src/interface';
 
 interface DetailsProps {
   pid?: number
@@ -135,6 +129,12 @@ const columns = ref<DataTableColumn<Details>[]>([
   }
 ])
 
+// 表单规则
+const formRules: FormRules = {
+  value: [{required: true, message: '请输入字典值', trigger: 'blur'}],
+  label: [{required: true, message: '请输入字典标签', trigger: 'blur'}],
+}
+
 // 表格hooks
 const {
   modalVisible,
@@ -154,8 +154,7 @@ const {
   listData,
   pagination,
   loading,
-  rowKey,
-  btnDisabled
+  rowKey
 } = useBasicList<Details, DictDetailQuery>({
   name: '字典详情',
   url: '/dictDetails',

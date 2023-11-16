@@ -3,11 +3,14 @@ import { requestParams, resultSuccess } from '../utils'
 
 
 let dict: DictList[] = [
-  { id: 1, name: 'status', description: '启用状态' }
+  { id: 1, name: 'status', description: '启用状态' },
+  { id: 2, name: 'sex', description: '性别' },
 ]
 let dictDetails: Details[] = [
   { id: 1, pid: 1, label: '启用', value: '1', dictSort: 1, createTime: '2021-01-01 12:00:00' },
-  { id: 2, pid: 1, label: '禁用', value: '0', dictSort: 2, createTime: '2021-01-01 12:00:00' }
+  { id: 2, pid: 1, label: '禁用', value: '0', dictSort: 2, createTime: '2021-01-01 12:00:00' },
+  { id: 3, pid: 2, label: '男', value: '0', dictSort: 1, createTime: '2021-01-01 12:00:00' },
+  { id: 4, pid: 2, label: '女', value: '1', dictSort: 2, createTime: '2021-01-01 12:00:00' }
 ]
 
 export default [

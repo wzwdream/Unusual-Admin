@@ -77,7 +77,9 @@ import { useMessage } from 'naive-ui'
 import router from '@/router'
 import { useUserStore } from '@/store/user'
 import { getCaptcha, login } from '@/api/user/login'
-import { FormInst, FormRules } from 'naive-ui'
+import type { FormInst, FormRules } from 'naive-ui'
+import { checkPassword, checkEmail, checkPhone } from '@/utils/calibrationRules';
+
 
 // 页面切换
 const active = ref('signUp')
@@ -136,9 +138,18 @@ const registForm = reactive({
 })
 const registFormRules: FormRules = {
   userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
-  pwd: [{required: true, message: '请输入密码', trigger: 'blur'}],
-  email: [{required: true, message: '请输入邮箱', trigger: 'blur'}],
-  phone: [{required: true, message: '请输入手机号', trigger: 'blur'}],
+  pwd: [
+    {required: true, message: '请输入密码', trigger: 'blur'},
+    {validator: checkPassword, message: '密码格式不正确', trigger: 'input' }
+  ],
+  email: [
+    {required: true, message: '请输入邮箱', trigger: 'blur'},
+    {validator: checkEmail, message: '请输入正确的邮箱', trigger: 'input' }
+  ],
+  phone: [
+    {required: true, message: '请输入手机号', trigger: 'blur'},
+    {validator: checkPhone, message: '请输入正确的手机号', trigger: 'input' }
+  ],
 }
 const registFormRef = ref<FormInst | null>(null)
 const registLoading = ref(false)

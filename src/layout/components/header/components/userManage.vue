@@ -1,11 +1,11 @@
 <template>
   <n-dropdown :options="options" @select="handleSelect">
-    <n-avatar round :size="32" mr-30 src="/logo.jpg" class="bg-#fff"/>
+    <n-avatar round :size="32" mr-30 src="/logo.jpg" class="bg-[#fff]"/>
   </n-dropdown>
 </template>
 
 <script setup lang="ts" name="UserManage">
-import { renderIcon } from '@/utils/help'
+import { renderIcon } from '@/utils/icon'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
 const { t } = useI18n()

@@ -13,7 +13,30 @@ export const useDict = (params: string[] = []) => {
       })
     })
   }
+  // 根据字典名称获取字典数据
+  const getDict = (name: string) => {
+    let retult: Details[] = []
+    if (dict.value) {
+      retult = dict.value[name]
+    }
+    return retult
+  }
+  // 根据字典值获取字典label
+  const getDictLabel = (name: string, value: string) => {
+    let retult = ''
+    if (dict.value) {
+      const dict = getDict(name)
+      dict.map(item => {
+        if (item.value === value) {
+          retult = item.label
+        }
+      })
+    }
+    return retult
+  }
   return {
-    dict
+    dict,
+    getDict,
+    getDictLabel
   }
 }
