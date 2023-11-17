@@ -1,19 +1,19 @@
-<script setup lang="ts">
-const cloneEl = ref<HTMLElement | object | null>(null)
-const originalEl = ref<HTMLElement | object | null>(null)
+<script setup lang="js">
+const cloneEl = ref(null)
+const originalEl = ref(null)
 const {innerWidth: winWidth, innerHeight: winHeight} = window
 const offset = ref({left: 0, top: 0})
 const scale = ref(1)
 const origin = ref('center')
 const initialData = ref({offset: {}, origin: 'center', scale: 1})
 
-function changeStyle(el: HTMLElement, arr: object) {
+function changeStyle(el, arr) {
   const original = el.style.cssText.split(';')
   original.pop()
   el.style.cssText = original.concat(arr).join(';') + ';'
 }
 
-function open(e: HTMLElement) {
+function open(e) {
 
   originalEl.value = e.target // 缓存原始图DOM节点
   cloneEl.value = originalEl.value.cloneNode(true) // 克隆图片
