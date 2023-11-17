@@ -22,6 +22,7 @@ interface Menu {
 let menus: Menu[] = [
   { id: 1, pid: 0, path: '/tools', title: '工具', visibily: 1, menuType: 1, externalLink: 0, keepAlive: 0, icon: 'iconoir:tools', sort: 1 },
   { id: 2, pid: 1, path: '/tools/email', name: 'email', menuType: 0, externalLink: 0, component: 'views/tools/email.vue', title: '邮件', visibily: 1, icon: 'material-symbols:stacked-email-outline', keepAlive: 0, sort: 1 },
+  { id: 2, pid: 1, path: '/tools/preview', name: 'preview', menuType: 0, externalLink: 0, component: 'views/tools/preview.vue', title: '预览', visibily: 1, icon: 'material-symbols:preview', keepAlive: 0, sort: 2 },
   { id: 3, pid: 0, path: '/link', title: '外链菜单', visibily: 1, menuType: 1, externalLink: 0, keepAlive: 0, icon: 'system-uicons:chain', sort: 2 },
   { id: 4, pid: 3, path: '/link/juejing', name: 'Juejing', title: '掘金', visibily: 1, menuType: 0, keepAlive: 0, icon: 'tabler:brand-juejin', externalLink: 1, link: 'https://juejin.cn/', sort: 1 },
   { id: 5, pid: 0, path: '/system', title: '系统管理', visibily: 1, menuType: 1, externalLink: 0, keepAlive: 0, icon: 'basil:settings-alt-outline', sort: 3 },
