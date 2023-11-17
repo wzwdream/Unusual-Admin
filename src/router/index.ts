@@ -59,7 +59,7 @@ router.afterEach(async (to) => {
   if (to.meta.visibily) {
     const tag: Tag = {
       icon: to.meta.icon || '',
-      keepAlive: to.meta.keepAlive || false,
+      keepAlive: to.meta.keepAlive || 0,
       key: to.fullPath,
       label: to.meta.title || '',
       name: to.name as string

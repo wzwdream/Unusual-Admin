@@ -14,11 +14,11 @@ export const buildRoute = (routes: TreeMenu[]): RouteRecordRaw[] => {
       redirect: '',
       meta: {
         title: item.title,
-        visibily: Boolean(item.visibily) || false,
+        visibily: item.visibily || 0,
         icon: item.icon || '',
-        keepAlive: Boolean(item.keepAlive) || false,
-        isDir: Boolean(item.isDir) || false,
-        externalLink: Boolean(item.externalLink) || false,
+        keepAlive: item.keepAlive || 0,
+        menuType:item.menuType || 0,
+        externalLink: item.externalLink || 0,
         link: item.link || '',
         sort: item.sort || 1
       },

@@ -76,6 +76,7 @@ export default [
       return resultSuccess('', '新增数据成功')
     }
   },
+  // 字典详情
   {
     url: '/api/dictDetails',
     method: 'get',

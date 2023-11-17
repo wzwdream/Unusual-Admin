@@ -1,8 +1,8 @@
 <template>
-  <div wh-full f-c-c>
-    <div class="bg-white rd-10 relative w768 max-w-full min-h-480 card-shadow dark:bg-dark" :class="{'right-panel-active': active === 'signIn'}">
+  <div wh-full f-c-c class="bg-content">
+    <div class="bg-white rd-12 relative w768 max-w-full min-h-480 card-shadow dark:bg-dark" :class="{'right-panel-active': active === 'signIn'}">
       <div class="form-container  sign-in-container">
-        <n-form ref="loginFormRef" size="small" :show-label="false" :model="loginForm" :rules="loginRules" class="flex-col-c bg-white h-full">
+        <n-form ref="loginFormRef" size="small" :show-label="false" :model="loginForm" :rules="loginRules" class="flex-col-c bg-white h-full rounded-10">
           <h1 m-0>登录</h1>
           <n-space my-20>
             <n-button circle>
@@ -37,7 +37,7 @@
         </n-form>
       </div>
       <div class="form-container sign-up-container">
-        <n-form ref="registFormRef" size="small" :show-label="false" :model="registForm" :rules="registFormRules" class="flex-col-c bg-white h-full">
+        <n-form ref="registFormRef" size="small" :show-label="false" :model="registForm" :rules="registFormRules" class="flex-col-c bg-white h-full rounded-10">
           <h1 m-0>注册</h1>
           <n-form-item path="userName" class="w-[80%]">
             <n-input v-model:value="registForm.userName" placeholder="请输入账户名称" />
@@ -57,12 +57,12 @@
       <div class="overlay-container">
         <div class="overlay">
           <div class="overlay-panel overlay-left">
-            <h1>欢迎回来！</h1>
+            <h1>欢迎回来！<n-image width="48" height="48" preview-disabled src='/logo.webp' class="b-rd-[50%]"/></h1>
             <p>要与我们保持联系，请使用您的个人信息登录</p>
             <n-button ghost round color="#fff" @click="active ='signUp'">去登录</n-button>
           </div>
           <div class="overlay-panel overlay-right">
-            <h1>你好，朋友！</h1>
+            <h1>你好，朋友！<n-image width="48" height="48" preview-disabled src='/logo.webp' class="b-rd-[50%]"/></h1>
             <p>非常感谢您选择我们！我们将竭诚为您提供最优质、最全面的服务。</p>
             <n-button ghost round color="#fff" @click="active ='signIn'">去注册</n-button>
           </div>
@@ -164,6 +164,9 @@ const submitRegist = () => {
 </script>
 
 <style scoped>
+.bg-content {
+  background-image: url('../assets/svg/bg.svg');
+}
 .form-container {
 	position: absolute;
 	top: 0;

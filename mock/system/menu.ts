@@ -6,7 +6,8 @@ interface Menu {
   path: string
   title: string
   visibily: 0 | 1
-  isDir: 0 | 1
+  menuType: 0 | 1 | 2
+  competence?: string
   icon: string
   name?: string
   component?: string
@@ -19,18 +20,35 @@ interface Menu {
 }
 
 let menus: Menu[] = [
-  { id: 1, pid: 0, path: '/tools', title: '工具', visibily: 1, isDir: 1, externalLink: 0, keepAlive: 0, icon: 'iconoir:tools', sort: 1 },
-  { id: 2, pid: 1, path: '/tools/email', name: 'email', isDir: 0, externalLink: 0, component: 'views/tools/email.vue', title: '邮件', visibily: 1, icon: 'material-symbols:stacked-email-outline', keepAlive: 0, sort: 1 },
-  { id: 3, pid: 0, path: '/link', title: '外链菜单', visibily: 1, isDir: 1, externalLink: 0, keepAlive: 0, icon: 'system-uicons:chain', sort: 2 },
-  { id: 4, pid: 3, path: '/link/juejing', name: 'Juejing', title: '掘金', visibily: 1, isDir: 0, keepAlive: 0, icon: 'tabler:brand-juejin', externalLink: 1, link: 'https://juejin.cn/', sort: 1 },
-  { id: 5, pid: 0, path: '/system', title: '系统管理', visibily: 1, isDir: 1, externalLink: 0, keepAlive: 0, icon: 'basil:settings-alt-outline', sort: 3 },
-  { id: 6, pid: 5, path: '/system/userRole', name: 'userRole', isDir: 0, externalLink: 0, component: 'views/system/userRole.vue', title: '角色管理', visibily: 1, icon: 'mdi:account-tag-outline', keepAlive: 0, sort: 1 },
-  { id: 7, pid: 0, path: '/component', title: '组件管理', visibily: 1, externalLink: 0, isDir: 1, keepAlive: 0, icon: 'tabler:components', sort: 3 },
-  { id: 8, pid: 7, path: '/component/markdownDemo', name: 'MarkdownDemo', isDir: 0, externalLink: 0, component: 'views/component/markdownDemo.vue', title: 'Markdown', visibily: 1, icon: 'ri:markdown-line', keepAlive: 1, sort: 2 },
-  { id: 9, pid: 7, path: '/component/richTextDemo', name: 'RichTextDemo', isDir: 0, externalLink: 0, component: 'views/component/richTextDemo.vue', title: '富文本', visibily: 1, icon: 'ic:twotone-text-fields', keepAlive: 1, sort: 3 },
-  { id: 10, pid: 5, path: '/system/userMenu', name: 'userMenu', isDir: 0, externalLink: 0, component: 'views/system/userMenu.vue', title: '菜单管理', visibily: 1, icon: 'material-symbols:lists', keepAlive: 0, sort: 2 },
-  { id: 11, pid: 5, path: '/system/user', name: 'user', isDir: 0, externalLink: 0, component: 'views/system/user.vue', title: '用户管理', visibily: 1, icon: 'material-symbols:manage-accounts-outline', keepAlive: 0, sort: 3 },
-  { id: 12, pid: 5, path: '/system/dict', name: 'dict', isDir: 0, externalLink: 0, component: 'views/system/dict/index.vue', title: '字典管理', visibily: 1, icon: 'arcticons:colordict', keepAlive: 0, sort: 4 },
+  { id: 1, pid: 0, path: '/tools', title: '工具', visibily: 1, menuType: 1, externalLink: 0, keepAlive: 0, icon: 'iconoir:tools', sort: 1 },
+  { id: 2, pid: 1, path: '/tools/email', name: 'email', menuType: 0, externalLink: 0, component: 'views/tools/email.vue', title: '邮件', visibily: 1, icon: 'material-symbols:stacked-email-outline', keepAlive: 0, sort: 1 },
+  { id: 3, pid: 0, path: '/link', title: '外链菜单', visibily: 1, menuType: 1, externalLink: 0, keepAlive: 0, icon: 'system-uicons:chain', sort: 2 },
+  { id: 4, pid: 3, path: '/link/juejing', name: 'Juejing', title: '掘金', visibily: 1, menuType: 0, keepAlive: 0, icon: 'tabler:brand-juejin', externalLink: 1, link: 'https://juejin.cn/', sort: 1 },
+  { id: 5, pid: 0, path: '/system', title: '系统管理', visibily: 1, menuType: 1, externalLink: 0, keepAlive: 0, icon: 'basil:settings-alt-outline', sort: 3 },
+  { id: 6, pid: 5, path: '/system/userRole', name: 'userRole', menuType: 0, externalLink: 0, component: 'views/system/userRole.vue', title: '角色管理', visibily: 1, icon: 'mdi:account-tag-outline', keepAlive: 0, sort: 1 },
+  { id: 7, pid: 0, path: '/component', title: '组件管理', visibily: 1, externalLink: 0, menuType: 1, keepAlive: 0, icon: 'tabler:components', sort: 3 },
+  { id: 8, pid: 7, path: '/component/markdownDemo', name: 'MarkdownDemo', menuType: 0, externalLink: 0, component: 'views/component/markdownDemo.vue', title: 'Markdown', visibily: 1, icon: 'ri:markdown-line', keepAlive: 1, sort: 2 },
+  { id: 9, pid: 7, path: '/component/richTextDemo', name: 'RichTextDemo', menuType: 0, externalLink: 0, component: 'views/component/richTextDemo.vue', title: '富文本', visibily: 1, icon: 'ic:twotone-text-fields', keepAlive: 1, sort: 3 },
+  { id: 10, pid: 5, path: '/system/userMenu', name: 'userMenu', menuType: 0, externalLink: 0, component: 'views/system/userMenu.vue', title: '菜单管理', visibily: 1, icon: 'material-symbols:lists', keepAlive: 0, sort: 2 },
+  { id: 11, pid: 5, path: '/system/user', name: 'user', menuType: 0, externalLink: 0, component: 'views/system/user.vue', title: '用户管理', visibily: 1, icon: 'material-symbols:manage-accounts-outline', keepAlive: 0, sort: 3 },
+  { id: 12, pid: 5, path: '/system/dict', name: 'dict', menuType: 0, externalLink: 0, component: 'views/system/dict/index.vue', title: '字典管理', visibily: 1, icon: 'arcticons:colordict', keepAlive: 0, sort: 4 },
+  {
+    'pid': 0,
+    'path': '',
+    'title': '删除用户',
+    'visibily': 0,
+    'menuType': 2,
+    'icon': '',
+    'name': '',
+    'component': '',
+    'keepAlive': 0,
+    'externalLink': 0,
+    'link': '',
+    'sort': 1,
+    'competence': 'del:user',
+    'id': 13,
+    'isLeaf': true
+},
 ]
 
 const convertToTree = (menus: Menu[]): Menu[] => {
@@ -50,7 +68,7 @@ const convertToTree = (menus: Menu[]): Menu[] => {
       visibily: menu.visibily,
       icon: menu.icon || '',
       keepAlive: menu.keepAlive || 0,
-      isDir: menu.isDir,
+      menuType: menu.menuType,
       externalLink: menu.externalLink || 0,
       link: menu.link || '',
       sort: menu.sort,

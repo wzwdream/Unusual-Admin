@@ -47,19 +47,20 @@
       >
         <n-grid x-gap="12" :cols="6">
           <n-gi span="3">
-            <n-form-item label="菜单类型" path="isDir">
-              <n-radio-group v-model:value="modalForm.isDir" name="isDir">
+            <n-form-item label="菜单类型" path="menuType">
+              <n-radio-group v-model:value="modalForm.menuType" name="menuType">
                 <n-radio-button :key="1" :value="1" label="目录" />
                 <n-radio-button :key="0" :value="0" label="菜单" />
+                <n-radio-button :key="2" :value="2" label="按钮" />
               </n-radio-group>
             </n-form-item>
           </n-gi>
-          <n-gi span="3">
+          <n-gi v-if="modalForm.menuType !== 2" span="3">
             <n-form-item label="菜单图标" path="icon">
               <n-select v-model:value="modalForm.icon" :options="icons" :renderLabel="renderLabel" filterable clearable />
             </n-form-item>
           </n-gi>
-          <n-gi span="2">
+          <n-gi v-if="modalForm.menuType !== 2" span="2">
             <n-form-item label="菜单可见" path="visibily">
               <n-radio-group v-model:value="modalForm.visibily" name="visibily">
                 <n-radio-button :key="1" :value="1" label="是" />
@@ -67,7 +68,7 @@
               </n-radio-group>
             </n-form-item>
           </n-gi>
-          <n-gi v-show="!modalForm.isDir" span="2">
+          <n-gi v-if="!modalForm.menuType" span="2">
             <n-form-item label="菜单缓存" path="keepAlive">
               <n-radio-group v-model:value="modalForm.keepAlive" name="keepAlive">
                 <n-radio-button :key="1" :value="1" label="是" />
@@ -75,7 +76,7 @@
               </n-radio-group>
             </n-form-item>
           </n-gi>
-          <n-gi span="2" v-show="!modalForm.isDir">
+          <n-gi span="2" v-if="!modalForm.menuType">
             <n-form-item label="外链菜单" path="externalLink">
               <n-radio-group v-model:value="modalForm.externalLink" name="externalLink">
                 <n-radio-button :key="1" :value="1" label="是" />
@@ -83,14 +84,19 @@
               </n-radio-group>
             </n-form-item>
           </n-gi>
-          <n-gi v-show="!!modalForm.externalLink && !modalForm.isDir" span="6">
+          <n-gi v-if="!!modalForm.externalLink && !modalForm.menuType" span="6">
             <n-form-item label="外链链接" path="link">
               <n-input v-model:value="modalForm.link" clearable />
             </n-form-item>
           </n-gi>
-          <n-gi span="6">
-            <n-form-item label="菜单标题" path="title">
+          <n-gi :span="modalForm.menuType === 2 ? 3 : 6">
+            <n-form-item :label="modalForm.menuType === 2 ? '按钮名称' : '菜单标题'" path="title">
               <n-input v-model:value="modalForm.title" clearable />
+            </n-form-item>
+          </n-gi>
+          <n-gi v-if="modalForm.menuType !== 0" span="3">
+            <n-form-item label="权限标识" path="competence">
+              <n-input v-model:value="modalForm.competence" clearable />
             </n-form-item>
           </n-gi>
           <n-gi span="3">
@@ -98,17 +104,17 @@
               <n-input-number v-model:value="modalForm.sort" clearable />
             </n-form-item>
           </n-gi>
-          <n-gi span="3">
+          <n-gi v-if="modalForm.menuType !== 2" span="3">
             <n-form-item label="路由地址" path="path">
               <n-input v-model:value="modalForm.path" clearable />
             </n-form-item>
           </n-gi>
-          <n-gi v-show="!modalForm.isDir && !modalForm.externalLink" span="3">
+          <n-gi v-if="!modalForm.menuType && !modalForm.externalLink" span="3">
             <n-form-item label="组件名称" path="name">
               <n-input v-model:value="modalForm.name" clearable />
             </n-form-item>
           </n-gi>
-          <n-gi v-show="!modalForm.isDir && !modalForm.externalLink" span="3">
+          <n-gi v-if="!modalForm.menuType && !modalForm.externalLink" span="3">
             <n-form-item label="组件路径" path="component">
               <n-input v-model:value="modalForm.component" clearable />
             </n-form-item>
@@ -118,17 +124,14 @@
               <n-tree-select
                 :options="options"
                 filterable
-                clearable
                 :default-value="modalForm.pid"
                 label-field="title"
                 key-field="id"
+                @update:value="(value) => modalForm.pid = value"
               />
             </n-form-item>
           </n-gi>
         </n-grid>
-        <!-- <n-form-item label="权限标识" path="title">
-          <n-input v-model:value="modalForm.title" clearable />
-        </n-form-item> -->
       </n-form>
     </BasicModel>
   </div>
@@ -276,7 +279,7 @@ const {
   url: '/userMenu',
   key: 'id',
   isPagination: false,
-  initForm: { pid: 0, path: '', title: '', visibily: 1, isDir: 1, icon: '', name: '', component: '', keepAlive: 0, externalLink: 0, link: '', sort: 1 },
+  initForm: { pid: 0, path: '', title: '', visibily: 1, menuType: 1, icon: '', name: '', component: '', keepAlive: 0, externalLink: 0, link: '', sort: 1, competence: '' },
   initQuery: { pid: 0, title: '' },
   // 搜索前
   beforeRefresh: (query) => {
@@ -284,6 +287,10 @@ const {
       query.pid = undefined
     }
     return query
+  },
+  beforeSave: (form) => {
+    if (form.menuType === 2) form.visibily = 0
+    return form
   },
   doDelete: delUserMenu,
   doCreate: addUserMenu,

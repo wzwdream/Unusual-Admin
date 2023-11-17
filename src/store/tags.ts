@@ -60,7 +60,7 @@ export const useTagStore = defineStore('tags', {
       const { keepAlive } = tag
       // 去除keeplive的缓存
       loadingBar.start()
-      if (keepAlive) tag.keepAlive = false
+      if (keepAlive) tag.keepAlive = 0
       this.refreshLoading = false
       await nextTick()
       tag.keepAlive = keepAlive

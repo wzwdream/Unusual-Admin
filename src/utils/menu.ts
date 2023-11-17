@@ -7,13 +7,14 @@ import { renderIcon } from './icon'
 export const buildMenuOptions = (menu: TreeMenu[]): MenuOption[] => {
   const result: MenuOption[] = []
   menu.map(item => {
+    if (!item.visibily) return
     const r: MenuOption = {
       name: item.name,
       keeplive: item.keepAlive,
-      title: item.isDir ? item.title : hRouter(item.title as string, item.path),
+      title: item.menuType === 1 ? item.title : hRouter(item.title as string, item.path),
       path: item.path,
       icon: renderIcon(item.icon as string),
-      isDir: item.isDir
+      menuType: item.menuType
     }
     if (item.children) r.children = buildMenuOptions(item.children)
     result.push(r)
