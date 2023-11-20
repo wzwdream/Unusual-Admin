@@ -52,11 +52,11 @@ function openPreview() {
   const diffs = {left: ((adaptScale() - 1) * offsetWidth) / 2, top: ((adaptScale() - 1) * offsetHeight) / 2}
   changeStyle(cloneEl.value, ['transition: all 0.3s', `width: ${offsetWidth * adaptScale() + 'px'}`, `transform: translate(${offsetDistance.left - left - diffs.left}px, ${offsetDistance.top - top - diffs.top}px)`])
   // 消除偏差
-  setTimeout(() => {
-    changeStyle(cloneEl.value, ['transition: all 0s', 'left: 0', 'top: 0', `transform: translate(${offsetDistance.left - diffs.left}px, ${offsetDistance.top - diffs.top}px)`])
-    offset.value = {left: offsetDistance.left - diffs.left, top: offsetDistance.top - diffs.top} // 记录值
-    record()
-  }, 300)
+  // setTimeout(() => {
+  //   changeStyle(cloneEl.value, ['transition: all 0s', 'left: 0', 'top: 0', `transform: translate(${offsetDistance.left - diffs.left}px, ${offsetDistance.top - diffs.top}px)`])
+  //   offset.value = {left: offsetDistance.left - diffs.left, top: offsetDistance.top - diffs.top} // 记录值
+  //   record()
+  // }, 300)
 }
 
 // 计算自适应屏幕的缩放值
@@ -78,9 +78,21 @@ function record() {
 
 <template>
   <div class="rounded-1 content block">
-    <img class="cursor-pointer"
+    <img class="cursor-pointer item"
+         @click="open"
+         src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MXxzZWFyY2h8Mnx8dGVjaHxlbnwwfHx8fDE2NjIwMjc1MzI&ixlib=rb-1.2.1&q=80&w=500"
+         alt=""/>
+    <img class="cursor-pointer item"
+         @click="open"
+         src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MXxzZWFyY2h8NHx8Y2F0fGVufDB8fHx8MTY2MjAyNzg3Nw&ixlib=rb-1.2.1&q=80&w=500"
+         alt=""/>
+    <img class="cursor-pointer item"
          @click="open"
          src="https://images.unsplash.com/photo-1561948955-570b270e7c36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MXxzZWFyY2h8OHx8Y2F0fGVufDB8fHx8MTY2MjAyNzg3Nw&ixlib=rb-1.2.1&q=80&w=500"
+         alt=""/>
+    <img class="cursor-pointer item"
+         @click="open"
+         src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MXxzZWFyY2h8Nnx8dGVjaHxlbnwwfHx8fDE2NjIwMjc1MzI&ixlib=rb-1.2.1&q=80&w=500"
          alt=""/>
   </div>
 </template>
@@ -108,17 +120,17 @@ function record() {
 
 .content {
   /*background-color: gainsboro;*/
-  object-fit: cover;
+  width: 100%;
   /*width: 150px;*/
   /*height: 300px;*/
   /*width: 230px;*/
+  margin: 0 auto;
+
 }
 
-.content > img {
-  width: 230px;
-  /*height: 300px;*/
-  /*object-fit: cover;*/
-  /*scale: 0.5;*/
+.item {
+  display: block;
+  width: 240px;
+  margin: 10px auto;
 }
-
 </style>
