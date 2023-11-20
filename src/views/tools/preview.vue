@@ -29,7 +29,7 @@ function openPreview() {
   // 添加在body下
   document.body.appendChild(mask)
   // 注册蒙层的点击事件，关闭弹窗
-  const clickFunc = function (mk: MouseEvent) {
+  const clickFunc = function () {
     // document.body.removeChild(this)
     // originalEl.value.style.opacity = 1
     changeStyle(cloneEl.value!, ['transition: all .3s', `left: ${left}px`, `top: ${top}px`, 'transform: translate(0,0)', `width: ${offsetWidth}px`])
