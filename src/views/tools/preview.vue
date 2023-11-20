@@ -34,9 +34,7 @@ function openPreview() {
     // originalEl.value.style.opacity = 1
     changeStyle(cloneEl.value!, ['transition: all .3s', `left: ${left}px`, `top: ${top}px`, 'transform: translate(0,0)', `width: ${offsetWidth}px`])
     setTimeout(() => {
-      // console.log(mask.mask,'mask')
-      console.log(mk.target, 'this')
-      document.body.removeChild(mk.target as HTMLElement)
+      document.body.removeChild(mask)
       originalEl.value!.style.opacity = '1'
       mask.removeEventListener('click', clickFunc)
     }, 300)
