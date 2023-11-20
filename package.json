@@ -47,6 +47,7 @@
     "eslint-plugin-vue": "^9.18.1",
     "mockjs": "^1.1.0",
     "naive-ui": "^2.35.0",
+    "prettier": "3.1.0",
     "typescript": "^5.2.2",
     "unocss": "^0.57.1",
     "unplugin-auto-import": "^0.16.7",
