@@ -74,7 +74,6 @@
 <script setup lang="ts" name="Login">
 import { encrypt } from '@/utils/aes'
 import { useMessage } from 'naive-ui'
-import router from '@/router'
 import { useUserStore } from '@/store/user'
 import { getCaptcha, login } from '@/api/user/login'
 import type { FormInst, FormRules } from 'naive-ui'
@@ -98,6 +97,9 @@ const loginRules: FormRules = {
   userPassword: [{required: true, message: '请输入密码', trigger: 'blur'}],
   captchaText: [{required: true, message: '请输入验证码', trigger: 'blur'}],
 }
+const route = useRoute()
+const router = useRouter()
+
 const submitLogin = () => {
   loginFormRef.value?.validate((errors) => {
     if (!errors) {
@@ -111,7 +113,8 @@ const submitLogin = () => {
         message.success('登录成功,欢迎回来')
         const userStore = useUserStore()
         userStore.setToken(response.data)
-        router.push('/')
+        const { redirect } = route.query
+        router.push(redirect as string || '/')
       }).catch(() => {
         loginLoading.value = false
         getCaptchaCode()
@@ -165,7 +168,7 @@ const submitRegist = () => {
 
 <style scoped>
 .bg-content {
-  background-image: url('../assets/svg/bg.svg');
+  background-image: url('@/assets/svg/bg.svg');
 }
 .form-container {
 	position: absolute;

@@ -81,6 +81,7 @@ const searchRoute = (val: string, route: TreeMenu[] = []) => {
   const R: TreeMenu[] = []
   if ((val ?? '') === '') return R
   route.forEach(item => {
+    if (!item.visibily) return
     if (item.children) {
       R.push(...searchRoute(val, item.children))
     } else {

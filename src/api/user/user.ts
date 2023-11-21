@@ -4,7 +4,7 @@ export interface UserList {
   avatar?: string
   userName: string
   name: string,
-  iphone: string
+  phone: string
   email: string
   password?: string
   sex: 0 | 1 // 0-男 1-女
@@ -16,7 +16,7 @@ export interface UserList {
 
 export interface Query {
   userName?: string
-  iphone?: string
+  phone?: string
   status?: 0 | 1
   [key: string]: any
 }

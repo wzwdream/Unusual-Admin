@@ -5,7 +5,7 @@ interface UserList {
   avatar?: string
   userName: string
   name: string,
-  iphone: string
+  phone: string
   email: string
   password?: string
   sex: 0 | 1 // 0-男 1-女
@@ -17,10 +17,10 @@ interface UserList {
 export let userInfo: UserList[] = [
   {
     id: 1,
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    avatar: '/logo.webp',
     userName: 'admin',
     name: '管理员',
-    iphone: '18308797777',
+    phone: '18308797777',
     password: 'widgets@123',
     email: 'ddd@126.com',
     sex: 0, // 0-男 1-女
@@ -30,10 +30,10 @@ export let userInfo: UserList[] = [
   },
   {
     id: 2,
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    avatar: '/logo.webp',
     userName: 'sysAdmin',
     name: '系统管理员',
-    iphone: '18308797777',
+    phone: '18308797777',
     password: 'widgets@123',
     email: 'ddd@126.com',
     sex: 1, // 0-男 1-女
@@ -51,13 +51,13 @@ export default [
     url: '/api/user',
     method: 'get',
     response: (request: requestParams) => {
-      const { page, pageSize, userName, iphone, status } = request.query
+      const { page, pageSize, userName, phone, status } = request.query
       let resultData = userInfo
       if (userName) {
         resultData = resultData.filter(item => (item.userName.includes(userName) || item.name.includes(userName)))
       }
-      if (iphone) {
-        resultData = resultData.filter(item => item.iphone.includes(iphone))
+      if (phone) {
+        resultData = resultData.filter(item => item.phone.includes(phone))
       }
       if (status) {
         resultData = resultData.filter(item => item.status === Number(status))

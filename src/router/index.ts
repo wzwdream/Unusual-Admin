@@ -6,6 +6,7 @@ import { useTagStore } from '@/store/tags'
 import { Tag } from '@/type/menu'
 import { useUserStore } from '@/store/user'
 import { filterRoute } from '@/utils/route'
+import { useThemeStore } from '@/store/them'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -27,6 +28,9 @@ router.beforeEach(async (to, from, next) => {
     if (to.path === '/login') return next('/')
     await nextTick()
     const menuStore = useMenuStore()
+    if (!userStore.userInfo.id) {
+      await userStore.getInfo()
+    }
     if (menuStore.updateRoute) {
       const data = await menuStore.GenerateRoutes()
       const routers = filterRoute(data)
@@ -68,6 +72,10 @@ router.afterEach(async (to) => {
   }
   menuStore.setActiveMenuKey(to.path)
   tagStore.changeActiveTag(to.path, false)
+
+  // 在悬浮菜单开启时时，跳转路由关闭菜单
+  const themStore = useThemeStore()
+  if (themStore.showDrawerMenu) themStore.changeshowDrawerMenu(false)
 
   // 关闭加载条
   loadingBar.finish()

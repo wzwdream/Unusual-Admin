@@ -15,7 +15,7 @@
           <n-input v-model:value="defualtQuery.userName" size="small" clearable placeholder="输入用户名称，模糊搜索" />
         </query-item>
         <query-item label="手机号">
-          <n-input v-model:value="defualtQuery.iphone" size="small" clearable placeholder="输入手机号，模糊搜索" />
+          <n-input v-model:value="defualtQuery.phone" size="small" clearable placeholder="输入手机号，模糊搜索" />
         </query-item>
         <query-item label="用户状态">
           <n-select v-model:value="defualtQuery.status" placeholder="选择用户状态" :options="dict?.status" clearable />
@@ -55,8 +55,8 @@
             </n-form-item>
           </n-gi>
           <n-gi>
-            <n-form-item label="电话" path="iphone">
-              <n-input v-model:value="modalForm.iphone" clearable />
+            <n-form-item label="电话" path="phone">
+              <n-input v-model:value="modalForm.phone" clearable />
             </n-form-item>
           </n-gi>
           <n-gi>
@@ -143,7 +143,7 @@ const columns = ref<Array<DataTableColumn<UserList>>>([
   },
   {
     title: '电话',
-    key: 'iphone'
+    key: 'phone'
   },
   {
     title: '状态',
@@ -209,7 +209,7 @@ const formRules: FormRules = {
     {required: true, message: '请输入邮箱', trigger: 'blur'},
     {validator: checkEmail, message: '请输入正确的邮箱', trigger: 'input' }
   ],
-  iphone: [
+  phone: [
     {required: true, message: '请输入手机号', trigger: 'blur'},
     {validator: checkPhone, message: '请输入正确的手机号', trigger: 'input' }
   ],
@@ -242,8 +242,8 @@ const {
   url: '/user',
   key: 'id',
   isPagination: false,
-  initForm: { userName: '', name: '', iphone: '', email: '', sex: 0, status: 1, roles: [] },
-  initQuery: { userName: undefined, iphone: undefined, status: undefined },
+  initForm: { userName: '', name: '', phone: '', email: '', sex: 0, status: 1, roles: [] },
+  initQuery: { userName: undefined, phone: undefined, status: undefined },
   // 搜索前
   beforeRefresh: (query) => {
     if (query && query.title) {

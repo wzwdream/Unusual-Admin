@@ -12,7 +12,7 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/login.vue'),
+    component: () => import('@/views/user/login.vue'),
     meta: { title: '登录', visibily: 0 }
   },
   {
@@ -34,5 +34,18 @@ export const routes: RouteRecordRaw[] = [
     component: Layout,
     meta: { visibily: 1, title: '工作台', menuType: 1 },
     children: [home]
-  }
+  },
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/profile',
+    children: [
+      {
+        path: '/user/profile',
+        component: () => import('@/views/user/profile.vue'),
+        name: 'Profile',
+        meta: { title: '个人中心', visibily: 0 }
+      }
+    ]
+  },
 ]

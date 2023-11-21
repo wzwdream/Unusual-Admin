@@ -9,7 +9,6 @@ import { buildRoute } from '@/utils/route'
 export const useMenuStore = defineStore('menu', {
   state: () => {
     return {
-      collapsed: false,
       activeMenuKey: '',
       treeMenu: [] as TreeMenu[],
       updateRoute: true
@@ -29,16 +28,17 @@ export const useMenuStore = defineStore('menu', {
     },
   },
   actions: {
-    changeCollapsed(val: boolean) {
-      this.collapsed = val
-    },
     setActiveMenuKey(val: string) {
       this.activeMenuKey = val
     },
     async GenerateRoutes(): Promise<RouteRecordRaw[]> {
-      const { data } = await getTreeMenu()
-      this.treeMenu = data
-      return buildRoute(this.treeMenu) as RouteRecordRaw[]
+      try {
+        const { data } = await getTreeMenu()
+        this.treeMenu = data
+        return buildRoute(this.treeMenu) as RouteRecordRaw[]
+      } catch (error) {
+        return []
+      }
     }
   }
 })

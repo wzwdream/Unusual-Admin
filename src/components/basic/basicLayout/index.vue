@@ -30,11 +30,11 @@
             <n-tooltip trigger="hover">
               <template #trigger>
                 <n-button ghost @click="toggle">
-                  <Icon v-if="!tagStore.fullContent" icon="ant-design:fullscreen-outlined" />
+                  <Icon v-if="!fullContent" icon="ant-design:fullscreen-outlined" />
                   <Icon v-else icon="ant-design:fullscreen-exit-outlined" />
                 </n-button>
               </template>
-              {{ !tagStore.fullContent ? $t('fullscreen') : $t('exitFullscreen') }}
+              {{ !fullContent ? $t('fullscreen') : $t('exitFullscreen') }}
             </n-tooltip>
             <n-tooltip trigger="hover">
               <template #trigger>
@@ -57,7 +57,8 @@
 <script lang="ts" setup name="BasicLayout">
 import { renderIcon } from '@/utils/icon'
 import { useTagStore } from '@/store/tags'
-import { type TableColumn } from 'naive-ui/es/data-table/src/interface';
+import { type TableColumn } from 'naive-ui/es/data-table/src/interface'
+import { storeToRefs } from 'pinia'
 
 interface ListProps {
   columns: TableColumn<any>[]
@@ -100,8 +101,9 @@ const showSearch = ref(true)
 
 // 全屏
 const tagStore = useTagStore()
+const { fullContent } = storeToRefs(tagStore)
 const toggle = () => {
-  tagStore.setFullContent(!tagStore.fullContent)
+  tagStore.setFullContent(!fullContent)
 }
 
 // 选中行以及操作按钮

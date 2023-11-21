@@ -29,9 +29,19 @@ const options = computed(() => [
 ])
 
 const userSoter = useUserStore()
+const router = useRouter()
 const handleMap = new Map([
-  [ 'profile', () => {} ],
-  [ 'editProfile', () => {} ],
+  [ 'profile', () => {
+    router.push('/user/profile')
+  }],
+  [ 'editProfile', () => {
+    router.push({
+      path: '/user/profile',
+      query: {
+        pwd: '1'
+      }
+    })
+  } ],
   [ 'logout', () => userSoter.userLogout() ]
 ])
 

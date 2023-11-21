@@ -2,12 +2,14 @@
 import { useThemeStore } from '@/store/them';
 import { setting } from './setting'
 import { THEME_KEY } from 'vue-echarts'
+import { storeToRefs } from 'pinia'
 
 const themeStore = useThemeStore()
+const { isDark: noWhilte, locale, dateLocale, theme } = storeToRefs(themeStore)
 
 // 控制echarts的主题
 const isDark = computed(() => {
-  return themeStore.isDark ? 'dark' : ''
+  return noWhilte ? 'dark' : ''
 })
 provide(THEME_KEY, isDark)
 </script>
@@ -15,9 +17,9 @@ provide(THEME_KEY, isDark)
 <template>
   <n-config-provider
     wh-full
-    :locale="themeStore.locale"
-    :date-locale="themeStore.dateLocale"
-    :theme="themeStore.theme"
+    :locale="locale"
+    :date-locale="dateLocale"
+    :theme="theme"
     :theme-overrides="setting.naiveThemeOverrides"
   >
     <n-dialog-provider>

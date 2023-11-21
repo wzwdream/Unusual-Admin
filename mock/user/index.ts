@@ -15,10 +15,7 @@ export default [
         return resultError('用户名或密码错误！')
       }
       const { token } = checkUser
-      return resultSuccess({
-        token,
-        checkUser
-      })
+      return resultSuccess(token)
     },
   },
   // 获取用户信息
@@ -27,8 +24,7 @@ export default [
     method: 'get',
     response: (request: requestParams) => {
       const token = getRequestToken(request)
-
-      const checkUser = userInfo.find((item) => item.token === token)
+      const checkUser = userInfo.find((item) => token?.includes(item.token!))
       if (!checkUser) {
         return resultError(
           'The corresponding user information was not obtained!',
