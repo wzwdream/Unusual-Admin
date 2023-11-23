@@ -32,16 +32,16 @@ function openPreview():void {
     // 添加在body下
     document.body.appendChild(mask)
     // 注册蒙层的点击事件，关闭弹窗
-    const maskFuc = function () {
+    const mackFn = function () {
         changeStyle(cloneEl.value!, ['transition: all .3s', `left: ${left}px`, `top: ${top}px`, 'transform: translate(0,0)', `width: ${offsetWidth}px`])
         setTimeout(() => {
             document.body.removeChild(mask)
             originalEl.value!.style.opacity = '1'
-            mask.removeEventListener('click', maskFuc)
+            mask.removeEventListener('click', mackFn)
         }, 300)
-        mask.removeEventListener('click', maskFuc)
+        mask.removeEventListener('click', mackFn)
     }
-    mask.addEventListener('click', maskFuc)
+    mask.addEventListener('click', mackFn)
     changeStyle(cloneEl.value!, [`left: ${left}px`, `top: ${top}px`])
     mask.appendChild(cloneEl.value!) // 添加图片
     // 移动图片到屏幕中心位置
