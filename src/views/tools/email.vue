@@ -2,7 +2,6 @@
 import {FormInst, FormRules, FormItemRule, useMessage} from 'naive-ui'
 import {getTestDataArray, sendEmail} from '@/api/user/mail';
 
-// import GraphemeSplitter from 'grapheme-splitter'
 interface ModelType {
   email: string | null
   subject: string | null
@@ -10,17 +9,15 @@ interface ModelType {
 }
 
 const formRef = ref<FormInst | null>(null)
-// const rPasswordFormItemRef = ref<FormItemInst | null>(null)
+
 const message = useMessage()
-// const splitter = new GraphemeSplitter()
+
 const emailData = ref<ModelType>({
   email: '1758417159@qq.com',
   subject: '测试',
   text: '测试',
 })
-// function countGraphemes(value: string) {
-//     splitter.countGraphemes(value)
-// }
+
 const rules: FormRules = {
   email: [
     {
@@ -69,36 +66,41 @@ function sendEmailHandle() {
 </script>
 
 <template>
-  <div class="">
-    <div class='w-1/3 m-auto p-10 '>
-      <n-form ref="formRef" :model="emailData" :rules="rules">
-        <n-form-item path="email" label="收件人">
-          <n-input v-model:value="emailData.email" maxlength="30" clearable show-count/>
-        </n-form-item>
-        <n-form-item path="subject" label="主题">
-          <n-input v-model:value="emailData.subject" maxlength="30" clearable show-count/>
-        </n-form-item>
-        <n-form-item path="text" label="内容">
-          <n-input
-              v-model:value="emailData.text"
-              type="textarea"
-              placeholder="请输入"
-              maxlength="1000"
-              clearable
-              show-count
-          />
-        </n-form-item>
-        <n-row :gutter="[0, 24]">
-          <n-col :span="24">
-            <div class="flex justify-end">
-              <n-button :disabled="emailData.email === null" round type="primary" @keydown.enter.prevent
-                        @click="sendEmailHandle()"> 发送
-              </n-button>
-            </div>
-          </n-col>
-        </n-row>
-      </n-form>
-    </div>
+  <div class="w-100%">
+    <n-grid cols="4" item-responsive responsive="screen">
+      <n-grid-item  span="4 m:2 l:2">
+        <div class=' m-auto p-10 '>
+          <n-form ref="formRef" :model="emailData" :rules="rules">
+            <n-form-item path="email" label="收件人">
+              <n-input v-model:value="emailData.email" maxlength="30" clearable show-count/>
+            </n-form-item>
+            <n-form-item path="subject" label="主题">
+              <n-input v-model:value="emailData.subject" maxlength="30" clearable show-count/>
+            </n-form-item>
+            <n-form-item path="text" label="内容">
+              <n-input
+                  v-model:value="emailData.text"
+                  type="textarea"
+                  placeholder="请输入"
+                  maxlength="1000"
+                  clearable
+                  show-count
+              />
+            </n-form-item>
+            <n-row :gutter="[0, 24]">
+              <n-col :span="24">
+                <div class="flex justify-end">
+                  <n-button :disabled="emailData.email === null" round type="primary" @keydown.enter.prevent
+                            @click="sendEmailHandle()"> 发送
+                  </n-button>
+                </div>
+              </n-col>
+            </n-row>
+          </n-form>
+        </div>
+      </n-grid-item>
+    </n-grid>
+
   </div>
 </template>
 
