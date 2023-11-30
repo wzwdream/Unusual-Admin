@@ -67,7 +67,7 @@ function sendEmailHandle() {
 
 <template>
   <div class="w-100%">
-    <div class=' m-auto  px-20px md:w-400px '>
+    <div class=' m-auto  px-20px md:w-400px'>
       <n-form ref="formRef" :model="emailData" :rules="rules">
         <n-form-item path="email" label="收件人">
           <n-input v-model:value="emailData.email" maxlength="30" clearable show-count/>
