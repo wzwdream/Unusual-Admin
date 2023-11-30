@@ -67,40 +67,35 @@ function sendEmailHandle() {
 
 <template>
   <div class="w-100%">
-    <n-grid cols="4" item-responsive responsive="screen">
-      <n-grid-item  span="4 m:2 l:2">
-        <div class=' m-auto p-10 '>
-          <n-form ref="formRef" :model="emailData" :rules="rules">
-            <n-form-item path="email" label="收件人">
-              <n-input v-model:value="emailData.email" maxlength="30" clearable show-count/>
-            </n-form-item>
-            <n-form-item path="subject" label="主题">
-              <n-input v-model:value="emailData.subject" maxlength="30" clearable show-count/>
-            </n-form-item>
-            <n-form-item path="text" label="内容">
-              <n-input
-                  v-model:value="emailData.text"
-                  type="textarea"
-                  placeholder="请输入"
-                  maxlength="1000"
-                  clearable
-                  show-count
-              />
-            </n-form-item>
-            <n-row :gutter="[0, 24]">
-              <n-col :span="24">
-                <div class="flex justify-end">
-                  <n-button :disabled="emailData.email === null" round type="primary" @keydown.enter.prevent
-                            @click="sendEmailHandle()"> 发送
-                  </n-button>
-                </div>
-              </n-col>
-            </n-row>
-          </n-form>
-        </div>
-      </n-grid-item>
-    </n-grid>
-
+    <div class=' m-auto  px-20px md:w-400px '>
+      <n-form ref="formRef" :model="emailData" :rules="rules">
+        <n-form-item path="email" label="收件人">
+          <n-input v-model:value="emailData.email" maxlength="30" clearable show-count/>
+        </n-form-item>
+        <n-form-item path="subject" label="主题">
+          <n-input v-model:value="emailData.subject" maxlength="30" clearable show-count/>
+        </n-form-item>
+        <n-form-item path="text" label="内容">
+          <n-input
+              v-model:value="emailData.text"
+              type="textarea"
+              placeholder="请输入"
+              maxlength="1000"
+              clearable
+              show-count
+          />
+        </n-form-item>
+        <n-row :gutter="[0, 24]">
+          <n-col :span="24">
+            <div class="flex justify-end">
+              <n-button :disabled="emailData.email === null" round type="primary" @keydown.enter.prevent
+                        @click="sendEmailHandle()"> 发送
+              </n-button>
+            </div>
+          </n-col>
+        </n-row>
+      </n-form>
+    </div>
   </div>
 </template>
 
