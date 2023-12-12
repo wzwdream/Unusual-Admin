@@ -33,6 +33,7 @@ let menus: Menu[] = [
   { id: 10, pid: 5, path: '/system/userMenu', name: 'userMenu', menuType: 0, externalLink: 0, component: 'views/system/userMenu.vue', title: '菜单管理', visibily: 1, icon: 'material-symbols:lists', keepAlive: 0, sort: 2 },
   { id: 11, pid: 5, path: '/system/user', name: 'user', menuType: 0, externalLink: 0, component: 'views/system/user.vue', title: '用户管理', visibily: 1, icon: 'material-symbols:manage-accounts-outline', keepAlive: 0, sort: 3 },
   { id: 12, pid: 5, path: '/system/dict', name: 'dict', menuType: 0, externalLink: 0, component: 'views/system/dict/index.vue', title: '字典管理', visibily: 1, icon: 'arcticons:colordict', keepAlive: 0, sort: 4 },
+  { id: 13, pid: 7, path: '/component/draggableDrid', name: 'DraggableDrid', menuType: 0, externalLink: 0, component: 'views/component/draggableDrid.vue', title: '拖拽grid布局', visibily: 1, icon: 'ic:twotone-text-fields', keepAlive: 0, sort: 4 },
   {
     'pid': 0,
     'path': '',

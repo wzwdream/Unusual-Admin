@@ -19,8 +19,6 @@ declare module 'vue' {
     NButton: typeof import('naive-ui')['NButton']
     NButtonGroup: typeof import('naive-ui')['NButtonGroup']
     NCard: typeof import('naive-ui')['NCard']
-    NCardBody: typeof import('naive-ui')['NCardBody']
-    NCardHeader: typeof import('naive-ui')['NCardHeader']
     NCheckbox: typeof import('naive-ui')['NCheckbox']
     NCheckboxGroup: typeof import('naive-ui')['NCheckboxGroup']
     NCol: typeof import('naive-ui')['NCol']

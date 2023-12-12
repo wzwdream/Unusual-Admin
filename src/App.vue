@@ -9,7 +9,8 @@ const { isDark: noWhilte, locale, dateLocale, theme } = storeToRefs(themeStore)
 
 // 控制echarts的主题
 const isDark = computed(() => {
-  return noWhilte ? 'dark' : ''
+  console.log(noWhilte, 'noWhilte')
+  return noWhilte.value ? 'dark' : ''
 })
 provide(THEME_KEY, isDark)
 </script>

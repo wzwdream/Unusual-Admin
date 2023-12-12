@@ -42,6 +42,11 @@
           </template> -->
           <n-scrollbar h-500>
             <n-grid cols="1 s:1 m:2 l:2 xl:2" :x-gap="12" :y-gap="8" responsive="screen">
+              <n-grid-item>
+                <n-card class="cursor-pointer" hoverable title="vue3-draggable-grid" size="small">
+                  <p op-60>一个基于vue3+grid布局的网格拖拽布局，支持网格吸附、碰撞检测等。<a class="link" href="https://github.com/wzwdream/vue3-draggable-grid">链接地址</a></p>
+                </n-card>
+              </n-grid-item>
               <n-grid-item v-for="i in 5" :key="i">
                 <n-card class="cursor-pointer" hoverable title="Unusual Admin" size="small">
                   <p op-60>一个基于 Vue3.0、Vite、Naive UI 的轻量级后台管理模板</p>
@@ -233,4 +238,9 @@ const getColor = (type: string) => {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.link {
+  box-shadow: 0 -1px 0 0 #0069c2 inset;
+  color: #0069c2;
+}
+</style>

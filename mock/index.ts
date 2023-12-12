@@ -4,8 +4,8 @@ import Role from './system/role'
 import Menu from './system/menu'
 import List from './list/index'
 import userManage from './user/userInfo'
-import dict from './system/dict'
-const mock = [...user, ...Role, ...Menu, ...List, ...userManage, ...dict]
+import Dict from './system/dict'
+const mock = [...user, ...Role, ...Menu, ...List, ...userManage, ...Dict]
 
 export const setupProdMockServer = () => {
   createProdMockServer(mock)
