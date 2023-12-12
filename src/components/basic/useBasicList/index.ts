@@ -70,7 +70,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
   /** 修改 */
   const handleEdit = (row?: List) => {
     let rowData = cloneDeep(row)
-    if (!row && checkedRow.value) rowData = checkedRow.value[0]
+    if (!row && checkedRow.value) rowData = checkedRow.value[0] as List
     modalAction.value = 'edit'
     modalVisible.value = true
     modalForm.value = rowData as UnwrapRef<List>

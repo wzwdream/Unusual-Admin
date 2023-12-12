@@ -19,12 +19,11 @@ jobs:
         with:
           node-version: 18.17.0 # 指定node版本
       # 安装依赖
-      - name: npm install
-        run: npm install
-
-      #打包项目
-      - name: Build
-        run: npm run build
+      - name: Install and Build
+        run: |
+          npm install pnpm -g && \
+          pnpm install --no-frozen-lockfile && \
+          pnpm docs:build
 
       #部署到服务器
       - name: Deploy to Staging My server
