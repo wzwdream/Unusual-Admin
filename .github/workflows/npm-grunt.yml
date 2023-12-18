@@ -23,7 +23,7 @@ jobs:
         run: |
           npm install pnpm -g && \
           pnpm install --no-frozen-lockfile && \
-          pnpm docs:build
+          pnpm build
 
       #部署到服务器
       - name: Deploy to Staging My server
