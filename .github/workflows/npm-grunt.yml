@@ -37,3 +37,11 @@ jobs:
           REMOTE_USER: "root"
           TARGET: "/root/web/"
           EXCLUDE: "/node_modules/"
+
+      # 部署到github pages
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: pages
+          folder: dist
+          token: ${{ secrets.ACTIONS_DEPLOY_KEY }}

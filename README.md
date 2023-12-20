@@ -1,6 +1,8 @@
 # 简介
 
-基于 `vue3`+ `ts` 的一个网站和桌面小组件的小项目。😺
+基于 `vue3` 、 `ts` 、 `naiveui` 构建的轻量级的管理系统模板。😺
+
+[演示地址](https://wzwdream.github.io/Unusual-Admin/)
 
 ## 安装
 
@@ -10,15 +12,11 @@
 
 pnpm dev
 
-## 待办事项清单
+## 打包
 
-### wzw
-- [x] 国际化
-- [x] 图标自动导入
-- [x] 搜索
-- [x] tags菜单
+pnpm build
 
-### yy
-- [ ] 截图
-- [x] 邮件
-- [x] 拦截器（axioxs/路由）
+## 特性
+
+封装了 `curd` 表格组件，简化了开发流程
+
