@@ -9,14 +9,14 @@ import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash-es'
 import { useSelection } from './utils/useSelection'
 
-export const useBasicList = <List extends Form = Form, RoleQuery extends Form = Form>({
+export const useBasicList = <List extends Form = Form, QueryParams extends Form = Form>({
   name, // 名称
   url, // 查询url
-  key, // rowKey
+  key = 'id', // rowKey
   isPagination = true, // 是否需要分页
   isInitQuery = true, // 是否初始化查询
   initForm = {} as List, // 表单初始化数据
-  initQuery = {} as RoleQuery, // 查询初始化数据
+  initQuery = {} as QueryParams, // 查询初始化数据
   doCreate, // 新建
   doDelete, // 删除
   doUpdate, // 编辑
@@ -24,7 +24,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
   afterRefresh, // 查询之后
   beforeSave, // 新增/编辑保存之前
   afterSave // 新增/编辑保存之后
-}: HookParams<List, RoleQuery>) => {
+}: HookParams<List, QueryParams>) => {
 
   // 国际化
   const { t } = useI18n()
@@ -44,7 +44,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
   const modalFormRef = ref<FormInst | null>(null)
   const modalForm = ref<List>({ ...initForm })
 
-  const defualtQuery = ref<RoleQuery>({ ...initQuery })
+  const defualtQuery = ref<QueryParams>({ ...initQuery })
 
   const modalTitle = computed(() => ACTIONS.value[modalAction.value as keyof typeof ACTIONS.value] + ' ' + (name || ''))
   const modalShowFooter = computed(() => modalAction.value !== 'view')
@@ -54,7 +54,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
 
   /** 重置搜索 */
   const handlereset = () => {
-    defualtQuery.value = {...initQuery} as UnwrapRef<RoleQuery>
+    defualtQuery.value = {...initQuery} as UnwrapRef<QueryParams>
   }
 
   /** 选择行变化 */
@@ -159,7 +159,7 @@ export const useBasicList = <List extends Form = Form, RoleQuery extends Form = 
         }
       }
       // 查询前，如果返回false则不继续查询
-      const queryParams = beforeRefresh && beforeRefresh(params as RoleQuery)
+      const queryParams = beforeRefresh && beforeRefresh(params as QueryParams)
       if (typeof queryParams === 'boolean' && !queryParams) return
       if (queryParams && typeof queryParams !== 'boolean') params = queryParams as typeof params
 

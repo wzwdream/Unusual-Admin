@@ -3,17 +3,6 @@ import { notification } from './help'
 import { Result, ResultData } from '@/type/request'
 import { useUserStore } from '@/store/user'
 
-// 用于获取github仓库的一些信息
-export const gitHttp: AxiosInstance = axios.create({
-  timeout: 60000,
-  baseURL: 'https://api.github.com/repos/wzwdream',
-  headers: {
-    common: {
-      'Authorization': 'token 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'
-    }
-  }
-})
-
 // 正常的axios封装
 const service: AxiosInstance = axios.create({
   timeout: 60000,
@@ -38,7 +27,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   // AxiosResponse
   (response: AxiosResponse) => {
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       const { data } = response
       if (data.code !== 200){
         const userStore = useUserStore()

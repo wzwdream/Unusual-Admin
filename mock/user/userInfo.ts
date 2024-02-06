@@ -3,8 +3,8 @@ import { resultSuccess, type requestParams } from '../utils'
 interface UserList {
   id?: number
   avatar?: string
-  userName: string
-  name: string,
+  name: string
+  // name: string,
   phone: string
   email: string
   password?: string
@@ -18,8 +18,8 @@ export let userInfo: UserList[] = [
   {
     id: 1,
     avatar: '/logo.webp',
-    userName: 'admin',
-    name: '管理员',
+    name: 'admin',
+    // name: '管理员',
     phone: '18308797777',
     password: 'widgets@123',
     email: 'ddd@126.com',
@@ -31,8 +31,8 @@ export let userInfo: UserList[] = [
   {
     id: 2,
     avatar: '/logo.webp',
-    userName: 'sysAdmin',
-    name: '系统管理员',
+    name: 'sysAdmin',
+    // name: '系统管理员',
     phone: '18308797777',
     password: 'widgets@123',
     email: 'ddd@126.com',
@@ -51,10 +51,10 @@ export default [
     url: '/api/user',
     method: 'get',
     response: (request: requestParams) => {
-      const { page, pageSize, userName, phone, status } = request.query
+      const { page, pageSize, name, phone, status } = request.query
       let resultData = userInfo
-      if (userName) {
-        resultData = resultData.filter(item => (item.userName.includes(userName) || item.name.includes(userName)))
+      if (name) {
+        resultData = resultData.filter(item => (item.name.includes(name) || item.name.includes(name)))
       }
       if (phone) {
         resultData = resultData.filter(item => item.phone.includes(phone))

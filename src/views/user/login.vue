@@ -22,11 +22,11 @@
             </n-button>
           </n-space>
           <span mb-10 font-size-12>或者使用你的账号</span>
-          <n-form-item path="userName" class="w-[80%]">
-            <n-input v-model:value="loginForm.userName" placeholder="请输入账户名称" />
+          <n-form-item path="name" class="w-[80%]">
+            <n-input v-model:value="loginForm.name" placeholder="请输入账户名称" />
           </n-form-item>
-          <n-form-item path="userPassword" class="w-[80%]">
-            <n-input v-model:value="loginForm.userPassword" type="password" show-password-on="mousedown" placeholder="请输入账户密码" :maxlength="12" />
+          <n-form-item path="password" class="w-[80%]">
+            <n-input v-model:value="loginForm.password" type="password" show-password-on="mousedown" placeholder="请输入账户密码" :maxlength="12" />
           </n-form-item>
           <n-form-item path="captchaText" class="w-[80%]">
             <n-input v-model:value="loginForm.captchaText" placeholder="请输入验证码" />
@@ -39,8 +39,8 @@
       <div class="form-container sign-up-container">
         <n-form ref="registFormRef" size="small" :show-label="false" :model="registForm" :rules="registFormRules" class="flex-col-c bg-white h-full rounded-10">
           <h1 m-0>注册</h1>
-          <n-form-item path="userName" class="w-[80%]">
-            <n-input v-model:value="registForm.userName" placeholder="请输入账户名称" />
+          <n-form-item path="name" class="w-[80%]">
+            <n-input v-model:value="registForm.name" placeholder="请输入账户名称" />
           </n-form-item>
           <n-form-item path="pwd" class="w-[80%]">
             <n-input v-model:value="registForm.pwd" type="password" show-password-on="click" placeholder="请输入账户密码" :maxlength="12" />
@@ -85,16 +85,17 @@ const active = ref('signUp')
 
 // 登录
 const loginForm = reactive({
-  userName: 'admin',
-  userPassword: 'widgets@123',
-  captchaText: 'eybk'
+  name: 'admin',
+  password: 'widgets@123',
+  captchaText: 'eybk',
+  captchaUid: ''
 })
 const loginFormRef = ref<FormInst | null>(null)
 const loginLoading = ref(false)
 const message = useMessage()
 const loginRules: FormRules = {
-  userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
-  userPassword: [{required: true, message: '请输入密码', trigger: 'blur'}],
+  name: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+  password: [{required: true, message: '请输入密码', trigger: 'blur'}],
   captchaText: [{required: true, message: '请输入验证码', trigger: 'blur'}],
 }
 const route = useRoute()
@@ -106,7 +107,7 @@ const submitLogin = () => {
       loginLoading.value = true
       const params = {
         ...loginForm,
-        userPassword: encrypt(loginForm.userPassword)
+        password: encrypt(loginForm.password)
       }
       login(params).then(async (response) => {
         loginLoading.value = false
@@ -127,20 +128,21 @@ const submitLogin = () => {
 const captchaSrc = ref('')
 const getCaptchaCode = () => {
   getCaptcha().then(res => {
-    captchaSrc.value = res.data
+    captchaSrc.value = res.data.captcha
+    loginForm.captchaUid = res.data.uid
   })
 }
 getCaptchaCode()
 
 // 注册
 const registForm = reactive({
-  userName: '',
+  name: '',
   pwd: '',
   email: '',
   phone: ''
 })
 const registFormRules: FormRules = {
-  userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+  name: [{required: true, message: '请输入用户名', trigger: 'blur'}],
   pwd: [
     {required: true, message: '请输入密码', trigger: 'blur'},
     {validator: checkPassword, message: '密码格式不正确', trigger: 'input' }

@@ -23,7 +23,7 @@ export default defineConfig(({ command, mode }) => {
       // 设置代理
       proxy: {
         [VITE_BASE_API]: {
-          target: 'http://127.0.0.1:3500',
+          target: 'http://127.0.0.1:3000',
           changeOrigin: true,
           rewrite: (path) => path.replace(new RegExp(`^${VITE_BASE_API}`), '')
         }

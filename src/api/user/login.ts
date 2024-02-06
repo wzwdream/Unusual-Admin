@@ -13,10 +13,10 @@ export interface UserInfo {
   token: string
 }
 export const getCaptcha = () => {
-  return Http.get<string>('/captcha')
+  return Http.get<{ captcha: string; uid: string}>('/captcha')
 }
 export const login = (params: Record<string, string>) => {
-  return Http.post('/api/login', params)
+  return Http.post('/login', params)
 }
 export const getUserInfo = () => {
   return Http.get<UserInfo>('/user/info')

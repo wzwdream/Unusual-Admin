@@ -17,18 +17,18 @@ export type Pagination = {
 export type Form = Record<string, any>
 
 // Hook传入的参数
-export interface HookParams<List extends Form, RoleQuery extends Form> {
+export interface HookParams<List extends Form, QueryParams extends Form> {
   name?: string
   key: string
   isPagination?: boolean
   isInitQuery?: boolean
   url: string
   initForm?: List
-  initQuery?: RoleQuery
+  initQuery?: QueryParams
   doCreate?: (form: List) => Promise<ResultData<List[]>>
   doDelete?: (id: number[]) => Promise<any>
   doUpdate?: (form: List) => Promise<any>
-  beforeRefresh?: (form: RoleQuery) => RoleQuery | boolean
+  beforeRefresh?: (form: QueryParams) => QueryParams | boolean
   afterRefresh?: (listData: List[]) => List[] | undefined
   beforeSave?: (listData: List) => List | undefined
   afterSave?: () => void
