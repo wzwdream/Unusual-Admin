@@ -114,7 +114,7 @@ const sortMenu = (menu: Menu[], menus: Menu[]) => {
 }
 export default [
   {
-    url: '/api/treeMenu',
+    url: '/api/menu/treeMenu',
     method: 'get',
     response: () => {
       return resultSuccess(convertToTree(menus))
@@ -157,7 +157,7 @@ export default [
     }
   },
   {
-    url: '/api/userMenu',
+    url: '/api/menu/add',
     method: 'post',
     response: (request: requestParams) => {
       menus.push({ ...request.body, id: menus[menus.length - 1].id + 1 })
