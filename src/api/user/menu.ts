@@ -5,7 +5,7 @@ export const getTreeMenu = () => {
   return Http.get<TreeMenu[]>('/menu/treeMenu')
 }
 export const getUserMenu = (params?: Record<string, any>) => {
-  return Http.get<TreeMenu[]>('/userMenu', params)
+  return Http.get<TreeMenu[]>('/menu', params)
 }
 export const delUserMenu = (params?: Record<string, any>) => {
   return Http.delete<TreeMenu[]>('/userMenu', params)

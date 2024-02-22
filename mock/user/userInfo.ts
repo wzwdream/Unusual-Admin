@@ -21,7 +21,7 @@ export let userInfo: UserList[] = [
     name: 'admin',
     // name: '管理员',
     phone: '18308797777',
-    password: 'widgets@123',
+    password: '5232319b0da1028c09399b78e0361b61',
     email: 'ddd@126.com',
     sex: 0, // 0-男 1-女
     status: 1, // 1-正常 0-禁用

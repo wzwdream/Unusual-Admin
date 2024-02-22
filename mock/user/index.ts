@@ -1,15 +1,15 @@
 import { resultError, resultSuccess, getRequestToken, requestParams } from '../utils'
 import { userInfo, captcha } from './userInfo'
-import { decrypt } from '@/utils/aes'
 export default [
   // 用户登录
   {
-    url: '/api/api/login',
+    url: '/api/login',
     method: 'post',
     response: ({ body }: requestParams) => {
-      const { userName, userPassword } = body
+      const { name, password } = body
+      console.log(name, password)
       const checkUser = userInfo.find(
-        (item) => item.userName === userName && item.password === decrypt(userPassword),
+        (item) => item.name === name && item.password === password,
       )
       if (!checkUser) {
         return resultError('用户名或密码错误！')
@@ -44,7 +44,7 @@ export default [
     url: '/api/captcha',
     method: 'get',
     response: () => {
-      return resultSuccess(captcha, '获取验证码成功')
+      return resultSuccess({ captcha }, '获取验证码成功')
     }
   }
 ]

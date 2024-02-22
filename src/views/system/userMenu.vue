@@ -276,7 +276,7 @@ const {
   btnDisabled
 } = useBasicList<TreeMenu, Query>({
   name: '菜单',
-  url: '/userMenu',
+  url: '/menu',
   key: 'id',
   isPagination: false,
   initForm: { pid: 0, path: '', title: '', visibily: 1, menuType: 1, icon: '', name: '', component: '', keepAlive: 0, externalLink: 0, link: '', sort: 1, competence: '' },

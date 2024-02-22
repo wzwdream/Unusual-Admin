@@ -121,7 +121,7 @@ export default [
     }
   },
   {
-    url: '/api/userMenu',
+    url: '/api/menu',
     method: 'get',
     response: (request: requestParams) => {
       const { pid, title } = request.query
