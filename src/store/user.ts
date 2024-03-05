@@ -22,8 +22,6 @@ export const useUserStore = defineStore('user', {
       try {
         const { data } = await getUserInfo()
         this.userInfo = data
-        this.setToken(data.token)
-        this.token = data.token
       } catch {
         this.userLogout()
       }
@@ -31,6 +29,6 @@ export const useUserStore = defineStore('user', {
   },
   persist: {
     storage: window.sessionStorage,
-    paths: ['token'],
+    paths: ['token', 'userInfo'],
   }
 })

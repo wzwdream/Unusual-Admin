@@ -30,7 +30,9 @@
           </n-form-item>
           <n-form-item path="captchaText" class="w-[80%]">
             <n-input v-model:value="loginForm.captchaText" placeholder="请输入验证码" />
-            <div @click="getCaptchaCode" v-html="captchaSrc" h-28 w-100 cursor-pointer />
+            <div @click="getCaptchaCode" h-28 w-100 cursor-pointer>
+              <n-image :src="captchaSrc" :preview-disabled="true" width="100" height="28"></n-image>
+            </div>
           </n-form-item>
           <div flex mb-10 min-w-308><span font-size-12>忘记密码？</span></div>
           <n-button class="w-[40%] font-bold" round type="primary" :loading="loginLoading" @click="submitLogin" @keyup.enter="submitLogin">登录</n-button>
@@ -128,7 +130,7 @@ const submitLogin = () => {
 const captchaSrc = ref('')
 const getCaptchaCode = () => {
   getCaptcha().then(res => {
-    captchaSrc.value = res.data.captcha
+    captchaSrc.value = 'data:image/*;base64, ' + res.data.captcha
     loginForm.captchaUid = res.data.uid
   })
 }

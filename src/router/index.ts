@@ -28,7 +28,7 @@ router.beforeEach(async (to, from, next) => {
     if (to.path === '/login') return next('/')
     await nextTick()
     const menuStore = useMenuStore()
-    if (userStore.userInfo.id !== undefined) {
+    if (userStore.userInfo.id === undefined) {
       await userStore.getInfo()
     }
     if (menuStore.updateRoute) {
