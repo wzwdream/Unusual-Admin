@@ -48,7 +48,7 @@
         <n-grid x-gap="12" :cols="6">
           <n-gi span="3">
             <n-form-item label="菜单类型" path="menuType">
-              <n-radio-group v-model:value="modalForm.menuType" name="menuType">
+              <n-radio-group v-model:value="modalForm.menuType" name="menuType" :on-update:value="menuTypeChange">
                 <n-radio-button :key="1" :value="1" label="目录" />
                 <n-radio-button :key="0" :value="0" label="菜单" />
                 <n-radio-button :key="2" :value="2" label="按钮" />
@@ -94,7 +94,7 @@
               <n-input v-model:value="modalForm.title" clearable />
             </n-form-item>
           </n-gi>
-          <n-gi v-if="modalForm.menuType !== 0" span="3">
+          <n-gi v-if="modalForm.menuType !== 1 && !modalForm.externalLink" span="3">
             <n-form-item label="权限标识" path="competence">
               <n-input v-model:value="modalForm.competence" clearable />
             </n-form-item>
@@ -247,6 +247,7 @@ const formRules: FormRules = {
   component: [{required: true, message: '请输入组件地址', trigger: 'blur'}],
   link: [{required: true, message: '请输入外链菜单地址', trigger: 'blur'}]
 }
+
 // 表格hooks
 interface Query {
   title?: string
@@ -279,7 +280,7 @@ const {
   url: '/menu',
   key: 'id',
   isPagination: false,
-  initForm: { pid: 0, path: '', title: '', visibily: true, menuType: 1, icon: '', name: '', component: '', keepAlive: false, externalLink: true, link: '', sort: 1, competence: '' },
+  initForm: { pid: 0, path: '', title: '', visibily: true, menuType: 1, icon: '', name: '', component: '', keepAlive: false, externalLink: false, link: '', sort: 1, competence: '' },
   initQuery: { pid: 0, title: '' },
   // 搜索前
   beforeRefresh: (query) => {
@@ -296,4 +297,10 @@ const {
   doCreate: addUserMenu,
   doUpdate: editUserMenu
 })
+
+const menuTypeChange = (val: 0 | 1 | 2) => {
+  modalForm.menuType = val
+  modalForm.externalLink = false
+  console.log('==================', modalForm)
+}
 </script>

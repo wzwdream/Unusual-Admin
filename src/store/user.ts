@@ -29,6 +29,6 @@ export const useUserStore = defineStore('user', {
   },
   persist: {
     storage: window.sessionStorage,
-    paths: ['token', 'userInfo'],
+    paths: ['token'],
   }
 })

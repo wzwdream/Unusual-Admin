@@ -1,10 +1,9 @@
-import { dialog, message } from '@/utils/help'
+import { copyProps, dialog, message } from '@/utils/help'
 import { type FormInst } from 'naive-ui'
 import { usePagination } from './utils/index'
 import { getData } from './utils/index'
 import type { HookParams, Form } from './utils/type'
 import { type RowData } from 'naive-ui/es/data-table/src/interface'
-import { type UnwrapRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash-es'
 import { useSelection } from './utils/useSelection'
@@ -42,9 +41,9 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
   const modalAction = ref('')
   const modalLoading = ref(false)
   const modalFormRef = ref<FormInst | null>(null)
-  const modalForm = ref<List>({ ...initForm })
+  const modalForm = reactive<List>({ ...initForm })
 
-  const defualtQuery = ref<QueryParams>({ ...initQuery })
+  const defualtQuery = reactive<QueryParams>({ ...initQuery })
 
   const modalTitle = computed(() => ACTIONS.value[modalAction.value as keyof typeof ACTIONS.value] + ' ' + (name || ''))
   const modalShowFooter = computed(() => modalAction.value !== 'view')
@@ -54,7 +53,7 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
 
   /** 重置搜索 */
   const handlereset = () => {
-    defualtQuery.value = {...initQuery} as UnwrapRef<QueryParams>
+    copyProps(defualtQuery, initQuery)
   }
 
   /** 选择行变化 */
@@ -64,7 +63,7 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
   const handleAdd = () => {
     modalAction.value = 'add'
     modalVisible.value = true
-    modalForm.value = { ...initForm } as UnwrapRef<List>
+    copyProps(modalForm, initForm)
   }
 
   /** 修改 */
@@ -73,14 +72,14 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
     if (!row && checkedRow.value) rowData = checkedRow.value[0] as List
     modalAction.value = 'edit'
     modalVisible.value = true
-    modalForm.value = rowData as UnwrapRef<List>
+    copyProps(modalForm, rowData)
   }
 
   /** 查看 */
   const handleView = (row: List) => {
     modalAction.value = 'view'
     modalVisible.value = true
-    modalForm.value = cloneDeep(row) as UnwrapRef<List>
+    copyProps(modalForm, cloneDeep(row))
   }
 
   /** 保存 */
@@ -96,8 +95,8 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
       try {
         modalLoading.value = true
         // 保存之前，如果返回处理后的数据则替换
-        const formData = beforeSave && beforeSave(modalForm.value as List)
-        const params = formData || modalForm.value as List
+        const formData = beforeSave && beforeSave(modalForm as List)
+        const params = formData || modalForm as List
         action && await action(params)
         // 保存之后
         afterSave && afterSave()
@@ -149,13 +148,13 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
     loading.value = true
     try {
       let params = {
-        ...defualtQuery.value
+        ...defualtQuery
       }
       if (isPagination) {
         params = {
           page: pagination?.page || 0,
           pageSize: pagination?.pageSize || 10,
-          ...defualtQuery.value
+          ...defualtQuery
         }
       }
       // 查询前，如果返回false则不继续查询

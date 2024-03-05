@@ -57,3 +57,13 @@ export const resetStore = () => {
   const userStore = useMenuStore()
   userStore.$reset()
 }
+
+// 复制属性
+export const copyProps = (target: any, source: any) => {
+  for (const key in target) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (target.hasOwnProperty(key)) {
+      target[key] = source[key]
+    }
+  }
+}

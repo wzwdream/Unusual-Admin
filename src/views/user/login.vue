@@ -88,8 +88,8 @@ const active = ref('signUp')
 // 登录
 const loginForm = reactive({
   name: 'admin',
-  password: 'widgets@123',
-  captchaText: 'eybk',
+  password: '123456',
+  captchaText: '',
   captchaUid: ''
 })
 const loginFormRef = ref<FormInst | null>(null)
