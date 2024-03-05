@@ -63,24 +63,24 @@
           <n-gi v-if="modalForm.menuType !== 2" span="2">
             <n-form-item label="菜单可见" path="visibily">
               <n-radio-group v-model:value="modalForm.visibily" name="visibily">
-                <n-radio-button :key="1" :value="1" label="是" />
-                <n-radio-button :key="0" :value="0" label="否" />
+                <n-radio-button :key="1" :value="true" label="是" />
+                <n-radio-button :key="0" :value="false" label="否" />
               </n-radio-group>
             </n-form-item>
           </n-gi>
           <n-gi v-if="!modalForm.menuType" span="2">
             <n-form-item label="菜单缓存" path="keepAlive">
               <n-radio-group v-model:value="modalForm.keepAlive" name="keepAlive">
-                <n-radio-button :key="1" :value="1" label="是" />
-                <n-radio-button :key="0" :value="0" label="否" />
+                <n-radio-button :key="1" :value="true" label="是" />
+                <n-radio-button :key="0" :value="false" label="否" />
               </n-radio-group>
             </n-form-item>
           </n-gi>
           <n-gi span="2" v-if="!modalForm.menuType">
             <n-form-item label="外链菜单" path="externalLink">
               <n-radio-group v-model:value="modalForm.externalLink" name="externalLink">
-                <n-radio-button :key="1" :value="1" label="是" />
-                <n-radio-button :key="0" :value="0" label="否" />
+                <n-radio-button :key="1" :value="true" label="是" />
+                <n-radio-button :key="0" :value="false" label="否" />
               </n-radio-group>
             </n-form-item>
           </n-gi>
@@ -185,21 +185,21 @@ const columns = ref<Array<DataTableColumn<TreeMenu>>>([
     title: '外链',
     key: 'externalLink',
     render(row) {
-      return h('span',row.externalLink === 0 ? '否' : '是')
+      return h('span',row.externalLink ? '否' : '是')
     }
   },
   {
     title: '缓存',
     key: 'keepAlive',
     render(row) {
-      return h('span',row.keepAlive === 0 ? '否' : '是')
+      return h('span',row.keepAlive ? '否' : '是')
     }
   },
   {
     title: '可见',
     key: 'visibily',
     render(row) {
-      return h('span',row.visibily === 0 ? '否' : '是')
+      return h('span',row.visibily ? '否' : '是')
     }
   },
   {
@@ -279,7 +279,7 @@ const {
   url: '/menu',
   key: 'id',
   isPagination: false,
-  initForm: { pid: 0, path: '', title: '', visibily: 1, menuType: 1, icon: '', name: '', component: '', keepAlive: 0, externalLink: 0, link: '', sort: 1, competence: '' },
+  initForm: { pid: 0, path: '', title: '', visibily: true, menuType: 1, icon: '', name: '', component: '', keepAlive: false, externalLink: true, link: '', sort: 1, competence: '' },
   initQuery: { pid: 0, title: '' },
   // 搜索前
   beforeRefresh: (query) => {
@@ -289,7 +289,7 @@ const {
     return query
   },
   beforeSave: (form) => {
-    if (form.menuType === 2) form.visibily = 0
+    if (form.menuType === 2) form.visibily = true
     return form
   },
   doDelete: delUserMenu,

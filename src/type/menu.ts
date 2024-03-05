@@ -2,7 +2,7 @@ export interface Tag {
   label: string
   key: string
   icon: string
-  keepAlive: 0 | 1 // 是否keeplive缓存
+  keepAlive: boolean // 是否keeplive缓存
   name: string
 }
 export interface TreeMenu {
@@ -10,13 +10,13 @@ export interface TreeMenu {
   pid?: number
   path: string
   title: string
-  visibily: 0 | 1
+  visibily: boolean
   menuType: 0 | 1 | 2
   icon: string
   name?: string
   component?: string
-  keepAlive: 0 | 1
-  externalLink: 0 | 1
+  keepAlive: boolean
+  externalLink: boolean
   competence?: string
   link?: string
   sort: number

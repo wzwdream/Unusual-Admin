@@ -4,7 +4,7 @@ import Home from '@/views/workbenches/index.vue'
 
 export const home: RouteRecordRaw = {
   path: '/workbenches',
-  meta: { title: '工作台', visibily: 1, icon: 'material-symbols:home-outline', keepAlive: 0 },
+  meta: { title: '工作台', visibily: true, icon: 'material-symbols:home-outline', keepAlive: false },
   component: Home
 }
 
@@ -13,17 +13,17 @@ export const routes: RouteRecordRaw[] = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/user/login.vue'),
-    meta: { title: '登录', visibily: 0 }
+    meta: { title: '登录', visibily: false }
   },
   {
     path: '/redirect',
     name: 'Redirect',
     component: Layout,
-    meta: { visibily: 0 },
+    meta: { visibily: false },
     children: [
       {
         path: '/redirect/:path*',
-        meta: { visibily: 0 },
+        meta: { visibily: false },
         component: () => import('@/views/features/redirect.vue')
       }
     ]
@@ -32,7 +32,7 @@ export const routes: RouteRecordRaw[] = [
     path: '/',
     redirect: '/workbenches',
     component: Layout,
-    meta: { visibily: 1, title: '工作台', menuType: 1 },
+    meta: { visibily: true, title: '工作台', menuType: 1 },
     children: [home]
   },
   {
@@ -44,7 +44,7 @@ export const routes: RouteRecordRaw[] = [
         path: '/user/profile',
         component: () => import('@/views/user/profile.vue'),
         name: 'Profile',
-        meta: { title: '个人中心', visibily: 0 }
+        meta: { title: '个人中心', visibily: false }
       }
     ]
   },

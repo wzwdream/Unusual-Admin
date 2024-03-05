@@ -2,13 +2,13 @@ import { RouteRecordRaw } from 'vue-router'
 declare module 'vue-router' {
   interface RouteMeta {
     title?: string
-    visibily?: 0 | 1
+    visibily?: boolean
     menuType?: 0 | 1 | 2
     icon?: string
     name?: string
     component?: string
-    keepAlive?: 0 | 1
-    externalLink?: 0 | 1
+    keepAlive?: boolean
+    externalLink?: boolean
     competence?: string
     link?: string
     sort?: number
