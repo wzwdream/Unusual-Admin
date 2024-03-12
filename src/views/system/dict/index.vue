@@ -100,7 +100,7 @@ const columns = ref<DataTableColumn<DictList>[]>([
         h(
           TableAction,
           {
-            onHandleDelete: () => handleDelete([row.id as number]),
+            onHandleDelete: () => handleDelete(row.id as number),
             onHandleEdit: () => handleEdit(row),
             onHandleView: () => handleView(row)
           },
@@ -163,7 +163,7 @@ const {
   name: '字典',
   url: '/dict',
   key: 'id',
-  initForm: { name: '', description: '' },
+  initForm: { name: '', description: '', id: undefined },
   initQuery: { name: '' },
   doCreate: addDict,
   doDelete: delDict,

@@ -7,8 +7,8 @@ export const getTreeMenu = () => {
 export const getUserMenu = (params?: Record<string, any>) => {
   return Http.get<TreeMenu[]>('/menu', params)
 }
-export const delUserMenu = (params?: Record<string, any>) => {
-  return Http.delete<TreeMenu[]>('/userMenu', params)
+export const delUserMenu = (id: number) => {
+  return Http.delete<TreeMenu[]>('/userMenu/' + id)
 }
 export const addUserMenu = (params?: Record<string, any>) => {
   return Http.post<TreeMenu[]>('/menu/add', params)

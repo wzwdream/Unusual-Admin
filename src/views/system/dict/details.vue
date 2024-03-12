@@ -65,20 +65,6 @@ interface DetailsProps {
 }
 const props = defineProps<DetailsProps>()
 
-// 在挂载后执行watchEffect，保证首次触发时不会报错
-onMounted(() => {
-  watchEffect(() => {
-    if (props.pid) {
-      defualtQuery.value.pid = props.pid
-      listQuery()
-    } else {
-      listData.value = []
-      pagination.itemCount = 0
-      pagination.page = 1
-    }
-  })
-})
-
 // 表格
 const columns = ref<DataTableColumn<Details>[]>([
   {
@@ -119,7 +105,7 @@ const columns = ref<DataTableColumn<Details>[]>([
         h(
           TableAction,
           {
-            onHandleDelete: () => handleDelete([row.id as number]),
+            onHandleDelete: () => handleDelete(row.id),
             onHandleEdit: () => handleEdit(row),
             onHandleView: () => handleView(row)
           },
@@ -169,6 +155,20 @@ const {
     listData.pid = props.pid
     return listData
   },
+})
+
+// 在挂载后执行watchEffect，保证首次触发时不会报错
+onMounted(() => {
+  watchEffect(() => {
+    if (props.pid) {
+      defualtQuery.pid = props.pid
+      listQuery()
+    } else {
+      listData.value = []
+      pagination.itemCount = 0
+      pagination.page = 1
+    }
+  })
 })
 </script>
 

@@ -29,8 +29,8 @@ export const editUser = (params: UserList) => {
   return Http.put('/user', params)
 }
 
-export const delUser = (id: number[]) => {
-  return Http.delete('/user', id)
+export const delUser = (id: number) => {
+  return Http.delete('/user/' + id)
 }
 
 export const addUser = (params: UserList) => {

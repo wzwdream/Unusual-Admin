@@ -67,3 +67,21 @@ export const copyProps = (target: any, source: any) => {
     }
   }
 }
+
+// 下载文件
+export const download = (data: any, name?: string) => {
+  const blob = new Blob([data], { type: 'application/octet-stream' });
+
+  const url = window.URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.style.display = 'none';
+  a.href = url;
+
+  const date = new Date();
+  a.download = (name || '') + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + '.xlsx';
+
+  a.click();
+
+  window.URL.revokeObjectURL(url);
+}

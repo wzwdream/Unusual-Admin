@@ -1,8 +1,8 @@
-import { copyProps, dialog, message } from '@/utils/help'
+import { copyProps, dialog, download, message } from '@/utils/help'
 import { type FormInst } from 'naive-ui'
-import { usePagination } from './utils/index'
+import { downloadExcel, usePagination } from './utils/index'
 import { getData } from './utils/index'
-import type { HookParams, Form } from './utils/type'
+import type { HookParams, Form, ListData } from './utils/type'
 import { type RowData } from 'naive-ui/es/data-table/src/interface'
 import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash-es'
@@ -115,10 +115,8 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
       return item[key]
     })
   })
-  const handleDelete = (ids?: number[]) => {
-    if (ids && ids.length === 0 && checkIds.value && checkIds.value.length === 0) return
-    let rowKeys = ids
-    if (!ids) rowKeys = checkIds.value
+  const handleDelete = (id?: number) => {
+    if (id === undefined && checkIds.value && checkIds.value.length === 0) return
     const dia = dialog.warning({
       title: t('warn'),
       content: t('dureDelete'),
@@ -127,7 +125,16 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
       onPositiveClick: async () => {
         dia.loading = true
         try {
-          doDelete && await doDelete(rowKeys as number[])
+          checkIds.value
+          if (id !== undefined) {
+            doDelete && await doDelete(id)
+          } else {
+            const deletePromises = checkIds.value.map(async id => {
+              if (!doDelete) return
+              return await doDelete(id)
+            })
+            await Promise.all(deletePromises)
+          }
           dia.loading = false
           doDelete && message.success(t('delete') + ' ' + t('sucess'))
           listQuery()
@@ -162,7 +169,9 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
       if (typeof queryParams === 'boolean' && !queryParams) return
       if (queryParams && typeof queryParams !== 'boolean') params = queryParams as typeof params
 
-      const { data, total } = await getData<List[]>(url, params)
+      const tempData = await getData<ListData<List[]>>(url, params)
+
+      const { data, total } = tempData.data
 
       // 查询后，如果返回处理后的数据则替换列表数据，没有则使用接口返回的数据
       const newData = afterRefresh && afterRefresh([...data])
@@ -185,8 +194,30 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
   isInitQuery && listQuery()
 
   /** 导出 */
-  const handleDownload = () => {
-    console.log('handleDownload')
+  const handleDownload = async() => {
+    const dia = dialog.warning({
+      title: '导出数据',
+      content: '是否导出数据？',
+      positiveText: t('determine'),
+      negativeText: t('cancellation'),
+      onPositiveClick: async () => {
+        dia.loading = true
+        try {
+          const params = {
+            ...defualtQuery
+          }
+          const data = await downloadExcel(url + '/download', params)
+          download(data, name)
+          dia.loading = false
+          message.success('导出成功')
+        } catch (error) {
+          dia.loading = false
+        }
+      },
+      onNegativeClick: () => {
+        console.log('取消')
+      }
+    })
   }
 
   // 操作按钮禁用

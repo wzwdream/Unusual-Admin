@@ -26,10 +26,15 @@ export interface HookParams<List extends Form, QueryParams extends Form> {
   initForm?: List
   initQuery?: QueryParams
   doCreate?: (form: List) => Promise<ResultData<List[]>>
-  doDelete?: (id: number[]) => Promise<any>
+  doDelete?: (id: number) => Promise<any>
   doUpdate?: (form: List) => Promise<any>
   beforeRefresh?: (form: QueryParams) => QueryParams | boolean
   afterRefresh?: (listData: List[]) => List[] | undefined
   beforeSave?: (listData: List) => List | undefined
   afterSave?: () => void
+}
+
+export type ListData<T> = {
+  data: T
+  total: number
 }

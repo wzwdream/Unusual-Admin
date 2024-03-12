@@ -4,7 +4,7 @@ import { type Pagination } from './type'
 import Http from '@/utils/request'
 
 // 请求数据接口
-export const getData = <T extends Record<string, unknown>[]>(url: string, params: Record<string, any>) => {
+export const getData = <T>(url: string, params: Record<string, any>) => {
   return Http.get<T>(url, params)
 }
 
@@ -41,4 +41,9 @@ export const usePagination = (listQuery: () => void) => {
   return {
     pagination,
   }
+}
+
+// 请求数据接口
+export const downloadExcel = <T>(url: string, params: Record<string, any>) => {
+  return Http.post<T>(url, params, { responseType: 'blob' })
 }

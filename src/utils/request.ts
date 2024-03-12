@@ -28,6 +28,12 @@ service.interceptors.response.use(
   // AxiosResponse
   (response: AxiosResponse) => {
     if (response.status === 200 || response.status === 201) {
+      // 兼容文件下载
+      const contentType = response.headers['content-type'];
+      if (contentType && contentType.includes('application/octet-stream')) {
+        return response.data; // 直接返回 Blob 对象
+      }
+
       const { data } = response
       if (data.code !== 200){
         const userStore = useUserStore()

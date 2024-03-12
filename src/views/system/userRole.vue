@@ -165,7 +165,7 @@ const columns = ref<DataTableColumn<RoleList>[]>([
         h(
           TableAction,
           {
-            onHandleDelete: () => handleDelete([row.id as number]),
+            onHandleDelete: () => handleDelete(row.id as number),
             onHandleEdit: () => handleEdit(row),
             onHandleView: () => handleView(row)
           },

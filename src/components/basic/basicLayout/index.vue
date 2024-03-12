@@ -109,7 +109,7 @@ const toggle = () => {
 // 选中行以及操作按钮
 const emit = defineEmits<{
   (e: 'add'): void
-  (e: 'delete', ids?: number[]): void // 为了类型兼容设置的参数类型
+  (e: 'delete', ids?: number): void // 为了类型兼容设置的参数类型
   (e: 'edit', row?: undefined): void// 为了类型兼容设置的参数类型
   (e: 'download'): void
   (e: 'reset'): void

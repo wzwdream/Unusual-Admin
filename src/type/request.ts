@@ -1,7 +1,8 @@
 export interface Result {
   code: number
   message: string
-  total?: number
+  path: string
+  timestamp: string
 }
 export interface ResultData<T = any> extends Result {
   data: T

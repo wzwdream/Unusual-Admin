@@ -179,7 +179,7 @@ const columns = ref<Array<DataTableColumn<UserList>>>([
           TableAction,
           {
             disabled: row.id === 1,
-            onHandleDelete: () => handleDelete([row.id as number]),
+            onHandleDelete: () => handleDelete(row.id as number),
             onHandleEdit: () => handleEdit(row),
             onHandleView: () => handleView(row)
           },

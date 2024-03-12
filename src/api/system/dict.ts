@@ -35,12 +35,12 @@ export const editDict = (params: DictList) => {
   return Http.put('/dict', params)
 }
 
-export const delDict = (id: number[]) => {
-  return Http.delete('/dict', id)
+export const delDict = (id: number) => {
+  return Http.delete('/dict/' + id)
 }
 
 export const addDict = (params: DictList) => {
-  return Http.post('/dict/details', params)
+  return Http.post('/dict', params)
 }
 
 export const getDictDetails = (params: DictQuery) => {
@@ -51,8 +51,8 @@ export const editDictDetails = (params: Details) => {
   return Http.put('/dictDetails', params)
 }
 
-export const delDictDetails = (id: number[]) => {
-  return Http.delete('/dictDetails', id)
+export const delDictDetails = (id: number) => {
+  return Http.delete('/dictDetails/' + id)
 }
 
 export const addDictDetails = (params: Details) => {

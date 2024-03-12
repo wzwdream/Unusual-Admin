@@ -23,8 +23,8 @@ export const updateUserRole = (params: RoleList) => {
   return Http.put('/updateRole', params)
 }
 
-export const deleteUserRole = (id: number[]) => {
-  return Http.delete('/deleteRole', id)
+export const deleteUserRole = (id: number) => {
+  return Http.delete('/deleteRole/' + id)
 }
 
 export const addUserRole = (params: RoleList) => {

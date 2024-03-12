@@ -217,7 +217,7 @@ const columns = ref<Array<DataTableColumn<TreeMenu>>>([
         h(
           TableAction,
           {
-            onHandleDelete: () => handleDelete([row.id as number]),
+            onHandleDelete: () => handleDelete(row.id as number),
             onHandleEdit: () => handleEdit(row),
             onHandleView: () => handleView(row)
           },
