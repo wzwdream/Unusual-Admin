@@ -1,0 +1,1 @@
+import{g as t}from"./dict-3ced20a3.js";import{M as e}from"./.pnpm-222492af.js";const a=(a=[])=>{const l=e();a.length>0&&a.map((e=>{t({name:e}).then((t=>{l.value={...l.value,[e]:t.data}}))}));const r=t=>{let e=[];return l.value&&(e=l.value[t]),e};return{dict:l,getDict:r,getDictLabel:(t,e)=>{let a="";if(l.value){r(t).map((t=>{t.value===e&&(a=t.label)}))}return a}}};export{a as u};
