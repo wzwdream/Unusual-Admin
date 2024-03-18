@@ -2,7 +2,7 @@ import Http from '@/utils/request'
 export interface UserList {
   id?: number
   avatar?: string
-  userName: string
+  account: string
   name: string,
   phone: string
   email: string
@@ -15,7 +15,7 @@ export interface UserList {
 }
 
 export interface Query {
-  userName?: string
+  account?: string
   phone?: string
   status?: 0 | 1
   [key: string]: any

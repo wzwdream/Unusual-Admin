@@ -3,13 +3,13 @@
     <BasicLayout
       v-model:columns="columns"
       :btnDisabled="btnDisabled"
+      :optShow="optShow"
       @search="listQuery"
       @reset="handlereset"
       @add="handleAdd"
       @delete="handleDelete"
       @edit="handleEdit"
-      @download="handleDownload"
-    >
+           >
       <template #queryBar>
         <query-item label="菜单名称">
           <n-input v-model:value="defualtQuery.title" size="small" clearable placeholder="输入菜单名称，模糊搜索" />
@@ -24,6 +24,7 @@
         :remote="true"
         :cascade="false"
         allow-checking-not-loaded
+        :checked-row-keys="checkedRowKeys"
         @load="onLoad"
         @update:checked-row-keys="changeCheckRow"
       />
@@ -143,8 +144,7 @@ import TableAction from '@/components/basic/tableAction.vue'
 import Icon from '@/components/icon/index.vue'
 import { useBasicList } from '@/components/basic/useBasicList/index'
 import { type TreeMenu } from '@/type/menu'
-import { addUserMenu, delUserMenu, editUserMenu, getUserMenu } from '@/api/user/menu'
-import { useMenuStore } from '@/store/menu'
+import { addUserMenu, delUserMenu, editUserMenu, getRoleMenu, getUserMenu } from '@/api/user/menu'
 import { TreeSelectOption } from 'naive-ui/es/tree-select/src/interface'
 import { icons, renderLabel } from '@/utils/icon'
 import { type FormRules } from 'naive-ui/es/form/src/interface'
@@ -230,14 +230,12 @@ const columns = ref<Array<DataTableColumn<TreeMenu>>>([
 // 树形表格懒加载
 const onLoad = (row: Record<string, unknown>) => {
   return getUserMenu({ pid: row.id }).then(res => {
-    row.children = res.data
+    row.children = res.data.data
   })
 }
 
 // 上级菜单选择
-const menuStore = useMenuStore()
-const menu = [{id: 0, title: '顶级菜单', isLeaf: false, children: menuStore.treeMenu}] as unknown as TreeSelectOption[]
-const options = ref(menu)
+const options = ref<TreeSelectOption[]>()
 
 // 表单规则
 const formRules: FormRules = {
@@ -253,6 +251,14 @@ interface Query {
   title?: string
   pid?: number
 }
+// 操作按钮显示
+const optShow = {
+  add: true,
+  del: true,
+  edit: true,
+  view: true,
+  download: false
+}
 const {
   modalVisible,
   modalAction,
@@ -262,7 +268,6 @@ const {
   handleAdd,
   handleDelete,
   handleEdit,
-  handleDownload,
   handleView,
   handleSave,
   handlereset,
@@ -274,7 +279,8 @@ const {
   listData,
   loading,
   rowKey,
-  btnDisabled
+  btnDisabled,
+  checkedRowKeys
 } = useBasicList<TreeMenu, Query>({
   name: '菜单',
   url: '/menu',
@@ -289,6 +295,10 @@ const {
     }
     return query
   },
+  beforeAsyncValidate: async () => {
+    const result = await getRoleMenu()
+    options.value = [{id: 0, title: '顶级菜单', isLeaf: false, children: result.data}] as unknown as TreeSelectOption[]
+  },
   beforeSave: (form) => {
     if (form.menuType === 2) form.visibily = true
     return form
@@ -301,6 +311,5 @@ const {
 const menuTypeChange = (val: 0 | 1 | 2) => {
   modalForm.menuType = val
   modalForm.externalLink = false
-  console.log('==================', modalForm)
 }
 </script>

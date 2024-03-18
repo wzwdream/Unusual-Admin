@@ -30,11 +30,15 @@ export interface HookParams<List extends Form, QueryParams extends Form> {
   doUpdate?: (form: List) => Promise<any>
   beforeRefresh?: (form: QueryParams) => QueryParams | boolean
   afterRefresh?: (listData: List[]) => List[] | undefined
+  beforeValidate?: (form: List) => List | undefined
+  beforeAsyncValidate?: () => Promise<void>
   beforeSave?: (listData: List) => List | undefined
-  afterSave?: () => void
+  afterSave?: (type: ModalAction) => void
 }
 
 export type ListData<T> = {
   data: T
   total: number
 }
+
+export type ModalAction = 'view' | 'edit' | 'add'

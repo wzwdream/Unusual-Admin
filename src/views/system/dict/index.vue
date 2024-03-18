@@ -26,6 +26,7 @@
           :row-class-name="getRowClassName"
           striped
           :remote="true"
+          :checked-row-keys="checkedRowKeys"
           @update:checked-row-keys="changeCheckRow"
         />
       </BasicLayout>
@@ -158,7 +159,8 @@ const {
   pagination,
   loading,
   rowKey,
-  btnDisabled
+  btnDisabled,
+  checkedRowKeys
 } = useBasicList<DictList, DictQuery>({
   name: '字典',
   url: '/dict',

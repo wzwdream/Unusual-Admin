@@ -1,22 +1,28 @@
 <template>
   <n-space justify="center">
-    <n-button v-if="props.view" type="info" text size="small" @click="emit('handleView')">{{ $t('view') }}</n-button>
-    <n-button v-if="props.edit" :disabled="disabled" type="warning" text size="small" @click="emit('handleEdit')">{{ $t('edit') }}</n-button>
-    <n-button v-if="props.del" :disabled="disabled" type="error" text size="small" @click="emit('handleDelete')">{{ $t('delete') }}</n-button>
+    <n-button v-if="props.optShow.view" type="info" text size="small" @click="emit('handleView')">{{ $t('view')}}</n-button>
+    <n-button v-if="props.optShow.edit" :disabled="disabled" type="warning" text size="small" @click="emit('handleEdit')">{{$t('edit') }}</n-button>
+    <n-button v-if="props.optShow.del" :disabled="disabled" type="error" text size="small" @click="emit('handleDelete')">{{$t('delete') }}</n-button>
   </n-space>
 </template>
 
 <script setup lang="ts" name="TableAction">
 interface ActionProps {
-  view?: boolean
-  edit?: boolean
-  del?: boolean
+  optShow?: {
+    view?: boolean
+    edit?: boolean
+    del?: boolean
+  }
   disabled?: boolean
 }
 const props = withDefaults(defineProps<ActionProps>(), {
-  view: true,
-  edit: true,
-  del: true,
+  optShow: () => {
+    return {
+      view: true,
+      edit: true,
+      del: true
+    }
+  },
   disabled: false
 })
 

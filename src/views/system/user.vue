@@ -11,8 +11,8 @@
       @download="handleDownload"
     >
       <template #queryBar>
-        <query-item label="用户名称">
-          <n-input v-model:value="defualtQuery.userName" size="small" clearable placeholder="输入用户名称，模糊搜索" />
+        <query-item label="登录账号">
+          <n-input v-model:value="defualtQuery.account" size="small" clearable placeholder="输入登录账号，模糊搜索" />
         </query-item>
         <query-item label="手机号">
           <n-input v-model:value="defualtQuery.phone" size="small" clearable placeholder="输入手机号，模糊搜索" />
@@ -26,8 +26,10 @@
         :data="listData"
         :loading="loading"
         :row-key="rowKey"
+        :pagination="pagination"
         striped
         :remote="true"
+        :checked-row-keys="checkedRowKeys"
         @update:checked-row-keys="changeCheckRow"
       />
     </BasicLayout>
@@ -50,8 +52,8 @@
       >
         <n-grid x-gap="12" :cols="2">
           <n-gi>
-            <n-form-item label="登录账号" path="userName">
-              <n-input v-model:value="modalForm.userName" clearable />
+            <n-form-item label="登录账号" path="account">
+              <n-input v-model:value="modalForm.account" clearable />
             </n-form-item>
           </n-gi>
           <n-gi>
@@ -60,7 +62,7 @@
             </n-form-item>
           </n-gi>
           <n-gi>
-            <n-form-item label="用户姓名" path="name">
+            <n-form-item label="用户名称" path="name">
               <n-input v-model:value="modalForm.name" clearable />
             </n-form-item>
           </n-gi>
@@ -85,7 +87,7 @@
           </n-gi>
           <n-gi span="2">
             <n-form-item label="用户角色" path="roles">
-              <n-select v-model:value="modalForm.roles" multiple label-field="roleName" value-field="id"  filterable clearable :options="roles" />
+              <n-select v-model:value="modalForm.roles" multiple label-field="name" value-field="id"  filterable clearable :options="roles" />
             </n-form-item>
           </n-gi>
         </n-grid>
@@ -99,16 +101,17 @@ import { type DataTableColumn } from 'naive-ui/es/data-table'
 import TableAction from '@/components/basic/tableAction.vue'
 import { useBasicList } from '@/components/basic/useBasicList/index'
 import { type Query, type UserList, addUser, delUser, editUser } from '@/api/user/user'
-import { getUserRole } from '@/api/user/userRole'
-import { type RoleList } from '@/api/user/userRole'
+import { getUserRole } from '@/api/user/role'
+import { type RoleList } from '@/api/user/role'
 import { type FormRules, NSwitch } from 'naive-ui/es/components'
 import { useDict } from '@/hooks/useDict'
 import { checkPassword, checkEmail, checkPhone } from '@/utils/calibrationRules';
+import { type ModalAction } from '@/components/basic/useBasicList/utils/type'
 
 // 获取角色
 const roles = ref<RoleList[]>([])
 getUserRole().then(res => {
-  roles.value = res.data
+  roles.value = res.data.data
 })
 
 // 获取dict
@@ -128,10 +131,10 @@ const columns = ref<Array<DataTableColumn<UserList>>>([
   },
   {
     title: '登录账号',
-    key: 'userName'
+    key: 'account'
   },
   {
-    title: '用户姓名',
+    title: '用户名称',
     key: 'name'
   },
   {
@@ -200,7 +203,7 @@ const handleChangeStatus = async (row: UserList) => {
 
 // 表单规则
 const formRules: FormRules = {
-  userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+  account: [{required: true, message: '请输入用户名', trigger: 'blur'}],
   pwd: [
     {required: true, message: '请输入密码', trigger: 'blur'},
     {validator: checkPassword, message: '密码格式不正确', trigger: 'input' }
@@ -214,8 +217,11 @@ const formRules: FormRules = {
     {validator: checkPhone, message: '请输入正确的手机号', trigger: 'input' }
   ],
 }
+// 提示
+const notification = useNotification()
 // 表格hooks
 const {
+  pagination,
   modalVisible,
   modalAction,
   modalShowFooter,
@@ -236,20 +242,29 @@ const {
   listData,
   loading,
   rowKey,
-  btnDisabled
+  btnDisabled,
+  checkedRowKeys
 } = useBasicList<UserList, Query>({
   name: '用户',
   url: '/user',
   key: 'id',
-  isPagination: false,
-  initForm: { userName: '', name: '', phone: '', email: '', sex: 0, status: 1, roles: [] },
-  initQuery: { userName: undefined, phone: undefined, status: undefined },
+  initForm: { account: '', name: '', phone: '', email: '', sex: 0, status: 1, roles: [] },
+  initQuery: { account: undefined, phone: undefined, status: undefined },
   // 搜索前
   beforeRefresh: (query) => {
     if (query && query.title) {
       query.pid = undefined
     }
     return query
+  },
+  // 新增/修改保存之后
+  afterSave: (type: ModalAction) => {
+    if (type === 'add') {
+      notification.info({
+        title: '初始密码',
+        content: '123456',
+      })
+    }
   },
   doDelete: delUser,
   doCreate: addUser,

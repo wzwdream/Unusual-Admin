@@ -1,8 +1,8 @@
-import { copyProps, dialog, download, message } from '@/utils/help'
+import { copyProps, dialog, download, notification } from '@/utils/help'
 import { type FormInst } from 'naive-ui'
 import { downloadExcel, usePagination } from './utils/index'
 import { getData } from './utils/index'
-import type { HookParams, Form, ListData } from './utils/type'
+import type { HookParams, Form, ListData, ModalAction } from './utils/type'
 import { type RowData } from 'naive-ui/es/data-table/src/interface'
 import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash-es'
@@ -21,6 +21,8 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
   doUpdate, // 编辑
   beforeRefresh, // 查询之前
   afterRefresh, // 查询之后
+  beforeValidate, // 新增/编辑之前(同步)
+  beforeAsyncValidate, // 新增/编辑之前（异步）
   beforeSave, // 新增/编辑保存之前
   afterSave // 新增/编辑保存之后
 }: HookParams<List, QueryParams>) => {
@@ -38,10 +40,11 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
   })
 
   const modalVisible = ref(false)
-  const modalAction = ref('')
+  const modalAction = ref<ModalAction>('add')
   const modalLoading = ref(false)
   const modalFormRef = ref<FormInst | null>(null)
-  const modalForm = reactive<List>({ ...initForm })
+  // 这里需要把rowkey的键存起来，方便后面修改数据的时候获取到 'id'
+  const modalForm = reactive<List>({ ...initForm, [key]: undefined })
 
   const defualtQuery = reactive<QueryParams>({ ...initQuery })
 
@@ -60,14 +63,18 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
   const { changeCheckRow, checkedRowKeys, checkedRow } = useSelection<List>()
 
   /** 新增 */
-  const handleAdd = () => {
+  const handleAdd = async () => {
+    beforeValidate && beforeValidate(modalForm)
+    beforeAsyncValidate && await beforeAsyncValidate()
     modalAction.value = 'add'
     modalVisible.value = true
     copyProps(modalForm, initForm)
   }
 
   /** 修改 */
-  const handleEdit = (row?: List) => {
+  const handleEdit = async (row?: List) => {
+    beforeValidate && beforeValidate(modalForm)
+    beforeAsyncValidate && await beforeAsyncValidate()
     let rowData = cloneDeep(row)
     if (!row && checkedRow.value) rowData = checkedRow.value[0] as List
     modalAction.value = 'edit'
@@ -99,8 +106,8 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
         const params = formData || modalForm as List
         action && await action(params)
         // 保存之后
-        afterSave && afterSave()
-        action && message.success(prompt + ' ' + t('sucess'))
+        notification.success({ title: '', content: prompt + ' ' + t('sucess'), duration: 1600 })
+        afterSave && afterSave(modalAction.value)
         modalLoading.value = modalVisible.value = false
         listQuery()
       } catch (error) {
@@ -136,7 +143,7 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
             await Promise.all(deletePromises)
           }
           dia.loading = false
-          doDelete && message.success(t('delete') + ' ' + t('sucess'))
+          doDelete && notification.success({ title: '', content: t('delete') + ' ' + t('sucess'), duration: 1600 })
           listQuery()
         } catch (error) {
           dia.loading = false
@@ -181,6 +188,8 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
         listData.value = data || []
       }
       if (isPagination) pagination.itemCount = total as number || 0
+      checkedRow.value = []
+      checkedRowKeys.value = []
       loading.value = false
     } catch(e) {
       loading.value = false
@@ -209,7 +218,7 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
           const data = await downloadExcel(url + '/download', params)
           download(data, name)
           dia.loading = false
-          message.success('导出成功')
+          notification.success({ title: '', content: '导出成功', duration: 1600 })
         } catch (error) {
           dia.loading = false
         }
@@ -251,6 +260,7 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
     pagination,
     listQuery,
     rowKey,
-    btnDisabled
+    btnDisabled,
+    checkedRowKeys
   }
 }

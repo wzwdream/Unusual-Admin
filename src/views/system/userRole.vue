@@ -14,10 +14,10 @@
         >
           <template #queryBar>
             <query-item label="角色名称">
-              <n-input v-model:value="defualtQuery.roleName" size="small" placeholder="输入角色名称" />
+              <n-input v-model:value="defualtQuery.name" size="small" placeholder="输入角色名称" />
             </query-item>
             <query-item label="角色状态">
-              <n-select v-model:value="defualtQuery.roleStatus" placeholder="选择角色状态" :options="dict?.status" />
+              <n-select v-model:value="defualtQuery.status" placeholder="选择角色状态" clearable :options="dict?.status" />
             </query-item>
           </template>
           <n-data-table
@@ -30,6 +30,7 @@
             :row-class-name="getRowClassName"
             striped
             :remote="true"
+            :checked-row-keys="checkedRowKeys"
             @update:checked-row-keys="changeCheckRow"
           />
         </BasicLayout>
@@ -50,23 +51,23 @@
             :rules="formRules"
             :disabled="modalAction === 'view'"
           >
-            <n-form-item label="角色名称" path="roleName">
-              <n-input v-model:value="modalForm.roleName" />
+            <n-form-item label="角色名称" path="name">
+              <n-input v-model:value="modalForm.name" />
             </n-form-item>
             <n-space justify="space-between">
-              <n-form-item label="角色排序" path="roleSort">
-                <n-input-number v-model:value="modalForm.roleSort" clearable />
+              <n-form-item label="角色排序" path="sort">
+                <n-input-number v-model:value="modalForm.sort" clearable />
               </n-form-item>
-              <n-form-item label="角色状态" path="roleStatus">
+              <n-form-item label="角色状态" path="status">
                 <n-switch
                   :checked-value="1"
                   :unchecked-value="0"
-                  v-model:value="modalForm.roleStatus"
+                  v-model:value="modalForm.status"
                 />
               </n-form-item>
             </n-space>
-            <n-form-item label="备注" path="roleReamark">
-              <n-input v-model:value="modalForm.roleReamark" />
+            <n-form-item label="备注" path="remark">
+              <n-input v-model:value="modalForm.remark" />
             </n-form-item>
           </n-form>
         </BasicModel>
@@ -74,7 +75,7 @@
       <n-grid-item span="3 m:1 l:1 xl:1">
         <n-card title="菜单分配" size="small" :segmented="true">
           <template #header-extra>
-            <n-button type="primary" size="small" :loading="saveLoading" @click="saveMenu">
+            <n-button type="primary" size="small" :loading="saveLoading" :disabled="disabled" @click="saveMenu">
               <template #icon>
                 <Icon icon="mingcute:save-2-line" />
               </template>
@@ -82,9 +83,10 @@
             </n-button>
           </template>
           <n-tree
-            :data="data"
+            :data="menuData"
             :checked-keys="checkedKeys"
-            key-field="path"
+            :disabled="disabled"
+            key-field="id"
             label-field="title"
             :selectable="false"
             :show-line="true"
@@ -104,12 +106,12 @@
 <script setup lang="ts" name="UserRole">
 import { type DataTableColumn } from 'naive-ui/es/data-table'
 import { type FormRules, NButton, NSwitch } from 'naive-ui'
-import { type RoleList, type RoleQuery, updateUserRole, addUserRole, deleteUserRole } from '@/api/user/userRole'
-import { useMenuStore } from '@/store/menu'
+import { type RoleList, type RoleQuery, updateUserRole, addUserRole, deleteUserRole, getRoleMenuIds, saveRoleMenu } from '@/api/user/role'
 import TableAction from '@/components/basic/tableAction.vue'
 import { useBasicList } from '@/components/basic/useBasicList/index'
 import { message } from '@/utils/help'
 import { useDict } from '@/hooks/useDict'
+import { getRoleMenu } from '@/api/user/menu'
 
 // 获取dict
 const { dict } =  useDict(['status'])
@@ -117,9 +119,9 @@ const { dict } =  useDict(['status'])
 const columns = ref<DataTableColumn<RoleList>[]>([
   {
     type: 'selection',
-    // disabled: (row) => {
-    //   return row.id === 1
-    // }
+    disabled: (row) => {
+      return row.id === 1
+    }
   },
   {
     title: 'ID',
@@ -127,24 +129,25 @@ const columns = ref<DataTableColumn<RoleList>[]>([
   },
   {
     title: '角色名称',
-    key: 'roleName'
+    key: 'name'
   },
   {
     title: '角色排序',
-    key: 'roleSort'
+    key: 'sort'
   },
   {
     title: '角色状态',
-    key: 'roleStatus',
+    key: 'status',
     render(row) {
       return h(
         NSwitch,
         {
           rubberBand: false,
-          value: Number(row['roleStatus']),
+          value: Number(row['status']),
           loading: !!row.loading,
           checkedValue: 1,
           uncheckedValue: 0,
+          disabled: row.id === 1,
           onUpdateValue: () => handleChangeStatus(row)
         }
       )
@@ -152,7 +155,7 @@ const columns = ref<DataTableColumn<RoleList>[]>([
   },
   {
     title: '备注',
-    key: 'roleReamark'
+    key: 'remark'
   },
   {
     title: '操作',
@@ -165,6 +168,7 @@ const columns = ref<DataTableColumn<RoleList>[]>([
         h(
           TableAction,
           {
+            disabled: row.id === 1,
             onHandleDelete: () => handleDelete(row.id as number),
             onHandleEdit: () => handleEdit(row),
             onHandleView: () => handleView(row)
@@ -176,11 +180,15 @@ const columns = ref<DataTableColumn<RoleList>[]>([
 ])
 
 const handleChangeStatus = async (row: RoleList) => {
-  row.loading = true
-  const params: RoleList = { ...row, roleStatus: row.roleStatus === 0 ? 1 : 0 }
-  await updateUserRole(params)
-  await listQuery()
-  row.loading = false
+  try {
+    row.loading = true
+    const params: RoleList = { ...row, status: row.status === 0 ? 1 : 0 }
+    await updateUserRole(params)
+    await listQuery()
+    row.loading = false
+  } catch (error) {
+    row.loading = false
+  }
 }
 
 // 点击表格的某一行，添加选中效果，并存储行数据
@@ -188,11 +196,19 @@ const selectedRow = ref<RoleList>()
 const rowProps = (row: RoleList) => {
   return {
     style: 'cursor: pointer;',
-    onClick: () => {
-      selectedRow.value = row
-      checkedKeys.value = row.roleMenu || []
+    onClick: async () => {
+      if (row.id && row.id !== 1 && row.id !== selectedRow.value?.id) {
+        checkedKeys.value = await getMenuIds(row.id) || [] as string[]
+        selectedRow.value = row
+      }
     }
   }
+}
+
+// 根据角色id获取菜单
+const getMenuIds = async (id: number) => {
+  const res = await getRoleMenuIds(id)
+  return res.data
 }
 // 根据点击选中的设置样式
 const getRowClassName = computed(() => {
@@ -205,12 +221,19 @@ const getRowClassName = computed(() => {
 })
 
 // 右侧菜单
-const menuStore = useMenuStore()
-const data = ref(menuStore.treeMenu)
-const checkedKeys = ref<string[]>([])
+const menuData = ref()
+const checkedKeys = ref<number[]>([])
+const disabled = computed(() => {
+  return selectedRow.value?.id === undefined
+})
+
+// 查询菜单
+getRoleMenu().then(res => {
+  menuData.value = res.data
+})
 
 // 菜单选中更新
-const updateCheckedKeys = (keys: Array<string>) => {
+const updateCheckedKeys = (keys: Array<number>) => {
   checkedKeys.value = keys
 }
 // 保存选中菜单
@@ -218,11 +241,10 @@ const saveLoading = ref(false)
 const saveMenu = () => {
   if (selectedRow.value && checkedKeys.value) {
     saveLoading.value = true
-    const params = { ...selectedRow.value, roleMenu: checkedKeys.value }
-    updateUserRole(params).then(res => {
+    saveRoleMenu(selectedRow.value?.id as number, checkedKeys.value).then(res => {
       saveLoading.value = false
       message.success(res.message)
-      listQuery()
+      // listQuery()
     }).catch(() => {
       saveLoading.value = false
     })
@@ -233,7 +255,7 @@ const saveMenu = () => {
 
 // 表单规则
 const formRules: FormRules = {
-  roleName: [{required: true, message: '请输入角色名称', trigger: 'blur'}]
+  name: [{required: true, message: '请输入角色名称', trigger: 'blur'}]
 }
 
 // 表格hooks
@@ -259,19 +281,25 @@ const {
   pagination,
   loading,
   rowKey,
-  btnDisabled
+  btnDisabled,
+  checkedRowKeys
 } = useBasicList<RoleList, RoleQuery>({
   name: '角色',
-  url: '/userRole',
+  url: '/role',
   key: 'id',
-  initForm: { roleName: '', roleStatus: 1, roleSort: null, roleReamark: '' },
-  initQuery: { roleName: '', roleStatus: undefined },
+  initForm: { name: '', status: 1, sort: null, remark: '' },
+  initQuery: { name: '', status: null }, // 记录一个知识，组件库的选择器，如果选中值后置为undefined会保持选中，置为null才能清空选择
   doCreate: addUserRole,
   doDelete: deleteUserRole,
   doUpdate: updateUserRole,
   beforeSave: (form) => {
     console.log(form)
     return form
+  },
+  beforeRefresh: () => {
+    selectedRow.value = undefined
+    checkedKeys.value = []
+    return true
   }
 })
 </script>

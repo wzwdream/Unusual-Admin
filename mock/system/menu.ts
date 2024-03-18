@@ -137,7 +137,7 @@ export default [
     }
   },
   {
-    url: '/api/userMenu',
+    url: '/api/menu',
     method: 'delete',
     response: (request: requestParams) => {
       request.body.map((item: number | string) => {
@@ -148,7 +148,7 @@ export default [
     }
   },
   {
-    url: '/api/userMenu',
+    url: '/api/menu',
     method: 'put',
     response: (request: requestParams) => {
       const index: number = menus.findIndex(menu => menu.id === Number(request.body.id))
