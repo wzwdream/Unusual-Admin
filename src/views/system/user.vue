@@ -3,6 +3,7 @@
     <BasicLayout
       v-model:columns="columns"
       :btnDisabled="btnDisabled"
+      :permission="permission"
       @search="listQuery"
       @reset="handlereset"
       @add="handleAdd"
@@ -108,6 +109,13 @@ import { useDict } from '@/hooks/useDict'
 import { checkPassword, checkEmail, checkPhone } from '@/utils/calibrationRules';
 import { type ModalAction } from '@/components/basic/useBasicList/utils/type'
 
+// 权限标识
+const permission = {
+  add: ['admin'],
+  del: ['admin', 'user:del'],
+  edit: ['admin'],
+  download: ['admin']
+}
 // 获取角色
 const roles = ref<RoleList[]>([])
 getUserRole().then(res => {
@@ -182,6 +190,7 @@ const columns = ref<Array<DataTableColumn<UserList>>>([
           TableAction,
           {
             disabled: row.id === 1,
+            permission,
             onHandleDelete: () => handleDelete(row.id as number),
             onHandleEdit: () => handleEdit(row),
             onHandleView: () => handleView(row)

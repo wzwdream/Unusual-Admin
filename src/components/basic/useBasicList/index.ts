@@ -187,7 +187,7 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
       } else {
         listData.value = data || []
       }
-      if (isPagination) pagination.itemCount = total as number || 0
+      if (isPagination) pagination.itemCount = total || 0
       checkedRow.value = []
       checkedRowKeys.value = []
       loading.value = false

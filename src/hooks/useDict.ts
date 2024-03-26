@@ -5,14 +5,17 @@ export const useDict = (params: string[] = []) => {
   const dict = ref<Record<string, Details[]>>()
   if (params.length > 0) {
     params.map(item => {
-      getDictDetails({ name: item }).then(res => {
-        dict.value = {
-         ...dict.value,
-          [item]: res.data
-        }
-      })
+      if (item) {
+        getDictDetails({ name: item }).then(res => {
+          dict.value = {
+           ...dict.value,
+            [item]: res.data
+          }
+        })
+      }
     })
   }
+
   // 根据字典名称获取字典数据
   const getDict = (name: string) => {
     let retult: Details[] = []

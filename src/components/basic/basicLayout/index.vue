@@ -10,12 +10,12 @@
       </n-space>
       <n-space justify="space-between" align="center">
         <slot name="toolbarLeft"></slot>
-        <n-space>
-          <n-button v-if="props.optShow.add" type="primary" size="tiny" :render-icon="renderIcon('material-symbols:add-rounded', 14)" @click="emit('add')">{{ $t('add') }}</n-button>
-          <n-button v-if="props.optShow.edit" :disabled="props.btnDisabled.edit" type="warning" size="tiny" :render-icon="renderIcon('material-symbols:edit-outline', 14)" @click="emit('edit')">{{ $t('edit') }}</n-button>
-          <n-button v-if="props.optShow.del" :disabled="props.btnDisabled.del" type="error" size="tiny" :render-icon="renderIcon('material-symbols:delete-outline', 14)" @click="emit('delete')">{{ $t('delete') }}</n-button>
-          <n-button v-if="props.optShow.download" :disabled="props.btnDisabled.download" type="info" size="tiny" :render-icon="renderIcon('material-symbols:download-rounded', 14)" @click="emit('download')">{{ $t('export') }}</n-button>
-        </n-space>
+        <div flex flex-items-center>
+          <n-button v-if="props.optShow.add" v-permission="permission.add" mr-10 type="primary" size="tiny" :render-icon="renderIcon('material-symbols:add-rounded', 14)" @click="emit('add')">{{ $t('add') }}</n-button>
+          <n-button v-if="props.optShow.edit" v-permission="permission.edit" mr-10 :disabled="props.btnDisabled.edit" type="warning" size="tiny" :render-icon="renderIcon('material-symbols:edit-outline', 14)" @click="emit('edit')">{{ $t('edit') }}</n-button>
+          <n-button v-if="props.optShow.del" v-permission="permission.del" mr-10 :disabled="props.btnDisabled.del" type="error" size="tiny" :render-icon="renderIcon('material-symbols:delete-outline', 14)" @click="emit('delete')">{{ $t('delete') }}</n-button>
+          <n-button v-if="props.optShow.download" v-permission="permission.download" :disabled="props.btnDisabled.download" type="info" size="tiny" :render-icon="renderIcon('material-symbols:download-rounded', 14)" @click="emit('download')">{{ $t('export') }}</n-button>
+        </div>
         <n-space v-if="props.toolbar">
           <n-button-group size="tiny">
             <n-tooltip trigger="hover">
@@ -74,6 +74,12 @@ interface ListProps {
     edit: boolean
     del: boolean
     download: boolean
+  },
+  permission?: {
+    add?: string[]
+    edit?: string[]
+    del?: string[]
+    download?: string[]
   }
 }
 const props = withDefaults(defineProps<ListProps>(), {
@@ -90,6 +96,14 @@ const props = withDefaults(defineProps<ListProps>(), {
       edit: false,
       del: false,
       download: false
+    }
+  },
+  permission: () => {
+    return {
+      add: [],
+      edit: [],
+      del: [],
+      download: []
     }
   },
   toolbar: true,

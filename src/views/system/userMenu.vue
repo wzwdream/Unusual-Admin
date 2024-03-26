@@ -3,6 +3,7 @@
     <BasicLayout
       v-model:columns="columns"
       :btnDisabled="btnDisabled"
+      :permission="permission"
       :optShow="optShow"
       @search="listQuery"
       @reset="handlereset"
@@ -149,6 +150,12 @@ import { TreeSelectOption } from 'naive-ui/es/tree-select/src/interface'
 import { icons, renderLabel } from '@/utils/icon'
 import { type FormRules } from 'naive-ui/es/form/src/interface'
 
+const permission = {
+  add: ['admin'],
+  del: ['admin'],
+  edit: ['admin'],
+  download: ['admin']
+}
 // 表格
 const columns = ref<Array<DataTableColumn<TreeMenu>>>([
   {
@@ -217,6 +224,7 @@ const columns = ref<Array<DataTableColumn<TreeMenu>>>([
         h(
           TableAction,
           {
+            permission,
             onHandleDelete: () => handleDelete(row.id as number),
             onHandleEdit: () => handleEdit(row),
             onHandleView: () => handleView(row)
