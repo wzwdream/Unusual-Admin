@@ -111,10 +111,10 @@ import { type ModalAction } from '@/components/basic/useBasicList/utils/type'
 
 // 权限标识
 const permission = {
-  add: ['admin'],
+  add: ['admin', 'user:add'],
   del: ['admin', 'user:del'],
-  edit: ['admin'],
-  download: ['admin']
+  edit: ['admin', 'user:edit'],
+  download: ['admin', 'user:download']
 }
 // 获取角色
 const roles = ref<RoleList[]>([])

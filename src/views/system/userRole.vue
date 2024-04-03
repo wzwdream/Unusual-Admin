@@ -115,10 +115,10 @@ import { getRoleMenu } from '@/api/user/menu'
 
 // 权限标识
 const permission = {
-  add: ['admin'],
-  del: ['admin'],
-  edit: ['admin'],
-  download: ['admin']
+  add: ['admin', 'role:add'],
+  del: ['admin', 'role:del'],
+  edit: ['admin', 'role:edit'],
+  download: ['admin', 'role:download']
 }
 // 获取dict
 const { dict } =  useDict(['status'])

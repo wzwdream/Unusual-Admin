@@ -63,9 +63,10 @@ import { usePermission } from '@/hooks/usePermission';
 // 权限
 const { hasPermission } = usePermission()
 const permission = {
-  add: ['admin'],
-  del: ['admin'],
-  edit: ['admin'],
+  add: ['admin', 'dictDetails:add'],
+  del: ['admin', 'dictDetails:del'],
+  edit: ['admin', 'dictDetails:edit'],
+  download: ['admin', 'dictDetails:download']
 }
 interface DetailsProps {
   pid?: number

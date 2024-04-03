@@ -11,7 +11,6 @@ const permission = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     // 使用usePermission钩子获取权限检查功能
     const { hasPermission } = usePermission();
-    console.log(binding.value);
     // 如果当前用户没有权限，则尝试移除元素或将其隐藏
     if (!hasPermission(binding.value)) {
       try {

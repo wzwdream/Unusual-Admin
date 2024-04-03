@@ -151,10 +151,9 @@ import { icons, renderLabel } from '@/utils/icon'
 import { type FormRules } from 'naive-ui/es/form/src/interface'
 
 const permission = {
-  add: ['admin'],
-  del: ['admin'],
-  edit: ['admin'],
-  download: ['admin']
+  add: ['admin', 'menu:add'],
+  del: ['admin', 'menu:del'],
+  edit: ['admin', 'menu:edit']
 }
 // 表格
 const columns = ref<Array<DataTableColumn<TreeMenu>>>([

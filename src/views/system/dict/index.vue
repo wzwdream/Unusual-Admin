@@ -72,10 +72,10 @@ import Details from './details.vue'
 import { type FormRules } from 'naive-ui/es/form/src/interface'
 
 const permission = {
-  add: ['admin'],
-  del: ['admin'],
-  edit: ['admin'],
-  download: ['admin']
+  add: ['admin', 'dict:add'],
+  del: ['admin', 'dict:del'],
+  edit: ['admin', 'dict:edit'],
+  download: ['admin', 'dict:download']
 }
 // 表格
 const columns = ref<DataTableColumn<DictList>[]>([
