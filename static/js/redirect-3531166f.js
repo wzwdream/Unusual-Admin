@@ -1,1 +1,0 @@
-import{h as a,aG as e,O as r}from"./.pnpm-8a28742c.js";const t=a({name:"Redirect"}),p=a({...t,setup(a){const t=e(),p=r(),{params:s,query:m}=t,{path:n}=s;return p.replace({path:"/"+n,query:m}),()=>{}}});export{p as default};
