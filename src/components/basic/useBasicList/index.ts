@@ -104,12 +104,14 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
         // 保存之前，如果返回处理后的数据则替换
         const formData = beforeSave && beforeSave(modalForm as List)
         const params = formData || modalForm as List
-        action && await action(params)
-        // 保存之后
-        notification.success({ title: '', content: prompt + ' ' + t('sucess'), duration: 1600 })
-        afterSave && afterSave(modalAction.value)
-        modalLoading.value = modalVisible.value = false
-        listQuery()
+        if (action) {
+          const res = await action(params)
+          // 保存之后
+          notification.success({ title: '', content: prompt + ' ' + t('sucess'), duration: 1600 })
+          afterSave && afterSave(modalAction.value, res)
+          modalLoading.value = modalVisible.value = false
+          listQuery()
+        }
       } catch (error) {
         modalLoading.value = false
       }

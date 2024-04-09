@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import Layout from '@/layout/index.vue'
 import Home from '@/views/workbenches/index.vue'
+import NotFound from '@/views/notFound/index.vue'
 
 export const home: RouteRecordRaw = {
   path: '/workbenches',
@@ -48,4 +49,9 @@ export const routes: RouteRecordRaw[] = [
       }
     ]
   },
+  {
+    path: '/:catchAll(.*)',
+    component: NotFound,
+    meta: { title: 'notFound', visibily: false }
+  }
 ]

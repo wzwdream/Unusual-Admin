@@ -33,7 +33,7 @@ export interface HookParams<List extends Form, QueryParams extends Form> {
   beforeValidate?: (form: List) => List | undefined
   beforeAsyncValidate?: () => Promise<void>
   beforeSave?: (listData: List) => List | undefined
-  afterSave?: (type: ModalAction) => void
+  afterSave?: (type: ModalAction, result?: any) => void
 }
 
 export type ListData<T> = {
