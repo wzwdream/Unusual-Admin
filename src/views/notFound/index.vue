@@ -10,7 +10,7 @@
 <script setup lang="ts" name="NotFound">
 const router = useRouter()
 const backHome = () => {
-  router.replace({ path: '/' })
+  router.replace( '/' )
 }
 </script>
 
