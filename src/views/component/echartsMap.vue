@@ -9,7 +9,7 @@
 import { use, registerMap } from 'echarts/core'
 import VChart from 'vue-echarts'
 import { CanvasRenderer } from 'echarts/renderers'
-import { MapChart, EffectScatterChart } from 'echarts/charts'
+import { MapChart, ScatterChart, EffectScatterChart } from 'echarts/charts'
 import { TitleComponent, TooltipComponent, LegendComponent, GridComponent, VisualMapComponent } from 'echarts/components'
 import { calcHeight } from '@/utils/help';
 
@@ -21,12 +21,13 @@ use([
   GridComponent,
   VisualMapComponent,
   MapChart,
+  ScatterChart,
   EffectScatterChart
 ])
 
 const notification = useNotification()
 const mapOption = ref()
-const mapList = ref < string[] > ([]) // 记录地图
+const mapList = ref<string[]>([]) // 记录地图
 const isShowBack = computed(() => {
   return mapList.value.length !== 0
 })
@@ -50,32 +51,30 @@ const setOptions = (mapName: string, mapData: any) => {
         }
       },
     },
+    visualMap: {
+      show: true,
+      min: 0,
+      max: 100,
+      left: 'left',
+      top: 'bottom',
+      text: ['高', '低'], // 文本，默认为数值文本
+      calculable: true,
+      seriesIndex: [0],
+      inRange: {
+        color: ['#00467F', '#A5CC82'] // 蓝绿
+      }
+    },
     geo: {
       map: mapName,
       roam: true,
       select: false,
+      // zoom: 1.6,
+      // layoutCenter: ['45%', '70%'],
+      // layoutSize: 750,
       // 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
       selectedMode: 'single',
       label: {
         show: true
-      },
-      itemStyle: {
-        borderColor: 'rgba(147, 235, 248, 1)',
-        borderWidth: 1,
-        areaColor: {
-          type: 'radial',
-          x: 0.5,
-          y: 0.5,
-          r: 0.8,
-          colorStops: [{
-            offset: 0,
-            color: 'rgba(147, 235, 248, 0)' // 0% 处的颜色
-          }, {
-            offset: 1,
-            color: 'rgba(147, 235, 248, .2)' // 100% 处的颜色
-          }],
-          globalCoord: false // 缺省为 false
-        },
       },
       emphasis: {
         itemStyle: {
@@ -99,14 +98,62 @@ const setOptions = (mapName: string, mapData: any) => {
         data: mapData
       },
       {
+        name: '散点',
+        type: 'scatter',
+        coordinateSystem: 'geo',
+        data: mapData,
+        itemStyle: {
+          color: '#05C3F9'
+        }
+      },
+      {
+        name: '点',
+        type: 'scatter',
+        coordinateSystem: 'geo',
+        symbol: 'pin', //气泡
+        symbolSize: function (val: any) {
+          if (val) {
+            return val[2] / 4 + 20;
+          }
+        },
+        label: {
+          show: true,
+          formatter: function (params: any) {
+            return params.data.data || 0;
+          },
+          color: '#fff',
+          fontSize: 9,
+        },
+        itemStyle: {
+          color: '#F62157', //标志颜色
+        },
+        zlevel: 6,
+        data: mapData,
+      },
+      {
+        name: 'Top 5',
         type: 'effectScatter',
         coordinateSystem: 'geo',
-        geoIndex: 0,
-        itemStyle: {
-          color: '#b02a02'
+        data: mapData.map((item: { data: number }) => {
+          if (item.data > 60) return item
+        }),
+        symbolSize: 15,
+        showEffectOn: 'render',
+        rippleEffect: {
+          brushType: 'stroke'
         },
-        data: mapData
-      }
+        label: {
+          formatter: '{b}',
+          position: 'right',
+          show: true
+        },
+        itemStyle: {
+          color: 'yellow',
+          shadowBlur: 10,
+          shadowColor: 'yellow'
+        },
+        zlevel: 1
+      },
     ]
   }
 }
@@ -115,12 +162,14 @@ const renderMapEcharts = async (mapName: string) => {
   const mapJson = await getMapJson(mapName)
   registerMap(mapName, mapJson);
   const mapdata = mapJson.features.map((item: { properties: any }) => {
+    const data = (Math.random() * 80 + 20).toFixed(0) // 20-80随机数
+    const tempValue = item.properties.center ? [...item.properties.center, data] : item.properties.center
     return {
       name: item.properties.name,
-      value: item.properties.center, // 中心点经纬度
+      value: tempValue, // 中心点经纬度
       adcode: item.properties.adcode, // 区域编码
       level: item.properties.level, // 层级
-      data: (Math.random() * 100).toFixed(2) // 模拟数据
+      data // 模拟数据
     }
   });
   mapOption.value = setOptions(mapName, mapdata)

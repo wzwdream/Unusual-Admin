@@ -2,6 +2,15 @@ import { type Tag } from '@/type/menu'
 import { defineStore } from 'pinia'
 import router from '@/router'
 import { loadingBar } from '@/utils/help'
+
+// 工作台tag
+const workbencheTag = {
+  icon: 'material-symbols:home-outline',
+  keepAlive: false,
+  key: '/workbenches',
+  label: '工作台',
+  name: 'Workbenches'
+}
 export const useTagStore = defineStore('tags', {
   state: () => {
     return {
@@ -41,7 +50,7 @@ export const useTagStore = defineStore('tags', {
     },
     changeActiveTag(val: string, jump: boolean = true) {
       if (this.activeTag !== val) {
-        if(jump) router.push(val)
+        if (jump) router.push(val)
         this.activeTag = val
       }
     },
@@ -73,19 +82,27 @@ export const useTagStore = defineStore('tags', {
     },
     removeOther() {
       const tags = this.tags.filter(item => item.key === this.currentTag)
-      this.setTags(tags)
+      this.setTags([workbencheTag, ...tags])
+      this.afterClose()
     },
     removeLeft() {
       const filterTags = this.tags.filter((item, index) => index >= this.currentTagIndex)
-      this.setTags(filterTags)
+      this.setTags([workbencheTag, ...filterTags])
+      this.afterClose()
     },
     removeRight() {
       const filterTags = this.tags.filter((item, index) => index <= this.currentTagIndex)
       this.setTags(filterTags)
+      this.afterClose()
     },
     removeAll() {
-      this.setTags([this.tags[0]])
-      this.changeActiveTag(this.tags[0].key)
+      this.setTags([workbencheTag])
+      this.changeActiveTag('/workbenches')
+    },
+    afterClose() {
+      if(this.currentTag !== this.activeTag) {
+        this.changeActiveTag(this.currentTag)
+      }
     }
   },
   persist: true

@@ -5,7 +5,7 @@ import NotFound from '@/views/notFound/index.vue'
 
 export const home: RouteRecordRaw = {
   path: '/workbenches',
-  meta: { title: '工作台', visibily: true, icon: 'material-symbols:home-outline', keepAlive: false },
+  meta: { title: '工作台', visibily: true, icon: 'material-symbols:home-outline', keepAlive: false, name: 'Workbenches' },
   component: Home
 }
 

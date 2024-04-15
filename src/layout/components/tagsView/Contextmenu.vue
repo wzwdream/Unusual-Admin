@@ -34,19 +34,19 @@ const options = computed(() => [
     key: 'close',
     label: t('tag.close'),
     icon: renderIcon('material-symbols:check-indeterminate-small-rounded'),
-    disabled: tagStore.tags.length <= 1
+    disabled: tagStore.tags.length <= 1 || tagStore.currentTag == '/workbenches'
   },
   {
     key: 'closeOther',
     label: t('tag.closeOther'),
     icon: renderIcon('mdi:arrow-expand-horizontal'),
-    disabled: tagStore.tags.length <= 1
+    disabled: tagStore.tags.length <= 2
   },
   {
     key: 'closeLeft',
     label: t('tag.closeLeft'),
     icon: renderIcon('mdi:arrow-expand-left'),
-    disabled: tagStore.tags.length <= 1 || tagStore.currentTagIndex === 0
+    disabled: tagStore.tags.length <= 2 || tagStore.currentTagIndex === 1
   },
   {
     key: 'closeRight',
