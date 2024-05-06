@@ -31,7 +31,7 @@ const directives: stringKey = {
     preview
 }
 
-// 注册指令
+// 全局注册指令
 export const setupDirective = (app: App) => {
     Object.keys(directives).forEach((key) => {
         app.directive(key, directives[key])
