@@ -48,6 +48,7 @@ export const icons = [
   { label: 'save', value: 'mingcute:save-2-line' },
   { label: 'colordict', value: 'arcticons:colordict' },
   { label: 'preview', value: 'material-symbols:preview' },
+  { label: 'map', value: 'material-symbols:map-outline-sharp' },
 ]
 
 // 渲染Icon

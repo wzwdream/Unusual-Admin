@@ -1,7 +1,7 @@
 <template>
-  <n-layout-content ref="contentRef" :style="`height: ${style()};`" :native-scrollbar="false" bg-hex-f5f6fb dark:bg-black>
+  <n-layout-content ref="contentRef" :style="`height: ${calcHeight()};`" :native-scrollbar="false" bg-hex-f5f6fb dark:bg-black>
     <n-back-top :visibility-height=" 10 " bottom="120" />
-    <main :style="`min-height: ${style('main')};`" bg-white dark:bg-dark p-10 box-border>
+    <main :style="`min-height: ${calcHeight('main')};`" bg-white dark:bg-dark m-10 box-border>
       <router-view v-slot=" { Component, route } ">
         <Transition name="fade-slide" mode="out-in" appear>
           <KeepAlive :include="keepAliveNames">
@@ -16,7 +16,7 @@
 <script setup lang="ts" name="Content">
 import { useTagStore } from '@/store/tags'
 import { useFullscreen } from '@vueuse/core'
-import { style } from '@/utils/help'
+import { calcHeight } from '@/utils/help'
 
 // 内容全屏
 const contentRef = ref<HTMLElement | null>(null)

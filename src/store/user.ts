@@ -6,7 +6,8 @@ export const useUserStore = defineStore('user', {
   state: () => {
     return {
       token: '',
-      userInfo: {} as UserInfo
+      userInfo: {} as UserInfo,
+      roles: [] as string[]
     }
   },
   actions: {
@@ -22,6 +23,7 @@ export const useUserStore = defineStore('user', {
       try {
         const { data } = await getUserInfo()
         this.userInfo = data
+        this.roles = data.roles || []
       } catch {
         this.userLogout()
       }

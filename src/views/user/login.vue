@@ -80,6 +80,7 @@ import { useUserStore } from '@/store/user'
 import { getCaptcha, login } from '@/api/user/login'
 import type { FormInst, FormRules } from 'naive-ui'
 import { checkPassword, checkEmail, checkPhone } from '@/utils/calibrationRules';
+import { resetStore } from '@/utils/help'
 
 
 // 页面切换
@@ -111,6 +112,7 @@ const submitLogin = () => {
         ...loginForm,
         password: encrypt(loginForm.password)
       }
+      resetStore() // 防止用户非正常退出登录后缓存数据
       login(params).then(async (response) => {
         loginLoading.value = false
         message.success('登录成功,欢迎回来')

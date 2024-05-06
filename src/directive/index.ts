@@ -25,10 +25,12 @@
 import { type App } from 'vue'
 import debounce from './debounce'
 import preview from './preview'
+import permission from './permission'
 type stringKey = Record<string, object>
 const directives: stringKey = {
     debounce,
-    preview
+    preview,
+    permission
 }
 
 // 全局注册指令

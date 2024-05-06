@@ -4,6 +4,7 @@
       <BasicLayout
         v-model:columns="columns"
         :btnDisabled="btnDisabled"
+        :permission="permission"
         @search="listQuery"
         @reset="handlereset"
         @add="handleAdd"
@@ -70,6 +71,12 @@ import { useBasicList } from '@/components/basic/useBasicList/index'
 import Details from './details.vue'
 import { type FormRules } from 'naive-ui/es/form/src/interface'
 
+const permission = {
+  add: ['admin', 'dict:add'],
+  del: ['admin', 'dict:del'],
+  edit: ['admin', 'dict:edit'],
+  download: ['admin', 'dict:download']
+}
 // 表格
 const columns = ref<DataTableColumn<DictList>[]>([
   {
@@ -101,6 +108,7 @@ const columns = ref<DataTableColumn<DictList>[]>([
         h(
           TableAction,
           {
+            permission,
             onHandleDelete: () => handleDelete(row.id as number),
             onHandleEdit: () => handleEdit(row),
             onHandleView: () => handleView(row)

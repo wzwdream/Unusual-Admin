@@ -3,6 +3,7 @@
     <BasicLayout
       v-model:columns="columns"
       :btnDisabled="btnDisabled"
+      :permission="permission"
       @search="listQuery"
       @reset="handlereset"
       @add="handleAdd"
@@ -108,6 +109,13 @@ import { useDict } from '@/hooks/useDict'
 import { checkPassword, checkEmail, checkPhone } from '@/utils/calibrationRules';
 import { type ModalAction } from '@/components/basic/useBasicList/utils/type'
 
+// 权限标识
+const permission = {
+  add: ['admin', 'user:add'],
+  del: ['admin', 'user:del'],
+  edit: ['admin', 'user:edit'],
+  download: ['admin', 'user:download']
+}
 // 获取角色
 const roles = ref<RoleList[]>([])
 getUserRole().then(res => {
@@ -122,7 +130,7 @@ const columns = ref<Array<DataTableColumn<UserList>>>([
   {
     type: 'selection',
     disabled: (row) => {
-      return row.id === 1
+      return row.account === 'admin'
     }
   },
   {
@@ -160,7 +168,7 @@ const columns = ref<Array<DataTableColumn<UserList>>>([
           loading: !!row.loading,
           checkedValue: 1,
           uncheckedValue: 0,
-          disabled: row.id === 1,
+          disabled: row.account === 'admin',
           onUpdateValue: () => handleChangeStatus(row)
         }
       )
@@ -181,7 +189,8 @@ const columns = ref<Array<DataTableColumn<UserList>>>([
         h(
           TableAction,
           {
-            disabled: row.id === 1,
+            disabled: row.account === 'admin',
+            permission,
             onHandleDelete: () => handleDelete(row.id as number),
             onHandleEdit: () => handleEdit(row),
             onHandleView: () => handleView(row)
@@ -218,7 +227,7 @@ const formRules: FormRules = {
   ],
 }
 // 提示
-const notification = useNotification()
+const message = useMessage()
 // 表格hooks
 const {
   pagination,
@@ -258,12 +267,15 @@ const {
     return query
   },
   // 新增/修改保存之后
-  afterSave: (type: ModalAction) => {
+  afterSave: (type: ModalAction, res) => {
     if (type === 'add') {
-      notification.info({
-        title: '初始密码',
-        content: '123456',
-      })
+      message.info(
+        `初始密码': content: ${res.data.pwd} || '123456`,
+        {
+          closable: true,
+          duration: 0
+        }
+      )
     }
   },
   doDelete: delUser,

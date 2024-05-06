@@ -1,6 +1,6 @@
 <template>
   <n-card title="字典详情" size="small" :segmented="true">
-    <template #header-extra>
+    <template #header-extra v-if="hasPermission(permission.add)">
       <n-button type="primary" :disabled="props.pid === undefined" size="small" @click="handleAdd">
         <template #icon>
           <Icon icon="material-symbols:add-rounded" />
@@ -58,7 +58,16 @@ import { type Details, type DictDetailQuery, editDictDetails, delDictDetails, ad
 import TableAction from '@/components/basic/tableAction.vue'
 import { useBasicList } from '@/components/basic/useBasicList/index'
 import { type FormRules } from 'naive-ui/es/form/src/interface';
+import { usePermission } from '@/hooks/usePermission';
 
+// 权限
+const { hasPermission } = usePermission()
+const permission = {
+  add: ['admin', 'dictDetails:add'],
+  del: ['admin', 'dictDetails:del'],
+  edit: ['admin', 'dictDetails:edit'],
+  download: ['admin', 'dictDetails:download']
+}
 interface DetailsProps {
   pid?: number
   name?: string
@@ -105,6 +114,7 @@ const columns = ref<DataTableColumn<Details>[]>([
         h(
           TableAction,
           {
+            permission,
             onHandleDelete: () => handleDelete(row.id),
             onHandleEdit: () => handleEdit(row),
             onHandleView: () => handleView(row)

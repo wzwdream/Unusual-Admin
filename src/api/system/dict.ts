@@ -44,7 +44,7 @@ export const addDict = (params: DictList) => {
 }
 
 export const getDictDetails = (params: DictQuery) => {
-  return Http.get<Details[]>('/dict/details', params)
+  return Http.post<Record<string, Details[]>>('/dict/details', params)
 }
 
 export const editDictDetails = (params: Details) => {

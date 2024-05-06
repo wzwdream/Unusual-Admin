@@ -37,13 +37,15 @@ export const hRouter = (lable: string, router: string) => {
   )
 }
 
-// 计算content高度
-export const style = (type: string = '') => {
+// 计算content高度(需要在setup中使用)
+export const calcHeight = (type: string = '') => {
+  const tagStore = useTagStore()
+  if (tagStore.fullContent) return 'calc(100vh - 20px)' // 全屏的content高度固定
   const { showFooter, tagsView } = setting
   let height = 60
   if (showFooter) height += 30
   if (tagsView) height += 48
-  if (type === 'page') height += 20
+  if (type === 'main') height += 20
   if (type === 'link') height += 30
   return `calc(100vh - ${height}px)`
 }

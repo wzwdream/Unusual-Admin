@@ -9,7 +9,7 @@ export interface UserInfo {
   email: string
   sex: number
   status: number
-  roles: number[]
+  roles: string[]
   token: string
 }
 export const getCaptcha = () => {

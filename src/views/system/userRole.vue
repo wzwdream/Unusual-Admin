@@ -5,6 +5,7 @@
         <BasicLayout
           v-model:columns="columns"
           :btnDisabled="btnDisabled"
+          :permission="permission"
           @search="listQuery"
           @reset="handlereset"
           @add="handleAdd"
@@ -92,7 +93,6 @@
             :show-line="true"
             block-line
             multiple
-            cascade
             checkable
             expand-on-click
             @update:checked-keys="updateCheckedKeys"
@@ -113,6 +113,13 @@ import { message } from '@/utils/help'
 import { useDict } from '@/hooks/useDict'
 import { getRoleMenu } from '@/api/user/menu'
 
+// 权限标识
+const permission = {
+  add: ['admin', 'role:add'],
+  del: ['admin', 'role:del'],
+  edit: ['admin', 'role:edit'],
+  download: ['admin', 'role:download']
+}
 // 获取dict
 const { dict } =  useDict(['status'])
 // 表格
@@ -168,6 +175,7 @@ const columns = ref<DataTableColumn<RoleList>[]>([
         h(
           TableAction,
           {
+            permission: permission,
             disabled: row.id === 1,
             onHandleDelete: () => handleDelete(row.id as number),
             onHandleEdit: () => handleEdit(row),

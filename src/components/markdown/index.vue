@@ -9,7 +9,7 @@
     :noImgZoomIn="true"
     :autofocus="true"
     :read-only="readOnly"
-    :style="props.mStyle || { height: style('page') }"
+    :style="props.mStyle || { height: calcHeight('main') }"
     :toolbarsExclude="props.toolbarsExclude"
     @save="save"
     @upload-img="uploadImg"
@@ -20,7 +20,7 @@
 import { MdEditor, type ToolbarNames, type Themes } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 import { useThemeStore } from '@/store/them'
-import { style } from '@/utils/help'
+import { calcHeight } from '@/utils/help'
 import { type CSSProperties } from 'vue'
 
 interface MarkdownProps {
