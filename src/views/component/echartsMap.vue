@@ -33,15 +33,9 @@ const isShowBack = computed(() => {
 })
 
 const getMapJson = async (mapName: string) => {
-  if (mapName === 'china') {
-    const url = '/public/mapJson/china.json'
-    const mapJson = await import(/* @vite-ignore */ url)
-    return mapJson
-  } else {
-    const url = `https://geo.datav.aliyun.com/areas_v3/bound/${mapName}.json`
-    const mapJson = await fetch(url).then(res => res.json())
-    return mapJson
-  }
+  const url = `https://geo.datav.aliyun.com/areas_v3/bound/${mapName}.json`
+  const mapJson = await fetch(url).then(res => res.json())
+  return mapJson
 }
 
 const setOptions = (mapName: string, mapData: any) => {
@@ -181,7 +175,7 @@ const renderMapEcharts = async (mapName: string) => {
   mapOption.value = setOptions(mapName, mapdata)
 }
 
-renderMapEcharts('china') // 初始化绘制中国地图
+renderMapEcharts('100000_full') // 初始化绘制中国地图
 
 // 点击下砖
 const handleClick = (param: any) => {
