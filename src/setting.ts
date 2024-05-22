@@ -8,10 +8,6 @@ export const setting = {
    */
   accordion: true,
   /**
-   * @description token key
-   */
-  TokenKey: 'EL-ADMIN-TOEKN',
-  /**
    * @description 请求超时时间，毫秒（默认2分钟）
    */
   timeout: 1200000,

@@ -33,9 +33,15 @@ const isShowBack = computed(() => {
 })
 
 const getMapJson = async (mapName: string) => {
-  const url = `../../assets/mapJson/${mapName}.json`
-  const mapJson = await import(/* @vite-ignore */ url)
-  return mapJson
+  if (mapName === 'china') {
+    const url = '/public/mapJson/china.json'
+    const mapJson = await import(/* @vite-ignore */ url)
+    return mapJson
+  } else {
+    const url = `https://geo.datav.aliyun.com/areas_v3/bound/${mapName}.json`
+    const mapJson = await fetch(url).then(res => res.json())
+    return mapJson
+  }
 }
 
 const setOptions = (mapName: string, mapData: any) => {
@@ -181,13 +187,14 @@ renderMapEcharts('china') // 初始化绘制中国地图
 const handleClick = (param: any) => {
   // 只有点击地图才触发
   if (param.seriesType !== 'map') return
-  const { adcode } = param.data
+  const { adcode, level } = param.data
+  const mapName = level === 'district' ? adcode : adcode + '_full'
   // 防止最后一个层级被重复点击，返回上一级出错
-  if (mapList.value[mapList.value.length - 1] === adcode) {
+  if (mapList.value[mapList.value.length - 1] === mapName) {
     return notification.warning({ content: '已经是最下层了', duration: 1000 })
   }
-  mapList.value.push(adcode)
-  renderMapEcharts(adcode)
+  mapList.value.push(mapName)
+  renderMapEcharts(mapName)
 }
 
 // 点击返回上一级地图

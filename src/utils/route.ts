@@ -1,7 +1,5 @@
 import { type RouteRecordRaw } from 'vue-router'
 import { type TreeMenu } from '@/type/menu'
-import Layout from '@/layout/index.vue'
-import Link from '@/views/link/index.vue'
 
 // 通过menu数据生成路由数据
 export const buildRoute = (routes: TreeMenu[]): RouteRecordRaw[] => {
@@ -13,6 +11,7 @@ export const buildRoute = (routes: TreeMenu[]): RouteRecordRaw[] => {
       component: item.component as any,
       redirect: '',
       meta: {
+        pid: item.pid,
         title: item.title,
         visibily: item.visibily,
         icon: item.icon || '',
@@ -46,14 +45,26 @@ export const loadView = (view: any) => {
 
 // 补全路由信息-找到对应的组件
 export const filterRoute = (data: RouteRecordRaw[]) => {
-  data.forEach((item: RouteRecordRaw) => {
-    if (item.children && item.children?.length > 0) {
-      item.component = Layout
+  const menu = data.map((item: RouteRecordRaw) => {
+    if (item.meta?.menuType === 1 && item.children && item.children?.length > 0) {
+      // 防止多级菜单嵌套布局组件
+      if(item.meta?.pid === 0) item.component = () => import('@/layout/index.vue')
       filterRoute(item.children)
     } else {
       item.component = loadView(item.component)
-      if (item.meta?.externalLink) item.component = Link
+      if (item.meta?.externalLink) item.component = () => import('@/views/link/index.vue')
+
+      // 表示菜单是一级菜单，需要布局组件
+      if(item.meta?.pid === 0) {
+        item = {
+          path: '/temp' + item.path,
+          component: () => import('@/layout/index.vue'),
+          meta: { visibily: true, title: item.meta.title, menuType: 1 },
+          children: [item]
+        }
+      }
     }
+    return item
   })
-  return data
+  return menu
 }

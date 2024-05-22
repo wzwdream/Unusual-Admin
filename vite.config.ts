@@ -41,6 +41,7 @@ export default defineConfig(({ command, mode }) => {
           drop_debugger: true,
         }
       },
+      chunkSizeWarningLimit: 1000,
       // 打包输出配置
       rollupOptions: {
         output: {

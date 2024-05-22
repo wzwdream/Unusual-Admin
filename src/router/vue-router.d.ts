@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 declare module 'vue-router' {
   interface RouteMeta {
+    pid?: number
     title?: string
     visibily?: boolean
     menuType?: 0 | 1 | 2
