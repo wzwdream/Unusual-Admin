@@ -191,15 +191,15 @@ const submitRegist = () => {
   })
 }
 
-function nextFocus(formEl: Ref<FormInst | null>) {
-  const focusableElements: NodeListOf<Element> = formEl.$el.querySelectorAll(
+function nextFocus(formEl: any) {
+  const focusableElements: NodeListOf<Element> = formEl?.$el.querySelectorAll(
       '.n-input__input-el,.n-button'
   )
   const focusableArray: Array<Element> = Array.from(focusableElements)
   const focusedIndex = focusableArray.findIndex(
       (element) => element === document.activeElement
   )
-  const nextElement: HTMLElement  = focusableArray[focusedIndex + 1]
+  const nextElement: any  = focusableArray[focusedIndex + 1]
   if (focusedIndex + 1 < focusableElements.length) {
     nextElement.focus()
   }
