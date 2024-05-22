@@ -1,0 +1,1 @@
+import{g as t}from"./dict-424682d2.js";import{M as e}from"./.pnpm-6218793e.js";const a=(a=[])=>{const r=e();Array.isArray(a)&&a.length>0&&t(a).then((t=>{r.value=t.data}));const l=t=>{let e=[];return r.value&&(e=r.value[t]),e};return{dict:r,getDict:l,getDictLabel:(t,e)=>{let a="";if(r.value){l(t).map((t=>{t.value===e&&(a=t.label)}))}return a}}};export{a as u};

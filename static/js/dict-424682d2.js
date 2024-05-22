@@ -1,0 +1,1 @@
+import{h as t}from"./index-90f21202.js";const s=s=>t.put("/dict",s),a=s=>t.delete("/dict/"+s),e=s=>t.post("/dict",s),i=s=>t.post("/dict/details",s),d=s=>t.put("/dictDetails",s),c=s=>t.delete("/dictDetails/"+s),o=s=>t.post("/dictDetails",s);export{e as a,o as b,c,a as d,s as e,d as f,i as g};

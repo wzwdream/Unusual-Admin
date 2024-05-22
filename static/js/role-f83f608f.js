@@ -1,0 +1,1 @@
+import{h as e}from"./index-90f21202.js";const o=()=>e.get("/role"),s=o=>e.put("/role",o),r=o=>e.delete("/role/"+o),t=o=>e.post("/role",o),a=o=>e.get("/role/menu/"+o),l=(o,s)=>e.put("/role/menu/"+o,s);export{a,t as b,r as d,o as g,l as s,s as u};
