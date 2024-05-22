@@ -193,7 +193,7 @@ const handleClick = (param: any) => {
 
 // 点击返回上一级地图
 const goBack = () => {
-  const mapName = mapList.value[mapList.value.length - 2] || 'china'
+  const mapName = mapList.value[mapList.value.length - 2] || '100000_full'
   mapList.value.pop()
   renderMapEcharts(mapName)
 }
