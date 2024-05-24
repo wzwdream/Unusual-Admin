@@ -31,8 +31,8 @@ export default defineConfig(({ command, mode }) => {
     },
     build: {
       reportCompressedSize: false, // 是否开启计算文件大小，项目过大会影响打包效率
-      // minify: 'terser',
-      minify: 'esbuild',
+      minify: 'terser',
+      // minify: 'esbuild',
       sourcemap: !isBuild,
       assetsDir: 'static',
       // 去除项目中的console.log跟debugger
@@ -48,8 +48,7 @@ export default defineConfig(({ command, mode }) => {
         output: {
           manualChunks(id: string) {
             if (id.includes('node_modules')) {
-              // const moduleName = id.split('node_modules/')[1].split('/')[0]
-              // return moduleName
+              // return id.toString().split('node_modules/')[1].split('/')[0].toString()
               // 如果使用pnpm进行包管理，分包应该这样写，不然会生成一个巨大的.pnpm文件
               return id.toString().split('node_modules/')[2].split('/')[0].toString()
             }

@@ -64,29 +64,29 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
 
   /** 新增 */
   const handleAdd = async () => {
-    beforeValidate && beforeValidate(modalForm)
+    beforeValidate && beforeValidate(modalForm.value)
     beforeAsyncValidate && await beforeAsyncValidate()
     modalAction.value = 'add'
     modalVisible.value = true
-    copyProps(modalForm, initForm)
+    copyProps(modalForm.value, initForm)
   }
 
   /** 修改 */
   const handleEdit = async (row?: List) => {
-    beforeValidate && beforeValidate(modalForm)
+    beforeValidate && beforeValidate(modalForm.value)
     beforeAsyncValidate && await beforeAsyncValidate()
     let rowData = cloneDeep(row)
     if (!row && checkedRow.value) rowData = checkedRow.value[0] as List
     modalAction.value = 'edit'
     modalVisible.value = true
-    copyProps(modalForm, rowData)
+    copyProps(modalForm.value, rowData)
   }
 
   /** 查看 */
   const handleView = (row: List) => {
     modalAction.value = 'view'
     modalVisible.value = true
-    copyProps(modalForm, cloneDeep(row))
+    copyProps(modalForm.value, cloneDeep(row))
   }
 
   /** 保存 */
@@ -102,8 +102,8 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
       try {
         modalLoading.value = true
         // 保存之前，如果返回处理后的数据则替换
-        const formData = beforeSave && beforeSave(modalForm as List)
-        const params = formData || modalForm as List
+        const formData = beforeSave && beforeSave(modalForm.value)
+        const params = formData || modalForm.value
         if (action) {
           const res = await action(params)
           // 保存之后
@@ -120,7 +120,7 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
 
   /** 删除 */
   const checkIds = computed(() => {
-    return checkedRow.value?.map(item => {
+    return checkedRow.value?.map((item: any) => {
       return item[key]
     })
   })
@@ -138,7 +138,7 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
           if (id !== undefined) {
             doDelete && await doDelete(id)
           } else {
-            const deletePromises = checkIds.value.map(async id => {
+            const deletePromises = checkIds.value.map(async (id: number) => {
               if (!doDelete) return
               return await doDelete(id)
             })
