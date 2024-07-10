@@ -15,7 +15,7 @@ const router = createRouter({
 })
 
 // 路由白名单
-const whiteList = ['/login']
+const whiteList = ['/login', '/largescreen']
 router.beforeEach(async (to, from, next) => {
   // 开启加载条
   loadingBar.start()

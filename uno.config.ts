@@ -17,6 +17,7 @@ export default defineConfig({
     ['f-c-c', 'flex justify-center items-center'],
     ['flex-col', 'flex flex-col'],
     ['flex-col-c', 'flex flex-col justify-center items-center'],
+    ['flex-col-b', 'flex flex-col justify-between'],
     ['absolute-lb', 'absolute left-0 bottom-0'],
     ['absolute-rt', 'absolute right-0 top-0'],
     ['absolute-rb', 'absolute right-0 bottom-0'],

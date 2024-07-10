@@ -15,6 +15,12 @@ export const routes: RouteRecordRaw[] = [
     meta: { title: '登录', visibily: false }
   },
   {
+    path: '/largescreen',
+    name: 'Largescreen',
+    component: () => import('@/views/largescreen/index.vue'),
+    meta: { title: '大屏', visibily: false }
+  },
+  {
     path: '/redirect',
     name: 'Redirect',
     component: Layout,
