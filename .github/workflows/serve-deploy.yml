@@ -36,8 +36,4 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST }} #服务器ip
           REMOTE_USER: "root"
           TARGET: "/home/Unusual-Admin/"
-<<<<<<<< HEAD:.github/workflows/serve-deploy.yml
           EXCLUDE: "/node_modules/"
-========
-          EXCLUDE: "/node_modules/"
->>>>>>>> d1a5b988375f2b5bcbadc26a404ce1b5c2a20beb:.github/workflows/serve-deploy
