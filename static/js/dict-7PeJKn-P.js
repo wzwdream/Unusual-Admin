@@ -1,1 +1,0 @@
-import{h as e}from"./index-BSo8LMmg.js";const i=t=>e.put("/dict",t),c=t=>e.delete("/dict/"+t),a=t=>e.post("/dict",t),d=t=>e.post("/dict/details",t),r=t=>e.put("/dictDetails",t),n=t=>e.delete("/dictDetails/"+t),D=t=>e.post("/dictDetails",t);export{a,D as b,n as c,c as d,i as e,r as f,d as g};
