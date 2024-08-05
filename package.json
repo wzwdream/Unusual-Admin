@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host  0.0.0.0",
     "build": "vue-tsc --noEmit &&  vite build",
+    "build:github": "vue-tsc --noEmit &&  vite build --mode github",
     "preview": "vite preview",
     "eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
