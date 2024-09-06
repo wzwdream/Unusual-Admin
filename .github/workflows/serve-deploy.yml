@@ -10,47 +10,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 下载代码仓库
-      - uses: actions/checkout@v2
+      - name: Checkout 代码
+        uses: actions/checkout@v2
 
-      # 使用 action 库，安装 Node.js
-      - name: Set up Node.js
+      - name: 设置 Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18.17.0
 
-      # 安装依赖并构建
-      - name: Install and Build
+      - name: 安装和构建
         run: |
-          npm install -g pnpm && \
-          pnpm install --no-frozen-lockfile && \
+          npm install -g pnpm
+          pnpm install --no-frozen-lockfile
           pnpm build
 
-      # 设置 SSH 主机密钥
-      - name: Set up SSH
+      - name: 设置 SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSHPWD }}
 
-      # 设置 known_hosts
-      - name: Set up known hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-
-      # 使用 rsync 同步文件到服务器
-      - name: Sync files to server
+      - name: 同步文件到服务器
         run: |
           rsync -avz --delete ./dist ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
           rsync -avz --delete ./DockerFile ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
-          rsync -avz --delete ./nginx.conf ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
+          rsync -avz --delete ./nginx.config ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
 
-      # 设置脚本权限
-      - name: Set script permissions
+      - name: 构建 Docker 镜像
         run: |
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'chmod +x /home/Unusual-Admin/web-setup.sh'
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'docker build -t myapp:latest /home/Unusual-Admin/'
 
-      # 执行脚本
-      - name: Execute script on server
+      - name: 部署 Docker 容器
         run: |
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash /home/Unusual-Admin/web-setup.sh'
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
+            docker stop myapp || true
+            docker rm myapp || true
+            docker run -d --name myapp -p 80:80 myapp:latest
+          EOF
