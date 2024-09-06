@@ -26,24 +26,31 @@ jobs:
           pnpm install --no-frozen-lockfile && \
           pnpm build
 
-      # 使用ssh把文件同步到服务器
+      # 设置 SSH 主机密钥
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-            ssh-private-key: ${{ secrets.SSHPWD }}
+          ssh-private-key: ${{ secrets.SSHPWD }}
 
+      # 设置 known_hosts
+      - name: Set up known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      # 使用 rsync 同步文件到服务器
       - name: Sync files to server
         run: |
-          # 使用 rsync 同步 dist 目录、Dockerfile 和 nginx.config 文件
           rsync -avz --delete ./dist ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/dist
           rsync -avz --delete ./Dockerfile ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/Dockerfile
           rsync -avz --delete ./nginx.config ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/nginx.config
 
-      # 服务器执行脚本
+      # 设置脚本权限
       - name: Set script permissions
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'chmod +x /home/Unusual-Admin/web-setup.sh'
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'chmod +x /home/Unusual-Admin/web-setup.sh'
 
+      # 执行脚本
       - name: Execute script on server
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash /home/Unusual-Admin/web-setup.sh'
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash /home/Unusual-Admin/web-setup.sh'
