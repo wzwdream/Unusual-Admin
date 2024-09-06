@@ -41,9 +41,9 @@ jobs:
       # 使用 rsync 同步文件到服务器
       - name: Sync files to server
         run: |
-          rsync -avz --delete ./dist ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/dist
-          rsync -avz --delete ./Dockerfile ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/Dockerfile
-          rsync -avz --delete ./nginx.config ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/nginx.config
+          rsync -avz --delete ./dist ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
+          rsync -avz --delete ./DockerFile ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
+          rsync -avz --delete ./nginx.config ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
 
       # 设置脚本权限
       - name: Set script permissions
