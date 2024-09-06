@@ -24,16 +24,28 @@ jobs:
           pnpm install --no-frozen-lockfile
           pnpm build
 
-      - name: 设置 SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSHPWD }}
+      # 部署到服务器
+      - name: Deploy to Staging Server
+        uses: easingthemes/ssh-deploy@v2.1.6
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSHPWD }}
+          ARGS: "-rltgoDzvO"
+          SOURCE: "dist DockerFile nginx.conf"
+          REMOTE_HOST: ${{ secrets.HOST }}
+          REMOTE_USER: "${{ secrets.USERNAME }}"
+          TARGET: "/home/Unusual-Admin/"
+          EXCLUDE: "/node_modules/"
 
-      - name: 同步文件到服务器
-        run: |
-          rsync -avz --delete ./dist ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
-          rsync -avz --delete ./DockerFile ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
-          rsync -avz --delete ./nginx.config ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
+      # - name: 设置 SSH
+      #   uses: webfactory/ssh-agent@v0.5.3
+      #   with:
+      #     ssh-private-key: ${{ secrets.SSHPWD }}
+
+      # - name: 同步文件到服务器
+      #   run: |
+      #     rsync -avz --delete ./dist ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
+      #     rsync -avz --delete ./DockerFile ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
+      #     rsync -avz --delete ./nginx.config ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
 
       - name: 构建 Docker 镜像
         run: |
