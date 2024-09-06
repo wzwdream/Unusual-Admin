@@ -10,28 +10,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout 代码
-        uses: actions/checkout@v2
+      # 下载代码仓库
+      - uses: actions/checkout@v2
 
-      - name: 设置 Node.js
+      # 使用 action 库，安装 Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18.17.0
 
-      - name: 安装和构建
+      # 安装依赖并构建
+      - name: Install and Build
         run: |
-          npm install -g pnpm
-          pnpm install --no-frozen-lockfile
+          npm install -g pnpm && \
+          pnpm install --no-frozen-lockfile && \
           pnpm build
 
-
-      - name: 设置 SSH
+      # 使用ssh把文件同步到服务器
+      - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.SSHPWD }}
-
-      - name: 同步文件到服务器
+            ssh-private-key: ${{ secrets.SSHPWD }}
+        # 设置 known_hosts
+      - name: Set up known hosts
         run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      - name: Sync files to server
+        run: |
+          # 使用 rsync 同步 dist 目录、Dockerfile 和 nginx.config 文件
           rsync -avz --delete ./dist ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
           rsync -avz --delete ./DockerFile ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
           rsync -avz --delete ./nginx.config ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
@@ -45,5 +53,5 @@ jobs:
           ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
             docker stop myapp || true
             docker rm myapp || true
-            docker run -d --name myapp -p 80:80 myapp:latest
+            docker run -d --name myapp -p 8080:8080 myapp:latest
           EOF
