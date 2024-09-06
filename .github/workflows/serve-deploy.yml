@@ -32,7 +32,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSHPWD }}
           ARGS: "-rltgoDzvO"
-          SOURCE: "dist Dockerfile nginx.conf"
+          SOURCE: "."
           REMOTE_HOST: ${{ secrets.HOST }}
           REMOTE_USER: "root"
           TARGET: "/home/Unusual-Admin/"
