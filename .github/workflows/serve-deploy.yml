@@ -7,33 +7,44 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest # 使用ubuntu系统镜像运行自动化脚本
+    runs-on: ubuntu-latest
 
-    steps: # 自动化步骤
-      #下载代码仓库
-      - uses: actions/checkout@v1
+    steps:
+      # 下载代码仓库
+      - uses: actions/checkout@v2
 
-      # 使用action库，安装node
-      - name: use Node.js # 使用action库  actions/setup-node安装node
-        uses: actions/setup-node@v1
+      # 使用 action 库，安装 Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 18.17.0 # 指定node版本
-      # 安装依赖
+          node-version: 18.17.0
+
+      # 安装依赖并构建
       - name: Install and Build
         run: |
-          npm install pnpm -g && \
+          npm install -g pnpm && \
           pnpm install --no-frozen-lockfile && \
           pnpm build
 
-      #部署到服务器
-      - name: Deploy to Staging My server
+      # 部署到服务器
+      - name: Deploy to Staging Server
         uses: easingthemes/ssh-deploy@v2.1.6
         env:
-          #私钥
           SSH_PRIVATE_KEY: ${{ secrets.SSHPWD }}
           ARGS: "-rltgoDzvO"
-          SOURCE: "dist"
-          REMOTE_HOST: ${{ secrets.HOST }} #服务器ip
+          SOURCE: "dist Dockerfile nginx.conf"
+          REMOTE_HOST: ${{ secrets.HOST }}
           REMOTE_USER: "root"
           TARGET: "/home/Unusual-Admin/"
           EXCLUDE: "/node_modules/"
+
+      # 在服务器上执行 Docker 脚本
+      - name: Run Docker Commands on Server
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSHPWD }} root@${{ secrets.HOST }} << 'EOF'
+            cd /home/Unusual-Admin/
+            docker build -t Unusual-Admin .
+            docker run -d -p 8080:8080 Unusual-Admin
+          EOF
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSHPWD }}
