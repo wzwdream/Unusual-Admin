@@ -53,5 +53,5 @@ jobs:
           ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
             docker stop myapp || true
             docker rm myapp || true
-            docker run -d --name myapp -p 8080:8080 --network=common-network myapp:latest
+            docker run -d --name myapp -p 8080:8080 --network=app-common-network myapp:latest
           EOF
