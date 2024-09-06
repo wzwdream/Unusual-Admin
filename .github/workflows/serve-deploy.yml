@@ -9,6 +9,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      SSH_PRIVATE_KEY: ${{ secrets.SSHPWD }}
+      REMOTE_HOST: ${{ secrets.HOST }}
+      REMOTE_USER: ${{ secrets.USERNAME }}
+
     steps:
       - name: Checkout 代码
         uses: actions/checkout@v2
@@ -24,36 +29,24 @@ jobs:
           pnpm install --no-frozen-lockfile
           pnpm build
 
-      # 部署到服务器
-      - name: Deploy to Staging Server
+      - name: 部署到服务器
         uses: easingthemes/ssh-deploy@v2.1.6
-        env:
+        with:
           SSH_PRIVATE_KEY: ${{ secrets.SSHPWD }}
           ARGS: "-rltgoDzvO"
           SOURCE: "dist DockerFile nginx.conf"
           REMOTE_HOST: ${{ secrets.HOST }}
-          REMOTE_USER: "${{ secrets.USERNAME }}"
+          REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: "/home/Unusual-Admin/"
           EXCLUDE: "/node_modules/"
 
-      # - name: 设置 SSH
-      #   uses: webfactory/ssh-agent@v0.5.3
-      #   with:
-      #     ssh-private-key: ${{ secrets.SSHPWD }}
-
-      # - name: 同步文件到服务器
-      #   run: |
-      #     rsync -avz --delete ./dist ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
-      #     rsync -avz --delete ./DockerFile ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
-      #     rsync -avz --delete ./nginx.config ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
-
       - name: 构建 Docker 镜像
         run: |
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'docker build -t myapp:latest /home/Unusual-Admin/'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'docker build -t myapp:latest /home/Unusual-Admin/' || exit 1
 
       - name: 部署 Docker 容器
         run: |
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
             docker stop myapp || true
             docker rm myapp || true
             docker run -d --name myapp -p 80:80 myapp:latest
