@@ -26,25 +26,24 @@ jobs:
           pnpm install --no-frozen-lockfile && \
           pnpm build
 
-      # 部署到服务器
-      - name: Deploy to Staging Server
-        uses: easingthemes/ssh-deploy@v2.1.6
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSHPWD }}
-          ARGS: "-rltgoDzvO"
-          SOURCE: "."
-          REMOTE_HOST: ${{ secrets.HOST }}
-          REMOTE_USER: "root"
-          TARGET: "/home/Unusual-Admin/"
-          EXCLUDE: "/node_modules/"
+      # 使用ssh把文件同步到服务器
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+            ssh-private-key: ${{ secrets.SSHPWD }}
 
-      # 在服务器上执行 Docker 脚本
-      - name: Run Docker Commands on Server
+      - name: Sync files to server
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSHPWD }} root@${{ secrets.HOST }} << 'EOF'
-            cd /home/Unusual-Admin/
-            docker build -t Unusual-Admin .
-            docker run -d -p 8080:8080 Unusual-Admin
-          EOF
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSHPWD }}
+          # 使用 rsync 同步 dist 目录、Dockerfile 和 nginx.config 文件
+          rsync -avz --delete ./dist ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/dist
+          rsync -avz --delete ./Dockerfile ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/Dockerfile
+          rsync -avz --delete ./nginx.config ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/nginx.config
+
+      # 服务器执行脚本
+      - name: Set script permissions
+        run: |
+          ssh -i ~/.ssh/id_rsa ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'chmod +x /home/Unusual-Admin/web-setup.sh'
+
+      - name: Execute script on server
+        run: |
+          ssh -i ~/.ssh/id_rsa ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash /home/Unusual-Admin/web-setup.sh'
