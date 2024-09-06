@@ -42,7 +42,7 @@ jobs:
           # 使用 rsync 同步 dist 目录、Dockerfile 和 nginx.config 文件
           rsync -avz --delete ./dist ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
           rsync -avz --delete ./DockerFile ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
-          rsync -avz --delete ./nginx.config ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
+          rsync -avz --delete ./nginx.conf ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/Unusual-Admin/
 
       - name: 构建 Docker 镜像
         run: |
