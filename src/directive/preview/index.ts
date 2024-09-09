@@ -42,6 +42,11 @@ function openPreview():void {
         mask.removeEventListener('click', mackFn)
     }
     mask.addEventListener('click', mackFn)
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' || event.keyCode === 27) {
+            mackFn(); // 调用关闭蒙层的函数
+        }
+    })
     changeStyle(cloneEl.value!, [`left: ${left}px`, `top: ${top}px`])
     mask.appendChild(cloneEl.value!) // 添加图片
     // 移动图片到屏幕中心位置
