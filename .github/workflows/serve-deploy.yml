@@ -46,12 +46,12 @@ jobs:
 
       - name: 构建 Docker 镜像
         run: |
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'docker build -t unusualApp:latest /home/Unusual-Admin/'
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'docker build -t unusualapp:latest /home/Unusual-Admin/'
 
       - name: 部署 Docker 容器
         run: |
           ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
-            docker stop unusualApp || true
-            docker rm unusualApp || true
-            docker run -d --name unusualApp -p 8080:8080 --network=app_common-network unusualApp:latest
+            docker stop unusualapp || true
+            docker rm unusualapp || true
+            docker run -d --name unusualapp -p 8080:8080 --network=app_common-network unusualapp:latest
           EOF
