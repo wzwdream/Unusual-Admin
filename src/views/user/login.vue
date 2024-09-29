@@ -1,11 +1,11 @@
 <template>
   <div wh-full f-c-c class="bg-content">
-    <div class="bg-white rd-12 relative w768 max-w-full min-h-480 card-shadow dark:bg-dark"
+    <div class="bg-white rd-12 relative w-768 max-w-full min-h-480 card-shadow dark:bg-dark"
          :class="{'right-panel-active': active === 'signIn'}">
       <div class="form-container  sign-in-container">
         <n-form ref="loginFormRef" size="small" :show-label="false" :model="loginForm" :rules="loginRules"
                 class="flex-col-c bg-white h-full rounded-10 dark:bg-dark">
-          <h1 m-0 class="dark:color-#fff">登录</h1>
+          <h1 m-0 class="dark:color-[#fff]">登录</h1>
           <n-space my-20>
             <n-button circle>
               <template #icon>
@@ -23,7 +23,7 @@
               </template>
             </n-button>
           </n-space>
-          <span mb-10 font-size-12 class="dark:color-#fff">或者使用你的账号</span>
+          <span mb-10 font-size-12 class="dark:color-[#fff]">或者使用你的账号</span>
           <n-form-item path="name" class="w-[80%]">
             <n-input v-model:value="loginForm.name" @keydown.enter="nextFocus(loginFormRef)"
                      placeholder="请输入账户名称"/>
@@ -36,11 +36,11 @@
           <n-form-item path="captchaText" class="w-[80%]">
             <n-input ref="captchaInputRef" v-model:value="loginForm.captchaText" @keydown.enter="nextFocus(loginFormRef)"
                      placeholder="请输入验证码"/>
-            <div @click="getCaptchaCode" h-28 w-100 cursor-pointer class="bg-#fff">
+            <div @click="getCaptchaCode" h-28 w-100 cursor-pointer class="bg-[#fff]">
               <n-image :src="captchaSrc" :preview-disabled="true" width="100" height="28"></n-image>
             </div>
           </n-form-item>
-          <div flex mb-10 min-w-308><span font-size-12 class="dark:color-#fff">忘记密码？</span></div>
+          <div flex mb-10 min-w-308><span font-size-12 class="dark:color-[#fff]">忘记密码？</span></div>
           <n-button class="w-[40%] font-bold" round type="primary" :loading="loginLoading" @click="submitLogin"
                     @keyup.enter="submitLogin">登录
           </n-button>
@@ -49,7 +49,7 @@
       <div class="form-container sign-up-container">
         <n-form ref="registFormRef" size="small" :show-label="false" :model="registForm" :rules="registFormRules"
                 class="flex-col-c bg-white h-full rounded-10 dark:bg-dark">
-          <h1 m-0 class="dark:color-#fff">注册</h1>
+          <h1 m-0 class="dark:color-[#fff]">注册</h1>
           <n-form-item path="name" class="w-[80%]">
             <n-input v-model:value="registForm.name" @keydown.enter="nextFocus(registFormRef)"
                      placeholder="请输入账户名称"/>
@@ -149,7 +149,7 @@ const submitLogin = () => {
     }
   })
 }
-const captchaInputRef = ref<HTMLElement | null>(null)
+const captchaInputRef = ref<HTMLInputElement | null>(null)
 // 获取验证码
 const captchaSrc = ref('')
 const getCaptchaCode = () => {
