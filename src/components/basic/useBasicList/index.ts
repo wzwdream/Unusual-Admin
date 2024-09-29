@@ -64,29 +64,29 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
 
   /** 新增 */
   const handleAdd = async () => {
-    beforeValidate && beforeValidate(modalForm.value)
+    beforeValidate && beforeValidate(toRaw(modalForm) as List)
     beforeAsyncValidate && await beforeAsyncValidate()
     modalAction.value = 'add'
     modalVisible.value = true
-    copyProps(modalForm.value, initForm)
+    copyProps(modalForm, initForm)
   }
 
   /** 修改 */
   const handleEdit = async (row?: List) => {
-    beforeValidate && beforeValidate(modalForm.value)
+    beforeValidate && beforeValidate(toRaw(modalForm) as List)
     beforeAsyncValidate && await beforeAsyncValidate()
     let rowData = cloneDeep(row)
     if (!row && checkedRow.value) rowData = checkedRow.value[0] as List
     modalAction.value = 'edit'
     modalVisible.value = true
-    copyProps(modalForm.value, rowData)
+    copyProps(modalForm, rowData)
   }
 
   /** 查看 */
   const handleView = (row: List) => {
     modalAction.value = 'view'
     modalVisible.value = true
-    copyProps(modalForm.value, cloneDeep(row))
+    copyProps(modalForm, cloneDeep(row))
   }
 
   /** 保存 */
@@ -102,8 +102,8 @@ export const useBasicList = <List extends Form = Form, QueryParams extends Form 
       try {
         modalLoading.value = true
         // 保存之前，如果返回处理后的数据则替换
-        const formData = beforeSave && beforeSave(modalForm.value)
-        const params = formData || modalForm.value
+        const formData = beforeSave && beforeSave(toRaw(modalForm) as List)
+        const params = formData || toRaw(modalForm) as List
         if (action) {
           const res = await action(params)
           // 保存之后
