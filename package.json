@@ -26,6 +26,7 @@
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "sass": "^1.77.2",
+    "scale-picker": "^1.0.9",
     "vue": "^3.4.27",
     "vue-echarts": "^6.7.2",
     "vue-i18n": "^9.13.1",
