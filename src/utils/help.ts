@@ -6,6 +6,7 @@ import { RouterLink } from 'vue-router';
 import { h } from 'vue'
 import { useMenuStore } from '@/store/menu';
 import { useTagStore } from '@/store/tags';
+import { useDictStore } from '@/store/dict'
 
 
 const { message, notification, dialog, loadingBar } = createDiscreteApi(
@@ -58,6 +59,8 @@ export const resetStore = () => {
   tagsStore.$reset()
   const userStore = useMenuStore()
   userStore.$reset()
+  const dictStore = useDictStore()
+  dictStore.resetDict()
 }
 
 // 复制属性

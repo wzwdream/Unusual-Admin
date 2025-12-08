@@ -15,9 +15,12 @@ export const useUserStore = defineStore('user', {
       this.token = token
     },
     async userLogout() {
-      await logout()
-      resetStore()
-      router.replace('/login')
+      try {
+        await logout()
+      } finally {
+        resetStore();
+        router.replace('/login');
+      }
     },
     async getInfo() {
       try {

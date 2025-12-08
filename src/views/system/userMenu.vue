@@ -191,21 +191,21 @@ const columns = ref<Array<DataTableColumn<TreeMenu>>>([
     title: '外链',
     key: 'externalLink',
     render(row) {
-      return h('span',row.externalLink ? '否' : '是')
+      return h('span',row.externalLink ? '是' : '否')
     }
   },
   {
     title: '缓存',
     key: 'keepAlive',
     render(row) {
-      return h('span',row.keepAlive ? '否' : '是')
+      return h('span',row.keepAlive ? '是' : '否')
     }
   },
   {
     title: '可见',
     key: 'visibily',
     render(row) {
-      return h('span',row.visibily ? '否' : '是')
+      return h('span',row.visibily ? '是' : '否')
     }
   },
   {
