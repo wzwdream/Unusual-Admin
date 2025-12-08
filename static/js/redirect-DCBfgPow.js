@@ -1,0 +1,1 @@
+import{b as n,u}from"./vue-router-dgZRC-ml.js";import{d as t}from"./@vue-BxoxtTAP.js";const p=t({name:"Redirect"}),f=t({...p,setup(c){const e=n(),o=u(),{params:r,query:s}=e,{path:a}=r;return o.replace({path:"/"+a,query:s}),()=>{}}});export{f as default};

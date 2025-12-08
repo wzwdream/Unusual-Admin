@@ -1,0 +1,1 @@
+import{g as u}from"./dict-LdVKcx8G.js";import{a as n}from"./@vue-BxoxtTAP.js";const D=(i=[])=>{const t=n();Array.isArray(i)&&i.length>0&&u(i).then(e=>{t.value=e.data});const l=e=>{let r=[];return t.value&&(r=t.value[e]),r};return{dict:t,getDict:l,getDictLabel:(e,r)=>{let a="";return t.value&&l(e).map(c=>{c.value===r&&(a=c.label)}),a}}};export{D as u};
