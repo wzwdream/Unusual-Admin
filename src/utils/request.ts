@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } f
 import { notification } from './help'
 import { Result, ResultData } from '@/type/request'
 import { useUserStore } from '@/store/user'
+import { useDictStore } from '@/store/dict'
 
 // 正常的axios封装
 const service: AxiosInstance = axios.create({
@@ -27,6 +28,14 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   // AxiosResponse
   (response: AxiosResponse) => {
+    // 解析响应头中的 dict-update 信息
+    const dictUpdateHeader = response.headers['dict-update']
+    const dictUpdateLower = response.headers['dict-update']?.toLowerCase()
+    if (dictUpdateHeader || dictUpdateLower) {
+      const dictStore = useDictStore()
+      const dictNames = dictUpdateHeader || dictUpdateLower
+      dictStore.clearDicts(dictNames.split(',') || [])
+    }
     if (response.status === 200 || response.status === 201) {
       // 兼容文件下载
       const contentType = response.headers['content-type'];

@@ -1,37 +1,27 @@
-import { type Details, getDictDetails } from '@/api/system/dict'
+import { type Details } from '@/api/system/dict'
+import { useDictStore } from '@/store/dict'
 
 // 根据字典值的name获取字典详情
 export const useDict = (params: string[] = []) => {
 
   const dict = ref<Record<string, Details[]>>()
+  const dictStore = useDictStore()
 
-  if (Array.isArray(params) && params.length > 0) {
-    getDictDetails(params).then(res => {
-      dict.value = res.data
-    })
+  const getDicts = async () => {
+    dict.value = await dictStore.getDicts(params)
   }
+
+  // 初始化字典数据
+  getDicts()
 
   // 根据字典名称获取字典数据
   const getDict = (name: string) => {
-    let retult: Details[] = []
-    if (dict.value) {
-      retult = dict.value[name]
-    }
-    return retult
+    return dictStore.getDict(name)
   }
 
   // 根据字典值获取字典label
   const getDictLabel = (name: string, value: string) => {
-    let retult = ''
-    if (dict.value) {
-      const dict = getDict(name)
-      dict.map(item => {
-        if (item.value === value) {
-          retult = item.label
-        }
-      })
-    }
-    return retult
+    return dictStore.getDictLabel(name, value)
   }
 
   return {
