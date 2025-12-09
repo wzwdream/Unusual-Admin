@@ -5,6 +5,18 @@ import { getDictDetails, type Details } from '@/api/system/dict'
 export const useDictStore = defineStore('dict', () => {
     // 存储字典数据，键为字典名称，值为字典详情数组
     const dictData = ref<Record<string, Details[]>>({})
+    // 存储字典版本信息，键为字典名称，值为版本号
+    const dictVersions = ref<string>('')
+
+    // 更新字典版本信息
+    const updateDictVersion = (version: string) => {
+        dictVersions.value = version
+    }
+
+    // 获取字典版本
+    const getDictVersion = () => {
+        return dictVersions.value || ''
+    }
 
     /**
      * 加载字典数据
@@ -116,6 +128,8 @@ export const useDictStore = defineStore('dict', () => {
 
     return {
         dictData,
+        updateDictVersion,
+        getDictVersion,
         getDict,
         getDicts,
         getDictLabel,

@@ -28,13 +28,14 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   // AxiosResponse
   (response: AxiosResponse) => {
-    // 解析响应头中的 dict-update 信息
-    const dictUpdateHeader = response.headers['dict-update']
-    const dictUpdateLower = response.headers['dict-update']?.toLowerCase()
-    if (dictUpdateHeader || dictUpdateLower) {
+    const dictVersion = response.headers['x-dictionary-version']
+    if (dictVersion) {
       const dictStore = useDictStore()
-      const dictNames = dictUpdateHeader || dictUpdateLower
-      dictStore.clearDicts(dictNames.split(',') || [])
+      // 对比版本是否有更新
+      if (dictStore.getDictVersion() !== dictVersion) {
+        dictStore.clearAllDict()
+        dictStore.updateDictVersion(dictVersion || '')
+      }
     }
     if (response.status === 200 || response.status === 201) {
       // 兼容文件下载

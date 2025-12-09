@@ -1,12 +1,2 @@
-import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
-import user from './user/index'
-import Role from './system/role'
-import Menu from './system/menu'
-import List from './list/index'
-import userManage from './user/userInfo'
-import Dict from './system/dict'
-const mock = [...user, ...Role, ...Menu, ...List, ...userManage, ...Dict]
-
-export const setupProdMockServer = () => {
-  createProdMockServer(mock)
-}
+// vite-plugin-mock 3.0.2版本会自动从mock目录加载所有mock文件
+// 无需显式导出或调用setupProdMockServer函数
