@@ -1,0 +1,1 @@
+import{z as r}from"./index-CbgEwbzS.js";import{a as o}from"./@vue-BxoxtTAP.js";const l=(i=[])=>{const c=o(),t=r();return(async()=>{c.value=await t.getDicts(i)})(),{dict:c,getDict:e=>t.getDict(e),getDictLabel:(e,s)=>t.getDictLabel(e,s)}};export{l as u};
