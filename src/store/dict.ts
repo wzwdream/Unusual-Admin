@@ -8,12 +8,18 @@ export const useDictStore = defineStore('dict', () => {
     // 存储字典版本信息，键为字典名称，值为版本号
     const dictVersions = ref<string>('')
 
-    // 更新字典版本信息
+    /**
+     * 更新字典版本信息
+     * @param version 新的字典版本号
+     */
     const updateDictVersion = (version: string) => {
         dictVersions.value = version
     }
 
-    // 获取字典版本
+    /**
+     * 获取字典版本
+     * @returns 字典版本号
+     */
     const getDictVersion = () => {
         return dictVersions.value || ''
     }
